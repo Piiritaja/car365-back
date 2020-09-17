@@ -1,4 +1,4 @@
-image: gradle:6.3.0-jre14
+image: gradle:6.3.0-jre11
 
 stages:
   - test
