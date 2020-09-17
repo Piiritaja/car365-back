@@ -9,5 +9,4 @@ java:
   script:
     - gradle test
   only: 
-    - develop
-    - master
+    - merge_requests
