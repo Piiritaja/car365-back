@@ -8,5 +8,5 @@
 - Ewert Ubaleht
 - Kaspar Ustav
 
-## Backend
+## Frontend
 - [Project front-end repository](https://gitlab.cs.ttu.ee/sesuur/car365-frontend)
