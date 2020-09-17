@@ -1,0 +1,13 @@
+image: gradle:6.3.0-jre14
+
+stages:
+  - test
+
+
+java:
+  stage: test
+  script:
+    - gradle test
+  only: 
+    - develop
+    - master
