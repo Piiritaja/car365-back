@@ -21,7 +21,6 @@ public class IndexController {
         return "Login page";
     }
 
-
     @GetMapping("contact")
     public String getContact() {
         return "Contact page";
