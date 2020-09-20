@@ -12,7 +12,7 @@ public class User {
     private final @Builder.Default
     String id = java.util.UUID.randomUUID().toString();
     private final String firstName;
-    private final String LastName;
+    private final String lastName;
     @Singular
     private final List<Car> cars;
 
