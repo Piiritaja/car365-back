@@ -3,11 +3,10 @@ package ee.taltech.cars.models;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class CarTest {
     private Car car;
-    private final static String GUID_REGEX = "\b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12}\b";
 
 
     @BeforeEach
@@ -18,12 +17,12 @@ class CarTest {
     @Test
     void equals() {
         Car testCar = Car.builder().model("Ferrari").releaseYear(2020).build();
-
+        assertEquals(car, testCar);
     }
 
     @Test
     void getId() {
-        String newUID = car.getId();
+        IdPatternTest.getId(car.getId());
     }
 
     @Test
