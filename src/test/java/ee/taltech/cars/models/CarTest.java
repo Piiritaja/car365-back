@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 class CarTest {
     private Car car;
@@ -17,7 +18,7 @@ class CarTest {
     @Test
     void equals() {
         Car testCar = Car.builder().model("Ferrari").releaseYear(2020).build();
-        assertEquals(car, testCar);
+        assertNotEquals(car, testCar);
     }
 
     @Test

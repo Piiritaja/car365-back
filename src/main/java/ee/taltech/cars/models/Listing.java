@@ -7,7 +7,8 @@ import lombok.Setter;
 @Builder
 @Getter
 public class Listing {
-    private final String id;
+    private final @Builder.Default
+    String id = java.util.UUID.randomUUID().toString();
     @Setter
     private String title;
     @Setter

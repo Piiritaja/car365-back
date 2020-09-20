@@ -9,12 +9,12 @@ import java.util.List;
 @Builder
 @Getter
 public class User {
-    private final String id;
+    private final @Builder.Default
+    String id = java.util.UUID.randomUUID().toString();
     private final String firstName;
     private final String LastName;
     @Singular
     private final List<Car> cars;
-
 
 
 }
