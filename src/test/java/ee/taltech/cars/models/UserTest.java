@@ -13,12 +13,16 @@ class UserTest {
     private Car car1;
     private Car car2;
 
+    // constants for test
+    private static final String FIRST_NAME = "Kaspar";
+    private static final String LAST_NAME = "Ustav";
+
     @BeforeEach
     void setUp() {
         car1 = Car.builder().model("Ferrari").releaseYear(2020).build();
         car2 = Car.builder().model("Bugatti").releaseYear(2012).build();
-        singleCarUser = User.builder().car(car1).firstName("Kaspar").lastName("Ustav").build();
-        multipleCarsUser = User.builder().car(car1).car(car2).firstName("Kaspar").lastName("Ustav").build();
+        singleCarUser = User.builder().car(car1).firstName(FIRST_NAME).lastName(LAST_NAME).build();
+        multipleCarsUser = User.builder().car(car1).car(car2).firstName(FIRST_NAME).lastName(LAST_NAME).build();
 
     }
 
@@ -40,12 +44,12 @@ class UserTest {
 
     @Test
     void getFirstName() {
-        assertEquals("Kaspar", singleCarUser.getFirstName());
+        assertEquals(FIRST_NAME, singleCarUser.getFirstName());
     }
 
     @Test
     void getLastName() {
-        assertEquals("Ustav", singleCarUser.getLastName());
+        assertEquals(LAST_NAME, singleCarUser.getLastName());
     }
 
     @Test
