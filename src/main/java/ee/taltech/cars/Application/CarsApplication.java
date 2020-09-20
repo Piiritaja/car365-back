@@ -1,6 +1,6 @@
 package ee.taltech.cars.Application;
 
-import ee.taltech.cars.controller.IndexController;
+import ee.taltech.cars.Application.controller.IndexController;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
