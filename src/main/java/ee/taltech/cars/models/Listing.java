@@ -16,6 +16,8 @@ public class Listing {
     private String title;
     @Setter
     private String description;
+    @Setter
+    private String status;
     private final User owner;
     private final Car listedCar;
     private final int price;
