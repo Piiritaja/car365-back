@@ -4,6 +4,9 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.net.URL;
+import java.util.List;
+
 @Builder
 @Getter
 public class Listing {
@@ -15,4 +18,7 @@ public class Listing {
     private String description;
     private final User owner;
     private final Car listedCar;
+    private final int price;
+    private final String location;
+    private final List<URL> images;
 }
