@@ -8,4 +8,4 @@ java:
   script:
     - gradle test
   only: 
-    - branches
+    - merge_request
