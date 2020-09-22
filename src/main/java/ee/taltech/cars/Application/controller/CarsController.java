@@ -1,6 +1,8 @@
 package ee.taltech.cars.Application.controller;
 
-import ee.taltech.cars.Application.exception.CarNotFoundException;
+import ee.taltech.cars.Application.service.CarsService;
+import ee.taltech.cars.models.Car;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,38 +18,31 @@ import java.util.List;
 @RestController
 public class CarsController {
 
-    //TODO use database instead of list
-    private List<Long> numbers = List.of(1L, 2L, 3L, 4L, 5L);
+    @Autowired
+    private CarsService carsService;
+
+    @GetMapping()
+    public List<Car> getCars() {
+        return carsService.findAll();
+    }
 
     @GetMapping("{id}")
-    public String getCars(@PathVariable Long id) {
-        return String.format("Car: %s",
-                numbers.stream()
-                        .filter(nr -> nr.equals(id))
-                        .findAny().orElseThrow(CarNotFoundException::new).toString());
+    public Car getCar(@PathVariable Long id) {
+        return carsService.findById(id);
     }
 
     @PostMapping
-    public String saveCar(@RequestBody Long id) {
-        if (!numbers.contains(id)) {
-            numbers.add(id);
-            return "Added: " + id;
-        }
-        return "ID already exists!";
+    public Car saveCar(@RequestBody Car car) {
+        return carsService.save(car);
     }
 
     @PutMapping
-    public String updateCar(@PathVariable Long id) {
-        //TODO make some Postgre magic to update db
-        return "";
+    public Car updateCar(@PathVariable Long id) {
+        return carsService.save(carsService.findById(id));
     }
 
     @DeleteMapping
     public void removeCar(@PathVariable Long id) {
-        //TODO make some Postgre magic to update db
-        numbers.stream()
-                .filter(nr -> nr.equals(id))
-                .findFirst()
-                .ifPresent(nr -> numbers.remove(nr));
+        carsService.delete(id);
     }
 }
