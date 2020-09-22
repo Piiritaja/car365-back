@@ -36,12 +36,12 @@ public class CarsController {
         return carsService.save(car);
     }
 
-    @PutMapping
-    public Car updateCar(@PathVariable Long id) {
-        return carsService.save(carsService.findById(id));
+    @PutMapping("{id}")
+    public Car updateCar(@RequestBody Car car, @PathVariable Long id) {
+        return carsService.update(car, id);
     }
 
-    @DeleteMapping
+    @DeleteMapping("{id}")
     public void removeCar(@PathVariable Long id) {
         carsService.delete(id);
     }
