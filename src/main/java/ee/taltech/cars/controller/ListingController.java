@@ -18,7 +18,7 @@ public class ListingController {
     private ListingService listingService;
 
     @GetMapping
-    public List<Listing> getAll(){
+    public List<Listing> getAll() {
         return listingService.findAll();
     }
 }
