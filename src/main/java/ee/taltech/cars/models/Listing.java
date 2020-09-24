@@ -20,7 +20,7 @@ public class Listing {
     private String description;
     private String status;
     @OneToOne
-    private User owner;
+    private Owner owner;
     @OneToOne
     private Car listedCar;
     private int price;
