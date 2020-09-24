@@ -1,26 +1,35 @@
 package ee.taltech.cars.models;
 
-import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
+import lombok.*;
+
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
+import java.util.UUID;
 
 @Getter
+@Setter
 @Builder
 @EqualsAndHashCode
+@Entity
+@NoArgsConstructor
 public class Car {
+    @Id
     private @Builder.Default
-    String id = java.util.UUID.randomUUID().toString();
-    private final String bodyType;
-    private final String brand;
-    private final String model;
-    private final String color;
-    private final String gearboxType;
-    private final String fuelType;
-    private final String driveType;
-    private final int enginePower;
-    private final int mileage;
-    private final int releaseYear;
-    private final User owner;
+    String id = UUID.randomUUID().toString();
+    private String bodyType;
+    private String brand;
+    private String model;
+    private String color;
+    private String gearboxType;
+    private String fuelType;
+    private String driveType;
+    private int enginePower;
+    private int mileage;
+    private int releaseYear;
+    @OneToOne
+    private User owner;
 
     public Car(String id, String bodyType, String brand, String model, String color, String gearboxType, String fuelType,
                String driveType, int enginePower, int mileage, int releaseYear, User owner) {

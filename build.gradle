@@ -31,7 +31,7 @@ sourceSets{
 }
 
 
-mainClassName = 'ee.taltech.cars.Application.CarsApplication'
+mainClassName = 'ee.taltech.cars.CarsApplication'
 
 dependencies {
 	compileOnly 'org.projectlombok:lombok:1.18.12'

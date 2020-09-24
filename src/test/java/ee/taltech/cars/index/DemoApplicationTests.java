@@ -1,6 +1,6 @@
 package ee.taltech.cars.index;
 
-import ee.taltech.cars.Application.CarsApplication;
+import ee.taltech.cars.CarsApplication;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 

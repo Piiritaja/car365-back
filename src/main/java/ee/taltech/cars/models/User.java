@@ -1,20 +1,28 @@
 package ee.taltech.cars.models;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Singular;
+import lombok.*;
 
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import java.util.List;
 
 @Builder
+@Setter
 @Getter
+@Entity
+@NoArgsConstructor
+@AllArgsConstructor
 public class User {
+    @Id
     private final @Builder.Default
     String id = java.util.UUID.randomUUID().toString();
-    private final String firstName;
-    private final String lastName;
+    private  String firstName;
+    private  String lastName;
     @Singular
-    private final List<Car> cars;
+    @OneToMany
+    private  List<Car> cars;
 
 
 }

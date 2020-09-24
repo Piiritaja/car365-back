@@ -1,6 +1,6 @@
-package ee.taltech.cars.Application.controller;
+package ee.taltech.cars.controller;
 
-import ee.taltech.cars.Application.exception.CarNotFoundException;
+import ee.taltech.cars.exception.CarNotFoundException;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
