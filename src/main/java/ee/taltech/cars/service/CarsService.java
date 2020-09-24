@@ -1,6 +1,6 @@
-package ee.taltech.cars.Application.service;
+package ee.taltech.cars.service;
 
-import ee.taltech.cars.Application.exception.CarNotFoundException;
+import ee.taltech.cars.exception.CarNotFoundException;
 import ee.taltech.cars.models.Car;
 import ee.taltech.cars.repository.CarsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
