@@ -11,7 +11,7 @@ public class IdPatternTest {
     private final static String GUID_REGEX = "\\b[0-9a-f]{8}\\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\\b[0-9a-f]{12}\\b";
 
     @Test
-    static void getId(UUID id) {
-        assertTrue(Pattern.compile(GUID_REGEX).matcher(id.toString()).matches());
+    static void getId(String id) {
+        assertTrue(Pattern.compile(GUID_REGEX).matcher(id).matches());
     }
 }

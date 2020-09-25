@@ -23,7 +23,7 @@ public class OwnerController {
 
     @GetMapping("{id}")
     public Owner getUser(@PathVariable Long id) {
-        return ownerService.findById(id);
+        return ownerService.findById(id.toString());
     }
 
     @PostMapping
@@ -33,12 +33,12 @@ public class OwnerController {
 
     @PutMapping("{id}")
     public Owner updateUser(@RequestBody Owner owner, @PathVariable Long id) {
-        return ownerService.update(owner, id);
+        return ownerService.update(owner, id.toString());
     }
 
     @DeleteMapping("{id}")
     public void deleteHero(@PathVariable Long id) {
-        ownerService.delete(id);
+        ownerService.delete(id.toString());
     }
 
 }

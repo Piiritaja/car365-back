@@ -18,7 +18,7 @@ public class CarsService {
         return carsRepository.findAll();
     }
 
-    public Car findById(Long id) {
+    public Car findById(String id) {
         return carsRepository.findById(id).orElseThrow(CarNotFoundException::new);
     }
 
@@ -26,7 +26,7 @@ public class CarsService {
         return carsRepository.save(car);
     }
 
-    public Car update(Car car, Long id) {
+    public Car update(Car car, String id) {
         Car dbCar = findById(id);
         dbCar = new Car(dbCar.getId(),
                 car.getBodyType(),
@@ -43,7 +43,7 @@ public class CarsService {
         return carsRepository.save(dbCar);
     }
 
-    public void delete(Long id) {
+    public void delete(String id) {
         carsRepository.delete(findById(id));
     }
 }
