@@ -7,10 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.UUID;
 
 @Service
-public class CarsService{
+public class CarsService {
 
     @Autowired
     private CarsRepository carsRepository;
@@ -19,7 +18,7 @@ public class CarsService{
         return carsRepository.findAll();
     }
 
-    public Car findById(UUID id) {
+    public Car findById(Long id) {
         return carsRepository.findById(id).orElseThrow(CarNotFoundException::new);
     }
 
@@ -27,23 +26,24 @@ public class CarsService{
         return carsRepository.save(car);
     }
 
-    public Car update(Car car, UUID id) {
+    public Car update(Car car, Long id) {
         Car dbCar = findById(id);
-        dbCar.setBodyType(car.getBodyType());
-        dbCar.setBrand(car.getBrand());
-        dbCar.setModel(car.getModel());
-        dbCar.setColor(car.getColor());
-        dbCar.setGearboxType(car.getGearboxType());
-        dbCar.setFuelType(car.getFuelType());
-        dbCar.setDriveType(car.getDriveType());
-        dbCar.setEnginePower(car.getEnginePower());
-        dbCar.setMileage(car.getMileage());
-        dbCar.setReleaseYear(car.getReleaseYear());
-        dbCar.setOwner(car.getOwner());
+        dbCar = new Car(dbCar.getId(),
+                car.getBodyType(),
+                car.getBrand(),
+                car.getModel(),
+                car.getColor(),
+                car.getGearboxType(),
+                car.getFuelType(),
+                car.getDriveType(),
+                car.getEnginePower(),
+                car.getMileage(),
+                car.getReleaseYear(),
+                car.getOwner());
         return carsRepository.save(dbCar);
     }
 
-    public void delete(UUID id) {
+    public void delete(Long id) {
         carsRepository.delete(findById(id));
     }
 }

@@ -1,31 +1,30 @@
 package ee.taltech.cars.models;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.net.URL;
 import java.util.List;
-import java.util.UUID;
 
+@Builder
 @Getter
 @Setter
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 public class Listing {
-
+    @Id
+    private final @Builder.Default
+    String id = java.util.UUID.randomUUID().toString();
     private String title;
     private String description;
     private String status;
-    private UUID owner;
-    private UUID listedCar;
+    @OneToOne
+    private Owner owner;
+    @OneToOne
+    private Car listedCar;
     private int price;
     private String location;
+    @ElementCollection
     private List<URL> images;
-    private UUID id = UUID.randomUUID();
-
-    @Id
-    public UUID getId() {
-        return id;
-    }
 }

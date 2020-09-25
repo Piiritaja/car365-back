@@ -1,8 +1,6 @@
 package ee.taltech.cars.controller;
 
-import ee.taltech.cars.models.Car;
-import ee.taltech.cars.service.CarsService;
-import org.springframework.beans.factory.annotation.Autowired;
+import ee.taltech.cars.exception.CarNotFoundException;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,38 +11,44 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.UUID;
 
 @RequestMapping("cars")
 @RestController
 public class CarsController {
 
-    @Autowired
-    private CarsService carsService;
 
-    @GetMapping()
-    public List<Car> getCars() {
-        return carsService.findAll();
-    }
+    //TODO use database instead of list
+    private List<Long> numbers = List.of(1L, 2L, 3L, 4L, 5L);
 
     @GetMapping("{id}")
-    public Car getCar(@PathVariable UUID id) {
-        return carsService.findById(id);
+    public String getCars(@PathVariable Long id) {
+        return String.format("Car: %s",
+                numbers.stream()
+                        .filter(nr -> nr.equals(id))
+                        .findAny().orElseThrow(CarNotFoundException::new).toString());
     }
 
     @PostMapping
-    public Car saveCar(@RequestBody Car car) {
-        return carsService.save(car);
+    public String saveCar(@RequestBody Long id) {
+        if (!numbers.contains(id)) {
+            numbers.add(id);
+            return "Added: " + id;
+        }
+        return "ID already exists!";
     }
 
-    @PutMapping("{id}")
-    public Car updateCar(@RequestBody Car car, @PathVariable UUID id) {
-        return carsService.update(car, id);
+    @PutMapping
+    public String updateCar(@PathVariable Long id) {
+        //TODO make some Postgre magic to update db
+        return "";
     }
 
-    @DeleteMapping("{id}")
-    public void removeCar(@PathVariable UUID id) {
-        carsService.delete(id);
+    @DeleteMapping
+    public void removeCar(@PathVariable Long id) {
+        //TODO make some Postgre magic to update db
+        numbers.stream()
+                .filter(nr -> nr.equals(id))
+                .findFirst()
+                .ifPresent(nr -> numbers.remove(nr));
     }
-
 }
