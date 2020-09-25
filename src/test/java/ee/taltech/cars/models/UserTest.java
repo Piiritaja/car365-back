@@ -4,14 +4,15 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class UserTest {
-    private User singleCarUser;
-    private User multipleCarsUser;
-    private Car car1;
-    private Car car2;
+    private final User singleCarUser = new User();
+    private final User multipleCarsUser = new User();
+    private final Car car1 = new Car();
+    private final Car car2 = new Car();
 
     // constants for test
     private static final String FIRST_NAME = "Kaspar";
@@ -19,15 +20,24 @@ class UserTest {
 
     @BeforeEach
     void setUp() {
-        car1 = Car.builder().model("Ferrari").releaseYear(2020).build();
-        car2 = Car.builder().model("Bugatti").releaseYear(2012).build();
-        singleCarUser = User.builder().car(car1).firstName(FIRST_NAME).lastName(LAST_NAME).build();
-        multipleCarsUser = User.builder().car(car1).car(car2).firstName(FIRST_NAME).lastName(LAST_NAME).build();
+        car1.setModel("Ferrari");
+        car1.setReleaseYear(2020);
+        car2.setModel("Bugatti");
+        car2.setReleaseYear(2012);
+        singleCarUser.setCars(List.of(car1.getId()));
+        singleCarUser.setFirstName(FIRST_NAME);
+        singleCarUser.setLastName(LAST_NAME);
+        multipleCarsUser.setCars(List.of(car1.getId(), car2.getId()));
+        multipleCarsUser.setFirstName(FIRST_NAME);
+        multipleCarsUser.setLastName(LAST_NAME);
 
     }
 
     Car getTestCar() {
-        return Car.builder().model("Ferrari").releaseYear(2020).build();
+        Car car = new Car();
+        car.setModel("Ferrari");
+        car.setReleaseYear(2020);
+        return car;
     }
 
     @Test
@@ -59,7 +69,7 @@ class UserTest {
 
     @Test
     void getCarsSingleCarRightCar() {
-        assertEquals(car1, singleCarUser.getCars().get(0));
+        assertEquals(car1.getId(), singleCarUser.getCars().get(0));
     }
 
     @Test
@@ -69,7 +79,7 @@ class UserTest {
 
     @Test
     void getCarsTwoCars() {
-        List<Car> test_cars = multipleCarsUser.getCars();
-        assertTrue(test_cars.contains(car1) && test_cars.contains(car2));
+        List<UUID> test_cars = multipleCarsUser.getCars();
+        assertTrue(test_cars.contains(car1.getId()) && test_cars.contains(car2.getId()));
     }
 }

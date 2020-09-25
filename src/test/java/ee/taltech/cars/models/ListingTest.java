@@ -3,12 +3,14 @@ package ee.taltech.cars.models;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class ListingTest {
-    private Listing listing;
-    private User user;
-    private Car car;
+    private Listing listing = new Listing();
+    private User user = new User();
+    private Car car = new Car();
 
     // Constants For testing
     private static final String DESCRIPTION = "This is a car";
@@ -16,9 +18,15 @@ class ListingTest {
 
     @BeforeEach
     void setUp() {
-        this.car = Car.builder().model("Ferrari").releaseYear(2020).build();
-        this.user = User.builder().car(car).firstName("Kaspar").lastName("Ustav").build();
-        this.listing = Listing.builder().description(DESCRIPTION).owner(user).listedCar(car).title(TITLE).build();
+        this.car.setModel("Ferrari");
+        this.car.setReleaseYear(2020);
+        this.user.setCars(List.of(car.getId()));
+        this.user.setFirstName("Kaspar");
+        this.user.setLastName("Ustav");
+        this.listing.setDescription(DESCRIPTION);
+        this.listing.setOwner(user.getId());
+        this.listing.setListedCar(car.getId());
+        this.listing.setTitle(TITLE);
     }
 
     @Test
@@ -38,11 +46,11 @@ class ListingTest {
 
     @Test
     void getOwner() {
-        assertEquals(user, listing.getOwner());
+        assertEquals(user.getId(), listing.getOwner());
     }
 
     @Test
     void getListedCar() {
-        assertEquals(car, listing.getListedCar());
+        assertEquals(car.getId(), listing.getListedCar());
     }
 }

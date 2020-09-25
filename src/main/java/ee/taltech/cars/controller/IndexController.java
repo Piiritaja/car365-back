@@ -1,4 +1,4 @@
-package ee.taltech.cars.Application.controller;
+package ee.taltech.cars.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
