@@ -1,4 +1,4 @@
-package ee.taltech.cars.Application.exception;
+package ee.taltech.cars.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

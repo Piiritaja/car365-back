@@ -1,9 +1,8 @@
 package ee.taltech.cars.service;
 
-import ee.taltech.cars.Application.exception.InvalidUserException;
-import ee.taltech.cars.Application.exception.UserNotFoundException;
+import ee.taltech.cars.exception.InvalidUserException;
+import ee.taltech.cars.exception.UserNotFoundException;
 import ee.taltech.cars.models.Owner;
-import ee.taltech.cars.repository.OwnerRepository;
 import ee.taltech.cars.repository.OwnerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,7 +19,7 @@ public class OwnerService {
         return userRepository.findAll();
     }
 
-    public Owner findById(Long id) {
+    public Owner findById(String id) {
         return userRepository.findById(id)
                 .orElseThrow(UserNotFoundException::new);
     }
@@ -39,7 +38,7 @@ public class OwnerService {
 
     }
 
-    public Owner update(Owner owner, Long id) {
+    public Owner update(Owner owner, String id) {
         if (owner.getId() == null || owner.getId().isEmpty()) {
             throw new InvalidUserException("User missing ID");
         }
@@ -50,7 +49,7 @@ public class OwnerService {
             throw new InvalidUserException("User missing last name");
         }
         Owner ownerDb = findById(id);
-        ownerDb = owner.builder()
+        ownerDb = Owner.builder()
                 .id(ownerDb.getId())
                 .firstName(owner.getFirstName())
                 .lastName(owner.getLastName())
@@ -59,7 +58,7 @@ public class OwnerService {
         return userRepository.save(ownerDb);
     }
 
-    public void delete(Long id) {
+    public void delete(String id) {
         userRepository.delete(findById(id));
     }
 
