@@ -20,6 +20,9 @@ public class Owner {
     @Singular
     @OneToMany
     private List<Listing> listings;
+    @Singular
+    @OneToMany
+    private List<Car> cars;
 
 
 
