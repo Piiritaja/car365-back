@@ -1,7 +1,7 @@
 package ee.taltech.cars.service;
 
 import ee.taltech.cars.IdValidator;
-import ee.taltech.cars.controller.ListingNotFoundException;
+import ee.taltech.cars.exception.ListingNotFoundException;
 import ee.taltech.cars.exception.InvalidListingException;
 import ee.taltech.cars.models.Listing;
 import ee.taltech.cars.repository.ListingRepository;

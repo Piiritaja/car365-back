@@ -1,4 +1,4 @@
-package ee.taltech.cars.controller;
+package ee.taltech.cars.exception;
 
 import java.util.function.Supplier;
 
