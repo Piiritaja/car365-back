@@ -39,6 +39,8 @@ dependencies {
 	testCompileOnly 'org.projectlombok:lombok:1.18.12'
 	testAnnotationProcessor 'org.projectlombok:lombok:1.18.12'
 
+	compile 'io.springfox:springfox-boot-starter:3.0.0'
+	compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '3.0.0'
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}
