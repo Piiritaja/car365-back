@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ListingTest {
     private Listing listing;
-    private User user;
+    private Owner owner;
     private Car car;
 
     // Constants For testing
@@ -17,8 +17,8 @@ class ListingTest {
     @BeforeEach
     void setUp() {
         this.car = Car.builder().model("Ferrari").releaseYear(2020).build();
-        this.user = User.builder().car(car).firstName("Kaspar").lastName("Ustav").build();
-        this.listing = Listing.builder().description(DESCRIPTION).owner(user).listedCar(car).title(TITLE).build();
+        this.owner = Owner.builder().car(car).firstName("Kaspar").lastName("Ustav").build();
+        this.listing = Listing.builder().description(DESCRIPTION).owner(owner).listedCar(car).title(TITLE).build();
     }
 
     @Test
@@ -38,7 +38,7 @@ class ListingTest {
 
     @Test
     void getOwner() {
-        assertEquals(user, listing.getOwner());
+        assertEquals(owner, listing.getOwner());
     }
 
     @Test

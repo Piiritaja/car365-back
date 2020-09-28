@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 class CarTest {
-    private Car car;
+    private Car car = new Car();
 
     // constants for test
     private static final String MODEL = "Ferrari";
@@ -16,12 +16,15 @@ class CarTest {
 
     @BeforeEach
     void setUp() {
-        this.car = Car.builder().model(MODEL).releaseYear(2020).build();
+        car.setModel(MODEL);
+        car.setReleaseYear(2020);
     }
 
     @Test
     void equals() {
-        Car testCar = Car.builder().model(MODEL).releaseYear(2020).build();
+        Car testCar = new Car();
+        testCar.setModel(MODEL);
+        testCar.setReleaseYear(2020);
         assertNotEquals(car, testCar);
     }
 

@@ -2,6 +2,7 @@ package ee.taltech.cars.models;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.UUID;
 import java.util.regex.Pattern;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;

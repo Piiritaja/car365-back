@@ -1,24 +1,30 @@
 package ee.taltech.cars.models;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
+import javax.persistence.*;
 import java.net.URL;
 import java.util.List;
 
 @Builder
 @Getter
+@Setter
+@Entity
+@NoArgsConstructor
+@AllArgsConstructor
 public class Listing {
+    @Id
     private final @Builder.Default
     String id = java.util.UUID.randomUUID().toString();
-    @Setter
     private String title;
-    @Setter
     private String description;
-    private final User owner;
-    private final Car listedCar;
-    private final int price;
-    private final String location;
-    private final List<URL> images;
+    private String status;
+    @OneToOne
+    private Owner owner;
+    @OneToOne
+    private Car listedCar;
+    private int price;
+    private String location;
+    @ElementCollection
+    private List<URL> images;
 }
