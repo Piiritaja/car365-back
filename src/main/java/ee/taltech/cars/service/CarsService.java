@@ -39,7 +39,7 @@ public class CarsService {
                 car.getEnginePower(),
                 car.getMileage(),
                 car.getReleaseYear(),
-                car.getOwner());
+                car.getOwnerId());
         return carsRepository.save(dbCar);
     }
 

@@ -21,8 +21,8 @@ class OwnerTest {
     void setUp() {
         car1 = Car.builder().model("Ferrari").releaseYear(2020).build();
         car2 = Car.builder().model("Bugatti").releaseYear(2012).build();
-        singleCarOwner = Owner.builder().car(car1).firstName(FIRST_NAME).lastName(LAST_NAME).build();
-        multipleCarsOwner = Owner.builder().car(car1).car(car2).firstName(FIRST_NAME).lastName(LAST_NAME).build();
+        singleCarOwner = Owner.builder().carId(car1.getId()).firstName(FIRST_NAME).lastName(LAST_NAME).build();
+        multipleCarsOwner = Owner.builder().carId(car1.getId()).carId(car2.getId()).firstName(FIRST_NAME).lastName(LAST_NAME).build();
 
     }
 
@@ -54,22 +54,22 @@ class OwnerTest {
 
     @Test
     void getCarsSizeSingleCar() {
-        assertEquals(1, singleCarOwner.getCars().size());
+        assertEquals(1, singleCarOwner.getCarIds().size());
     }
 
     @Test
     void getCarsSingleCarRightCar() {
-        assertEquals(car1, singleCarOwner.getCars().get(0));
+        assertEquals(car1.getId(), singleCarOwner.getCarIds().get(0));
     }
 
     @Test
     void getCarsSizeTwoCars() {
-        assertEquals(2, multipleCarsOwner.getCars().size());
+        assertEquals(2, multipleCarsOwner.getCarIds().size());
     }
 
     @Test
     void getCarsTwoCars() {
-        List<Car> test_cars = multipleCarsOwner.getCars();
-        assertTrue(test_cars.contains(car1) && test_cars.contains(car2));
+        List<String> test_cars = multipleCarsOwner.getCarIds();
+        assertTrue(test_cars.contains(car1.getId()) && test_cars.contains(car2.getId()));
     }
 }
