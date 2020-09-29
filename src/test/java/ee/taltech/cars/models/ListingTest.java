@@ -17,7 +17,7 @@ class ListingTest {
     @BeforeEach
     void setUp() {
         this.car = Car.builder().model("Ferrari").releaseYear(2020).build();
-        this.owner = Owner.builder().car(car).firstName("Kaspar").lastName("Ustav").build();
+        this.owner = Owner.builder().carId(car.getId()).firstName("Kaspar").lastName("Ustav").build();
         this.listing = Listing.builder().description(DESCRIPTION).ownerId(owner.getId()).listedCarId(car.getId()).title(TITLE).build();
     }
 
