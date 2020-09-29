@@ -27,11 +27,10 @@ public class Car {
     private int enginePower;
     private int mileage;
     private int releaseYear;
-    @OneToOne
-    private Owner owner;
+    private String ownerId;
 
     public Car(String id, String bodyType, String brand, String model, String color, String gearboxType, String fuelType,
-               String driveType, int enginePower, int mileage, int releaseYear, Owner owner) {
+               String driveType, int enginePower, int mileage, int releaseYear, String ownerId) {
         this.id = id;
         this.bodyType = bodyType;
         this.brand = brand;
@@ -43,6 +42,6 @@ public class Car {
         this.enginePower = enginePower;
         this.mileage = mileage;
         this.releaseYear = releaseYear;
-        this.owner = owner;
+        this.ownerId = ownerId;
     }
 }

@@ -19,10 +19,8 @@ public class Listing {
     private String title;
     private String description;
     private String status;
-    @OneToOne
-    private Owner owner;
-    @OneToOne
-    private Car listedCar;
+    private String ownerId;
+    private String listedCarId;
     private int price;
     private String location;
     @ElementCollection

@@ -21,8 +21,8 @@ public class Owner {
     @OneToMany
     private List<Listing> listings;
     @Singular
-    @OneToMany
-    private List<Car> cars;
+    @ElementCollection
+    private List<String> carIds;
 
 
 
