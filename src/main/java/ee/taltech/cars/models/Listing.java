@@ -24,5 +24,5 @@ public class Listing {
     private int price;
     private String location;
     @ElementCollection
-    private List<URL> images;
+    private List<String> images;
 }
