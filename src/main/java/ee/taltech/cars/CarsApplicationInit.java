@@ -35,6 +35,7 @@ public class CarsApplicationInit implements CommandLineRunner {
                     .mileage(1200 + (i * 3))
                     .fuelType("Disel")
                     .model("Model " + i)
+                    .engineSize("2.0")
                     .build();
             carsRepository.save(car);
         }

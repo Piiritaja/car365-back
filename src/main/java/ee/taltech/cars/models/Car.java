@@ -28,9 +28,10 @@ public class Car {
     private int mileage;
     private int releaseYear;
     private String ownerId;
+    private String engineSize;
 
     public Car(String id, String bodyType, String brand, String model, String color, String gearboxType, String fuelType,
-               String driveType, int enginePower, int mileage, int releaseYear, String ownerId) {
+               String driveType, int enginePower, int mileage, int releaseYear, String ownerId, String engineSize) {
         this.id = id;
         this.bodyType = bodyType;
         this.brand = brand;
@@ -43,5 +44,6 @@ public class Car {
         this.mileage = mileage;
         this.releaseYear = releaseYear;
         this.ownerId = ownerId;
+        this.engineSize = engineSize;
     }
 }
