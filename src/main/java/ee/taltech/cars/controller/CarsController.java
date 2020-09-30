@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RequestMapping("cars")
 @RestController
@@ -24,6 +25,14 @@ public class CarsController {
     @GetMapping()
     public List<Car> getCars() {
         return carsService.findAll();
+    }
+
+    @GetMapping("/brands")
+    public List<String> getBrands() {
+        return carsService.findAll()
+                .stream()
+                .map(Car::getBrand)
+                .collect(Collectors.toList());
     }
 
     @GetMapping("{id}")
