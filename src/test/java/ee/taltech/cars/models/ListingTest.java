@@ -17,8 +17,8 @@ class ListingTest {
     @BeforeEach
     void setUp() {
         this.car = Car.builder().model("Ferrari").releaseYear(2020).build();
-        this.owner = Owner.builder().carId(car.getId()).firstName("Kaspar").lastName("Ustav").build();
-        this.listing = Listing.builder().description(DESCRIPTION).ownerId(owner.getId()).listedCarId(car.getId()).title(TITLE).build();
+        this.owner = Owner.builder().firstName("Kaspar").lastName("Ustav").build();
+        this.listing = Listing.builder().description(DESCRIPTION).owner(owner.getId()).listedCar(car.getId()).title(TITLE).build();
     }
 
     @Test
@@ -38,11 +38,11 @@ class ListingTest {
 
     @Test
     void getOwner() {
-        assertEquals(owner.getId(), listing.getOwnerId());
+        assertEquals(owner.getId(), listing.getOwner());
     }
 
     @Test
     void getListedCar() {
-        assertEquals(car.getId(), listing.getListedCarId());
+        assertEquals(car.getId(), listing.getListedCar());
     }
 }

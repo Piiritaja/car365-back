@@ -19,8 +19,8 @@ public class Listing {
     private String title;
     private String description;
     private String status;
-    private String ownerId;
-    private String listedCarId;
+    private String owner;
+    private String listedCar;
     private int price;
     private String location;
     @ElementCollection
