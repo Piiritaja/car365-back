@@ -31,7 +31,7 @@ public class ListingController {
     }
 
     @PostMapping
-    public Listing postListing(Listing listing) {
+    public Listing postListing(@RequestBody Listing listing) {
         return listingService.save(listing);
     }
 

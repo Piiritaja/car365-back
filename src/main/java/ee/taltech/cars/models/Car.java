@@ -4,7 +4,6 @@ import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
 import java.util.UUID;
 
 @Getter
@@ -27,11 +26,10 @@ public class Car {
     private int enginePower;
     private int mileage;
     private int releaseYear;
-    private String ownerId;
     private String engineSize;
 
     public Car(String id, String bodyType, String brand, String model, String color, String gearboxType, String fuelType,
-               String driveType, int enginePower, int mileage, int releaseYear, String ownerId, String engineSize) {
+               String driveType, int enginePower, int mileage, int releaseYear, String engineSize) {
         this.id = id;
         this.bodyType = bodyType;
         this.brand = brand;
@@ -43,7 +41,6 @@ public class Car {
         this.enginePower = enginePower;
         this.mileage = mileage;
         this.releaseYear = releaseYear;
-        this.ownerId = ownerId;
         this.engineSize = engineSize;
     }
 }
