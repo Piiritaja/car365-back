@@ -22,8 +22,8 @@ public class OwnerController {
     }
 
     @GetMapping("{id}")
-    public Owner getUser(@PathVariable Long id) {
-        return ownerService.findById(id.toString());
+    public Owner getUser(@PathVariable String id) {
+        return ownerService.findById(id);
     }
 
     @PostMapping
@@ -32,13 +32,13 @@ public class OwnerController {
     }
 
     @PutMapping("{id}")
-    public Owner updateUser(@RequestBody Owner owner, @PathVariable Long id) {
-        return ownerService.update(owner, id.toString());
+    public Owner updateUser(@RequestBody Owner owner, @PathVariable String id) {
+        return ownerService.update(owner, id);
     }
 
     @DeleteMapping("{id}")
-    public void deleteHero(@PathVariable Long id) {
-        ownerService.delete(id.toString());
+    public void deleteUser(@PathVariable String id) {
+        ownerService.delete(id);
     }
 
 }

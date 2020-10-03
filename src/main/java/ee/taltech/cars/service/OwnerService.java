@@ -25,9 +25,6 @@ public class OwnerService {
     }
 
     public Owner save(Owner owner) {
-        if (owner.getId() != null) {
-            throw new InvalidUserException("Id is already in use");
-        }
         if (owner.getFirstName().equals("") || owner.getFirstName() == null) {
             throw new InvalidUserException("User missing first name");
         }

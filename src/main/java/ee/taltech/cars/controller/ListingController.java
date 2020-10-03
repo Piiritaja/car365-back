@@ -26,8 +26,8 @@ public class ListingController {
     }
 
     @PutMapping("{id}")
-    public Listing putById(@PathVariable String id) {
-        return listingService.update(listingService.update(listingService.findById(id)));
+    public Listing putById(@RequestBody Listing listing, @PathVariable String id) {
+        return listingService.update(listing, id);
     }
 
     @PostMapping
@@ -35,5 +35,8 @@ public class ListingController {
         return listingService.save(listing);
     }
 
-
+    @DeleteMapping("{id}")
+    public void deleteListing(@PathVariable String id) {
+        listingService.delete(id);
+    }
 }
