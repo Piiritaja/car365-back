@@ -33,11 +33,23 @@ public class ListingService {
     }
 
     public void delete(String id) {
-        if (validator.validate(id)) listingRepository.delete(findById(id));
-        throw new InvalidListingException();
+        if (validator.validate(id)) { listingRepository.delete(findById(id)); }
+        else {
+            throw new InvalidListingException();
+        }
     }
 
-    public Listing update(Listing listing) {
-        return save(listing);
+    public Listing update(Listing listing, String id) {
+        Listing dbListing = findById(id);
+        dbListing = new Listing(dbListing.getId(),
+                listing.getTitle(),
+                listing.getDescription(),
+                listing.getStatus(),
+                listing.getOwner(),
+                listing.getListedCar(),
+                listing.getPrice(),
+                listing.getLocation(),
+                listing.getImages());
+        return listingRepository.save(dbListing);
     }
 }

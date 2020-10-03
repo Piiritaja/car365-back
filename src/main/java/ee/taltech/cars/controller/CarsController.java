@@ -37,7 +37,7 @@ public class CarsController {
 
     @GetMapping("{id}")
     public Car getCar(@PathVariable String id) {
-        return carsService.findById(id.toString());
+        return carsService.findById(id);
     }
 
     @PostMapping
@@ -46,13 +46,13 @@ public class CarsController {
     }
 
     @PutMapping("{id}")
-    public Car updateCar(@RequestBody Car car, @PathVariable Long id) {
-        return carsService.update(car, id.toString());
+    public Car updateCar(@RequestBody Car car, @PathVariable String id) {
+        return carsService.update(car, id);
     }
 
     @DeleteMapping("{id}")
-    public void removeCar(@PathVariable Long id) {
-        carsService.delete(id.toString());
+    public void removeCar(@PathVariable String id) {
+        carsService.delete(id);
     }
 
 }
