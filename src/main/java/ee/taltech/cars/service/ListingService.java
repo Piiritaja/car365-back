@@ -8,12 +8,11 @@ import ee.taltech.cars.repository.ListingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.*;
 
 @Service
 public class ListingService {
     IdValidator validator = new IdValidator();
-
 
     @Autowired
     private ListingRepository listingRepository;
@@ -28,7 +27,9 @@ public class ListingService {
     }
 
     public Listing save(Listing listing) {
-        if (validator.validate(listing.getId())) return listingRepository.save(listing);
+        if (validator.validate(listing.getId())) {
+            return listingRepository.save(listing);
+        }
         throw new InvalidListingException();
     }
 
@@ -49,7 +50,18 @@ public class ListingService {
                 listing.getListedCar(),
                 listing.getPrice(),
                 listing.getLocation(),
+                listing.getTime(),
                 listing.getImages());
         return listingRepository.save(dbListing);
+    }
+
+    public List<Listing> getLatestListings(int count) {
+        List<Listing> latestListings = new ArrayList<>();
+        List<Listing> allListings = listingRepository.findAll();
+        allListings.sort(Comparator.comparing(Listing::getTime).reversed());
+        for (int i = 0; i < Math.min(count, allListings.size()); i++) {
+            latestListings.add(allListings.get(i));
+        }
+        return latestListings;
     }
 }
