@@ -39,4 +39,9 @@ public class ListingController {
     public void deleteListing(@PathVariable String id) {
         listingService.delete(id);
     }
+
+    @GetMapping("count")
+    public List<Listing> getNumberOfLatestListings(@RequestParam(defaultValue = "10") int count) {
+        return listingService.getLatestListings(count);
+    }
 }
