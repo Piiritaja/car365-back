@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.net.URL;
+import java.sql.Timestamp;
 import java.util.List;
 
 @Builder
@@ -23,6 +24,8 @@ public class Listing {
     private String listedCar;
     private int price;
     private String location;
+    private final @Builder.Default
+    Long time = System.nanoTime();
     @ElementCollection
     private List<String> images;
 }
