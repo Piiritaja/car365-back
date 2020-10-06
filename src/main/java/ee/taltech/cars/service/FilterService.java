@@ -24,10 +24,8 @@ public class FilterService {
         listings = listings.stream()
                 .filter(dbListing -> validateFilterListing(dbListing, listing, priceRange))
                 .collect(Collectors.toList());
-        System.out.println(listings);
         Map<Listing, Car> suitableCars = new HashMap<>();
         for (Listing sortedListing : listings) {
-            System.out.println("listedCar" + sortedListing.getListedCar());
             Optional<Car> dbCar = carsRepository.findById(sortedListing.getListedCar());
             dbCar.ifPresent(value -> suitableCars.put(sortedListing, value));
         }
@@ -41,8 +39,6 @@ public class FilterService {
         if (listing.getLocation() != null && !Objects.equals(listing.getLocation(), dbListing.getLocation())) {
             return false;
         }
-        System.out.println(priceRange);
-        System.out.println(priceRange.split("-"));
         if (priceRange != null) {
                 String[] priceRangeArray = priceRange.split("-");
                 return dbListing.getPrice() >= Integer.parseInt(priceRangeArray[0])
@@ -52,26 +48,23 @@ public class FilterService {
     }
 
     private boolean validateFilterCar(Car dbCar, Car car, String yearRange, String powerRange) {
-        if (car.getBrand() != null && !Objects.equals(car.getBrand(), dbCar.getBrand())) {
-            return false;
-        }
-        if (car.getBodyType() != null && !Objects.equals(car.getBodyType(), dbCar.getBodyType())) {
-            return false;
-        }
-        if (car.getModel() != null && !Objects.equals(car.getModel(), dbCar.getModel())) {
-            return false;
-        }
-        if (car.getFuelType() != null && !Objects.equals(car.getFuelType(), dbCar.getFuelType())) {
-            return false;
-        }
-        if (car.getGearboxType() != null && !Objects.equals(car.getGearboxType(), dbCar.getGearboxType())) {
-            return false;
-        }
-        if (car.getDriveType() != null && !Objects.equals(car.getDriveType(), dbCar.getDriveType())) {
-            return false;
-        }
-        if (car.getColor() != null && !Objects.equals(car.getColor(), dbCar.getColor())) {
-            return false;
+        List<String> filterParams = Arrays.asList(car.getBrand(), car.getBodyType(), car.getModel(),
+                car.getFuelType(),
+                car.getGearboxType(),
+                car.getDriveType(),
+                car.getColor());
+        List<String> dbCarParams = Arrays.asList(dbCar.getBrand(), dbCar.getBodyType(), dbCar.getModel(),
+                dbCar.getFuelType(),
+                dbCar.getGearboxType(),
+                dbCar.getDriveType(),
+                dbCar.getColor());
+        for (int i = 0; i < filterParams.size(); i++) {
+            String filter = filterParams.get(i);
+            if (filter != null) {
+                if (!filter.equals(dbCarParams.get(i))) {
+                    return false;
+                }
+            }
         }
         if (yearRange != null) {
             String[] yearRangeArray = yearRange.split("-");
