@@ -3,12 +3,15 @@ package ee.taltech.cars.service;
 import ee.taltech.cars.IdValidator;
 import ee.taltech.cars.exception.ListingNotFoundException;
 import ee.taltech.cars.exception.InvalidListingException;
+import ee.taltech.cars.models.Car;
 import ee.taltech.cars.models.Listing;
+import ee.taltech.cars.repository.CarsRepository;
 import ee.taltech.cars.repository.ListingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class ListingService {
@@ -16,6 +19,9 @@ public class ListingService {
 
     @Autowired
     private ListingRepository listingRepository;
+
+    @Autowired
+    private CarsRepository carsRepository;
 
     public List<Listing> findAll() {
         return listingRepository.findAll();
@@ -63,5 +69,32 @@ public class ListingService {
             latestListings.add(allListings.get(i));
         }
         return latestListings;
+    }
+
+    public List<Listing> getFiltered(Listing listing, Car car) {
+        List<Listing> listings = listingRepository.findAll();
+        listings = listings.stream()
+                .filter(dbListing -> validateFilterListing(dbListing, listing))
+                .collect(Collectors.toList());
+        Map<Listing, Car> suitableCars = new HashMap<>();
+        for (Listing sortedListing : listings) {
+            Optional<Car> dbCar = carsRepository.findById(sortedListing.getListedCar());
+            dbCar.ifPresent(value -> suitableCars.put(sortedListing, value));
+        }
+        listings = suitableCars.keySet().stream()
+                .filter(dbListing -> validateFilterCar(suitableCars.get(dbListing), car))
+                .collect(Collectors.toList());
+        return listings;
+    }
+
+    private boolean validateFilterListing(Listing dbListing, Listing listing) {
+        if (listing.getPrice() == 0 || listing.getPrice() == dbListing.getPrice()) {
+            return true;
+        }
+        return true;
+    }
+
+    private boolean validateFilterCar(Car dbCar, Car car) {
+        return false;
     }
 }

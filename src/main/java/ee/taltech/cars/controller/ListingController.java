@@ -1,6 +1,7 @@
 package ee.taltech.cars.controller;
 
 
+import ee.taltech.cars.models.Car;
 import ee.taltech.cars.models.Listing;
 import ee.taltech.cars.service.ListingService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,5 +44,20 @@ public class ListingController {
     @GetMapping("count")
     public List<Listing> getNumberOfLatestListings(@RequestParam(defaultValue = "10") int count) {
         return listingService.getLatestListings(count);
+    }
+
+    @GetMapping("filter")
+    public List<Listing> getFilteredListings(Listing listing, Car car) {
+        System.out.println(listing.getDescription());
+        System.out.println(listing.getImages());
+        System.out.println(listing.getListedCar());
+        System.out.println(listing.getPrice());
+
+        System.out.println(car.getBodyType());
+        System.out.println(car.getBrand());
+        System.out.println(car.getColor());
+        System.out.println(car.getModel());
+        System.out.println(car);
+        return listingService.getFiltered(listing, car);
     }
 }
