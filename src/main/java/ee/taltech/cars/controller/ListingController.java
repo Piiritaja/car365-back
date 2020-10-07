@@ -1,12 +1,10 @@
 package ee.taltech.cars.controller;
 
-
 import ee.taltech.cars.models.Listing;
 import ee.taltech.cars.service.FilterService;
 import ee.taltech.cars.service.ListingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -67,5 +65,10 @@ public class ListingController {
                 .stream()
                 .map(Listing::getBrand)
                 .collect(Collectors.toList());
+    }
+
+    @GetMapping("/params")
+    public String getParams() {
+        return listingService.getParameterValues().toString();
     }
 }
