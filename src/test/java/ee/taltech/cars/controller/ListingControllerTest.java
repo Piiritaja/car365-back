@@ -1,6 +1,5 @@
 package ee.taltech.cars.controller;
 
-import ee.taltech.cars.models.Car;
 import ee.taltech.cars.models.Listing;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +20,7 @@ class ListingControllerTest {
 
     public static final ParameterizedTypeReference<List<Listing>> LIST_OF_LISTINGS
             = new ParameterizedTypeReference<>() {};
-
+    public static final ParameterizedTypeReference<List<String>> LIST_OF_BRANDS = new ParameterizedTypeReference<>() {};
     @Autowired
     private TestRestTemplate template;
 
@@ -51,20 +50,28 @@ class ListingControllerTest {
         Listing listing = exchange.getBody().get(0);
         String id = listing.getId();
         listing.setPrice(3000);
+        listing.setColor("brown");
         ResponseEntity<Listing> exchangeId = template.exchange("/listings/" + id, HttpMethod.PUT,
                 new HttpEntity<>(listing), Listing.class);
         Listing changedListing = assertOK(exchangeId);
         assertEquals(3000, changedListing.getPrice());
+        assertEquals("brown", changedListing.getColor());
     }
 
     @Test
     void postListingTest() {
-        Listing listing = new Listing();
+        Listing listing = Listing.builder()
+                .price(3000)
+                .bodyType("sedan")
+                .brand("audi")
+                .build();
         listing.setPrice(3000);
         ResponseEntity<Listing> exchange = template.exchange("/listings", HttpMethod.POST,
                 new HttpEntity<>(listing), Listing.class);
         Listing addedListing = assertOK(exchange);
         assertEquals(3000, addedListing.getPrice());
+        assertEquals("sedan", addedListing.getBodyType());
+        assertEquals("audi", addedListing.getBrand());
     }
 
     @Test
@@ -77,6 +84,14 @@ class ListingControllerTest {
         ResponseEntity<Listing> exchangeListing = template.exchange("/listings/" + id, HttpMethod.DELETE,
                 new HttpEntity<>(listing), Listing.class);
         assertNull(exchangeListing.getBody());
+    }
+
+    @Test
+    void queryBrandsTest() {
+        ResponseEntity<List<String>> exchangeBrands = template.exchange("/listings/brands", HttpMethod.GET,
+                null, LIST_OF_BRANDS);
+        List<String> brands = assertOK(exchangeBrands);
+        assertFalse(brands.isEmpty());
     }
 
     private <T> T assertOK(ResponseEntity<T> exchange) {
