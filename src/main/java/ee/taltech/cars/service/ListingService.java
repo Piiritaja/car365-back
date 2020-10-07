@@ -34,8 +34,9 @@ public class ListingService {
     }
 
     public void delete(String id) {
-        if (validator.validate(id)) { listingRepository.delete(findById(id)); }
-        else {
+        if (validator.validate(id)) {
+            listingRepository.delete(findById(id));
+        } else {
             throw new InvalidListingException();
         }
     }
@@ -47,9 +48,19 @@ public class ListingService {
                 listing.getDescription(),
                 listing.getStatus(),
                 listing.getOwner(),
-                listing.getListedCar(),
                 listing.getPrice(),
                 listing.getLocation(),
+                listing.getBodyType(),
+                listing.getBrand(),
+                listing.getModel(),
+                listing.getColor(),
+                listing.getGearboxType(),
+                listing.getFuelType(),
+                listing.getDriveType(),
+                listing.getEnginePower(),
+                listing.getMileage(),
+                listing.getReleaseYear(),
+                listing.getEngineSize(),
                 listing.getTime(),
                 listing.getImages());
         return listingRepository.save(dbListing);

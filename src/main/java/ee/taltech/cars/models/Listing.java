@@ -21,9 +21,19 @@ public class Listing {
     private String description;
     private String status;
     private String owner;
-    private String listedCar;
     private int price;
     private String location;
+    private String bodyType;
+    private String brand;
+    private String model;
+    private String color;
+    private String gearboxType;
+    private String fuelType;
+    private String driveType;
+    private int enginePower;
+    private int mileage;
+    private int releaseYear;
+    private String engineSize;
     private final @Builder.Default
     Long time = System.nanoTime();
     @ElementCollection

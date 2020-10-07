@@ -1,6 +1,5 @@
 package ee.taltech.cars.controller;
 
-import ee.taltech.cars.models.Car;
 import ee.taltech.cars.models.Listing;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
