@@ -52,14 +52,13 @@ public class ListingController {
 
     @GetMapping("filter")
     public List<Listing> getFilteredListings(Listing listing,
-                                             Car car,
                                              String priceRange,
                                              String yearRange,
                                              String powerRange) {
         // pricerange "200-3000"
         // yearrange 'year1-year2'
         // powerange 'power1-power2'
-        return filterService.getFiltered(listing, car, priceRange, yearRange, powerRange);
+        return filterService.getFiltered(listing, priceRange, yearRange, powerRange);
     }
 
     @GetMapping("/brands")

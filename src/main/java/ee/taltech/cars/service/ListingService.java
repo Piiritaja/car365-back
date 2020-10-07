@@ -3,25 +3,18 @@ package ee.taltech.cars.service;
 import ee.taltech.cars.IdValidator;
 import ee.taltech.cars.exception.ListingNotFoundException;
 import ee.taltech.cars.exception.InvalidListingException;
-import ee.taltech.cars.models.Car;
 import ee.taltech.cars.models.Listing;
-import ee.taltech.cars.repository.CarsRepository;
 import ee.taltech.cars.repository.ListingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.stream.Collectors;
-
 @Service
 public class ListingService {
     IdValidator validator = new IdValidator();
 
     @Autowired
     private ListingRepository listingRepository;
-
-    @Autowired
-    private CarsRepository carsRepository;
 
     public List<Listing> findAll() {
         return listingRepository.findAll();
