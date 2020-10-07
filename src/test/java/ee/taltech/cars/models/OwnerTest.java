@@ -10,8 +10,8 @@ import static org.junit.jupiter.api.Assertions.*;
 class OwnerTest {
     private Owner singleCarOwner;
     private Owner multipleCarsOwner;
-    private Car car1;
-    private Car car2;
+    private Listing car1;
+    private Listing car2;
 
     // constants for test
     private static final String FIRST_NAME = "Kaspar";
@@ -19,15 +19,15 @@ class OwnerTest {
 
     @BeforeEach
     void setUp() {
-        car1 = Car.builder().model("Ferrari").releaseYear(2020).build();
-        car2 = Car.builder().model("Bugatti").releaseYear(2012).build();
+        car1 = Listing.builder().model("Ferrari").releaseYear(2020).build();
+        car2 = Listing.builder().model("Bugatti").releaseYear(2012).build();
         singleCarOwner = Owner.builder().firstName(FIRST_NAME).lastName(LAST_NAME).build();
         multipleCarsOwner = Owner.builder().firstName(FIRST_NAME).lastName(LAST_NAME).build();
 
     }
 
-    Car getTestCar() {
-        return Car.builder().model("Ferrari").releaseYear(2020).build();
+    Listing getTestCar() {
+        return Listing.builder().model("Ferrari").releaseYear(2020).build();
     }
 
     @Test
@@ -37,8 +37,8 @@ class OwnerTest {
 
     @Test
     void equals() {
-        Car new_car = getTestCar();
-        Car test_car = getTestCar();
+        Listing new_car = getTestCar();
+        Listing test_car = getTestCar();
         assertNotEquals(test_car, new_car);
     }
 
