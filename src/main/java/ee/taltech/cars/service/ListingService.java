@@ -5,6 +5,7 @@ import ee.taltech.cars.exception.ListingNotFoundException;
 import ee.taltech.cars.exception.InvalidListingException;
 import ee.taltech.cars.models.Listing;
 import ee.taltech.cars.repository.ListingRepository;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -73,6 +74,22 @@ public class ListingService {
             latestListings.add(allListings.get(i));
         }
         return latestListings;
+    }
+
+    public JSONObject getParameterValues() {
+        JSONObject obj = new JSONObject();
+        List<Listing> listings = listingRepository.findAll();
+        for (Listing listing : listings) {
+            obj.accumulate("bodyType", listing.getBodyType());
+            obj.accumulate("model", listing.getModel());
+            obj.accumulate("brand", listing.getBrand());
+            obj.accumulate("fuel", listing.getFuelType());
+            obj.accumulate("gearBoxType", listing.getGearboxType());
+            obj.accumulate("driveType", listing.getDriveType());
+            obj.accumulate("color", listing.getColor());
+            obj.accumulate("location", listing.getLocation());
+        }
+        return obj;
     }
 }
 
