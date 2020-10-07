@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("listings")
@@ -43,5 +44,13 @@ public class ListingController {
     @GetMapping("count")
     public List<Listing> getNumberOfLatestListings(@RequestParam(defaultValue = "10") int count) {
         return listingService.getLatestListings(count);
+    }
+
+    @GetMapping("/brands")
+    public List<String> getBrands() {
+        return listingService.findAll()
+                .stream()
+                .map(Listing::getBrand)
+                .collect(Collectors.toList());
     }
 }
