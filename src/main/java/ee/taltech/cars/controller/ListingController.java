@@ -2,6 +2,7 @@ package ee.taltech.cars.controller;
 
 
 import ee.taltech.cars.models.Listing;
+import ee.taltech.cars.service.FilterService;
 import ee.taltech.cars.service.ListingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +16,9 @@ public class ListingController {
 
     @Autowired
     private ListingService listingService;
+
+    @Autowired
+    private FilterService filterService;
 
     @GetMapping
     public List<Listing> getAll() {
@@ -44,6 +48,17 @@ public class ListingController {
     @GetMapping("count")
     public List<Listing> getNumberOfLatestListings(@RequestParam(defaultValue = "10") int count) {
         return listingService.getLatestListings(count);
+    }
+
+    @GetMapping("filter")
+    public List<Listing> getFilteredListings(Listing listing,
+                                             String priceRange,
+                                             String yearRange,
+                                             String powerRange) {
+        // pricerange "200-3000"
+        // yearrange 'year1-year2'
+        // powerange 'power1-power2'
+        return filterService.getFiltered(listing, priceRange, yearRange, powerRange);
     }
 
     @GetMapping("/brands")
