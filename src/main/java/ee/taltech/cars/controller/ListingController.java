@@ -3,6 +3,7 @@ package ee.taltech.cars.controller;
 import ee.taltech.cars.models.Listing;
 import ee.taltech.cars.service.FilterService;
 import ee.taltech.cars.service.ListingService;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
