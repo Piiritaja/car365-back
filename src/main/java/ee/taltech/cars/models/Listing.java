@@ -35,7 +35,7 @@ public class Listing {
     private int releaseYear;
     private String engineSize;
     private final @Builder.Default
-    Long time = System.nanoTime();
+    Long time = System.currentTimeMillis();
     @ElementCollection
     private List<String> images;
 }
