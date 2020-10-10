@@ -57,7 +57,7 @@ public class Listing {
     private String engineSize;
     private final @Builder.Default
     @ApiModelProperty(value="Listing creation time")
-    Long time = System.nanoTime();
+    Long time = System.currentTimeMillis();
     @ApiModelProperty(value="Images of the car in the listing. Max amount is 4")
     @ElementCollection
     private List<String> images;
