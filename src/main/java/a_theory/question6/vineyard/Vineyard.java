@@ -78,6 +78,7 @@ public class Vineyard {
         wineOptional.ifPresent(wine1 -> wines.set(wines.indexOf(wine1), wine));
     }
 
+    // they can click on a wine and see a detailed view with the best description
     @PutMapping("{id}")
     public void updateWineRegion(@RequestParam String region, @PathVariable Long id) {
         getWineById(id).ifPresent(wine -> wine.setRegion(region));
