@@ -15,6 +15,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -187,10 +188,14 @@ class ListingControllerTest {
         Listing listing = getMockListing();
         template.exchange("/listings", HttpMethod.POST,
                 new HttpEntity<>(listing), Listing.class);
-        ResponseEntity<List<Listing>> exchange = template.exchange("/listings/count?count=1", HttpMethod.GET,
+        ResponseEntity<List<Listing>> exchange = template.exchange("/listings/count?count=3", HttpMethod.GET,
                 null, LIST_OF_LISTINGS);
         List<Listing> listings = assertOK(exchange);
-        assertEquals("model", listings.get(0).getModel());
+        List<String> models = new ArrayList<>();
+        for (Listing latestListing : listings) {
+            models.add(latestListing.getModel());
+        }
+        assertTrue(models.contains("model"));
         template.exchange("/listings/" + listing.getId(), HttpMethod.DELETE,
                 new HttpEntity<>(listing), Listing.class);
     }
