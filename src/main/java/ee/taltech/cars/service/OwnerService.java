@@ -25,28 +25,19 @@ public class OwnerService {
     }
 
     public Owner save(Owner owner) {
-        if (owner.getId() != null) {
-            throw new InvalidUserException("Id is already in use");
-        }
-        if (owner.getFirstName().equals("") || owner.getFirstName() == null) {
-            throw new InvalidUserException("User missing first name");
-        }
-        if (owner.getLastName().equals("") || owner.getLastName() == null) {
-            throw new InvalidUserException("User missing last name");
+        if (owner.getFirstName().equals("") || owner.getFirstName() == null ||
+                owner.getLastName().equals("") || owner.getLastName() == null) {
+            throw new InvalidUserException();
         }
         return userRepository.save(owner);
 
     }
 
     public Owner update(Owner owner, String id) {
-        if (owner.getId() == null || owner.getId().isEmpty()) {
-            throw new InvalidUserException("User missing ID");
-        }
-        if (owner.getFirstName().equals("") || owner.getFirstName() == null) {
-            throw new InvalidUserException("User missing first name");
-        }
-        if (owner.getLastName().equals("") || owner.getLastName() == null) {
-            throw new InvalidUserException("User missing last name");
+        if (owner.getId() == null || owner.getId().isEmpty() ||
+                owner.getFirstName().equals("") || owner.getFirstName() == null ||
+                owner.getLastName().equals("") || owner.getLastName() == null) {
+            throw new InvalidUserException();
         }
         Owner ownerDb = findById(id);
         ownerDb = Owner.builder()

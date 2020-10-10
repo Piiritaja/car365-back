@@ -10,8 +10,8 @@ import static org.junit.jupiter.api.Assertions.*;
 class OwnerTest {
     private Owner singleCarOwner;
     private Owner multipleCarsOwner;
-    private Car car1;
-    private Car car2;
+    private Listing car1;
+    private Listing car2;
 
     // constants for test
     private static final String FIRST_NAME = "Kaspar";
@@ -19,15 +19,15 @@ class OwnerTest {
 
     @BeforeEach
     void setUp() {
-        car1 = Car.builder().model("Ferrari").releaseYear(2020).build();
-        car2 = Car.builder().model("Bugatti").releaseYear(2012).build();
-        singleCarOwner = Owner.builder().car(car1).firstName(FIRST_NAME).lastName(LAST_NAME).build();
-        multipleCarsOwner = Owner.builder().car(car1).car(car2).firstName(FIRST_NAME).lastName(LAST_NAME).build();
+        car1 = Listing.builder().model("Ferrari").releaseYear(2020).build();
+        car2 = Listing.builder().model("Bugatti").releaseYear(2012).build();
+        singleCarOwner = Owner.builder().firstName(FIRST_NAME).lastName(LAST_NAME).build();
+        multipleCarsOwner = Owner.builder().firstName(FIRST_NAME).lastName(LAST_NAME).build();
 
     }
 
-    Car getTestCar() {
-        return Car.builder().model("Ferrari").releaseYear(2020).build();
+    Listing getTestCar() {
+        return Listing.builder().model("Ferrari").releaseYear(2020).build();
     }
 
     @Test
@@ -37,8 +37,8 @@ class OwnerTest {
 
     @Test
     void equals() {
-        Car new_car = getTestCar();
-        Car test_car = getTestCar();
+        Listing new_car = getTestCar();
+        Listing test_car = getTestCar();
         assertNotEquals(test_car, new_car);
     }
 
@@ -52,24 +52,4 @@ class OwnerTest {
         assertEquals(LAST_NAME, singleCarOwner.getLastName());
     }
 
-    @Test
-    void getCarsSizeSingleCar() {
-        assertEquals(1, singleCarOwner.getCars().size());
-    }
-
-    @Test
-    void getCarsSingleCarRightCar() {
-        assertEquals(car1, singleCarOwner.getCars().get(0));
-    }
-
-    @Test
-    void getCarsSizeTwoCars() {
-        assertEquals(2, multipleCarsOwner.getCars().size());
-    }
-
-    @Test
-    void getCarsTwoCars() {
-        List<Car> test_cars = multipleCarsOwner.getCars();
-        assertTrue(test_cars.contains(car1) && test_cars.contains(car2));
-    }
 }
