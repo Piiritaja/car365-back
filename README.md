@@ -2,6 +2,9 @@
 
 - Project idea and description are located in the [front-end wiki](https://gitlab.cs.ttu.ee/sesuur/car365-frontend/-/wikis/home)
 
+## Setup
+- Setup guide in [Wiki](https://kausta.pages.taltech.ee/car-365-wiki/setup.html)
+
 ## Members:
 - Sedrik Suurmets
 - Mikk Järvis
@@ -11,7 +14,7 @@
 ## Frontend
 - [Project front-end repository](https://gitlab.cs.ttu.ee/sesuur/car365-frontend)
 
-## wiki
+## Wiki
 https://kausta.pages.taltech.ee/car-365-wiki/index.html
 
 wiki repository: https://gitlab.cs.ttu.ee/kausta/car-365-wiki
