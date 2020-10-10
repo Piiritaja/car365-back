@@ -1,5 +1,10 @@
 package a_theory.question6.vineyard;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class Wine {
     private Long id;
     private String name;
