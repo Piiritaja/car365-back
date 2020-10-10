@@ -14,4 +14,5 @@ public class Abstraction {
     // Create an abstraction of an animal of your choice.
     // It should have at least 1 property and 1 method.
     // Create it as a real java class inside this package.
+
 }
