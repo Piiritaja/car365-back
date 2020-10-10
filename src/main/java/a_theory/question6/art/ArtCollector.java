@@ -1,7 +1,12 @@
 package a_theory.question6.art;
 
-import java.util.List;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.Map;
+
+@RestController
+@RequestMapping("paintings")
 public class ArtCollector {
 
     //todo for question 6 there are 4 assignments in total
@@ -29,16 +34,33 @@ public class ArtCollector {
     // I keep all my paintings, never throw anything away. Just buy bigger house.
     // How much do you want for this system?
 
-    //todo here are some examples of empty methods
-    List<Painting> emptyMethodReturnList(){
+
+    @GetMapping
+    public List<Painting> getAll() {
         return List.of();
     }
 
-    Painting emptyMethodReturn1(){
-        return new Painting();
+    @GetMapping("page")
+    public List<Painting> getPage(@RequestParam(defaultValue = "50") int countInPage) {
+        // return service.getPage(count);
+        return List.of();
     }
 
-    void emptyMethodVoid(){
+    @GetMapping("catalog")
+    public List<List<Painting>> getCatalog(@RequestParam(defaultValue = "50") int countInPage) {
+        // return service.getCatalog(count);
+        return List.of(List.of());
+    }
 
+    @PostMapping
+    public Painting postNewPainting(Painting painting) {
+        // return service.postNewPainting(painting)
+        return painting;
+    }
+
+    @GetMapping("{painting}")
+    public Painting getPaintingDetails(@PathVariable Painting painting) {
+        // return service.getPaintingDetails(painting);
+        return painting;
     }
 }

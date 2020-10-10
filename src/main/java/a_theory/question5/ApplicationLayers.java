@@ -7,11 +7,11 @@ public class ApplicationLayers {
 
     //todo p1
     // Name 3 layers of back-end architecture. Give a brief description for each.
-    // 1
+    // 1 Controller
     // Description:
-    // 2
+    // 2 Service
     // Description:
-    // 3
+    // 3 Model
     // Description:
 
     //todo p2
