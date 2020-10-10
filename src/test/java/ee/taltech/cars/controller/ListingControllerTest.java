@@ -157,10 +157,10 @@ class ListingControllerTest {
         String invalidId = "thisisaninvalidIDforListings123469";
         mvc.perform(MockMvcRequestBuilders.get("/listings/" + invalidId)
                 .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isNotFound());
+                .andExpect(status().isBadRequest());
         mvc.perform(MockMvcRequestBuilders.delete("/listings/" + invalidId)
                 .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isNotFound());
+                .andExpect(status().isBadRequest());
     }
 
     private Listing getMockListing() {
