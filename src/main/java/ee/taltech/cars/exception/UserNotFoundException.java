@@ -3,19 +3,7 @@ package ee.taltech.cars.exception;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-@ResponseStatus(HttpStatus.NOT_FOUND)
+@ResponseStatus(value = HttpStatus.NOT_FOUND, reason = "Did not find user with given ID")
 public class UserNotFoundException extends RuntimeException{
 
-    private String errorMessage;
-
-    public UserNotFoundException(){}
-
-    public UserNotFoundException(String errorMessage) {
-        this.errorMessage = errorMessage;
-    }
-
-    @Override
-    public String toString() {
-        return errorMessage;
-    }
 }
