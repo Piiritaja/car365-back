@@ -1,6 +1,13 @@
 package a_theory.question6.sheep;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class SheepFarm {
 
@@ -30,16 +37,25 @@ public class SheepFarm {
     // I want to access sheep details, it's name, age, everything using that code.
     // That's it. Can you do that for me?
 
-    //todo here are some examples of empty methods
-    List<Sheep> emptyMethodReturnList(){
-        return List.of();
+    List<Sheep> allSheep = new ArrayList<>();
+
+    @GetMapping
+    public List<Sheep> getAllSheep() {
+        return allSheep;
     }
 
-    Sheep emptyMethodReturn1(){
-        return new Sheep();
+    @GetMapping("{id}")
+    public Optional<Sheep> getSheepById(@PathVariable Long id) {
+        return allSheep.stream().filter(sheep -> sheep.getId().equals(id)).findAny();
     }
 
-    void emptyMethodVoid(){
+    @PostMapping
+    public void addSheep(Sheep sheep) {
+        allSheep.add(sheep);
+    }
 
+    @DeleteMapping("{id}")
+    public void deleteListing(@PathVariable Long id) {
+        getSheepById(id).ifPresent(sheep -> allSheep.remove(sheep));
     }
 }
