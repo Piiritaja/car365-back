@@ -23,6 +23,6 @@ public class Gradle {
     // Name 3 different benefits or reasons for using gradle
     // 1 Automatically finds the resource (dependency) it has been given
     // 2 Automatically makes resources (dependencies) it has found available in the project (builds)
-    // 3
+    // 3 Gradle is able to build a jar file, which can then be run by a user
 
 }
