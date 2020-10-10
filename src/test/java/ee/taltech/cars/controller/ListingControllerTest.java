@@ -1,6 +1,9 @@
 package ee.taltech.cars.controller;
 
 import ee.taltech.cars.models.Listing;
+import net.minidev.json.JSONObject;
+import net.minidev.json.parser.JSONParser;
+import net.minidev.json.parser.ParseException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -161,6 +164,35 @@ class ListingControllerTest {
         mvc.perform(MockMvcRequestBuilders.delete("/listings/" + invalidId)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void getParamsTest() throws ParseException {
+        Listing listing = getMockListing();
+        template.exchange("/listings", HttpMethod.POST,
+                new HttpEntity<>(listing), Listing.class);
+        ResponseEntity<String> exchangeParams = template.exchange("/listings/params", HttpMethod.GET,
+                null, String.class);
+        String result = assertOK(exchangeParams);
+        JSONParser parser = new JSONParser(JSONParser.MODE_JSON_SIMPLE);
+        JSONObject obj = (JSONObject) parser.parse(result);
+        List<String> models = (List<String>) obj.get("model");
+        assertTrue(models.contains("model"));
+        template.exchange("/listings/" + listing.getId(), HttpMethod.DELETE,
+                new HttpEntity<>(listing), Listing.class);
+    }
+
+    @Test
+    void latestListingsTest() {
+        Listing listing = getMockListing();
+        template.exchange("/listings", HttpMethod.POST,
+                new HttpEntity<>(listing), Listing.class);
+        ResponseEntity<List<Listing>> exchange = template.exchange("/listings/count?count=1", HttpMethod.GET,
+                null, LIST_OF_LISTINGS);
+        List<Listing> listings = assertOK(exchange);
+        assertEquals("model", listings.get(0).getModel());
+        template.exchange("/listings/" + listing.getId(), HttpMethod.DELETE,
+                new HttpEntity<>(listing), Listing.class);
     }
 
     private Listing getMockListing() {
