@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Collectors;
+
 @Service
 public class ListingService {
     IdValidator validator = new IdValidator();
@@ -90,6 +92,13 @@ public class ListingService {
             obj.accumulate("location", listing.getLocation());
         }
         return obj;
+    }
+
+    public List<String> getBrands() {
+        return findAll()
+                .stream()
+                .map(Listing::getBrand)
+                .collect(Collectors.toList());
     }
 }
 
