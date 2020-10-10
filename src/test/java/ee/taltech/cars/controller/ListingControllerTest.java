@@ -11,7 +11,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
 import java.util.List;
 
@@ -55,45 +54,39 @@ class ListingControllerTest {
 
     @Test
     void putByIdTest() {
-        ResponseEntity<List<Listing>> exchange = template.exchange("/listings", HttpMethod.GET,
-                null, LIST_OF_LISTINGS);
-        Listing listing = exchange.getBody().get(0);
-        String id = listing.getId();
-        listing.setPrice(3000);
-        listing.setColor("brown");
+        Listing listing = this.getMockListing();
+        ResponseEntity<Listing> exchange = template.exchange("/listings", HttpMethod.POST,
+                new HttpEntity<>(listing), Listing.class);
+        String id = exchange.getBody().getId();
+        listing.setPrice(99999319);
+        listing.setColor("thisischangedcolor");
         ResponseEntity<Listing> exchangeId = template.exchange("/listings/" + id, HttpMethod.PUT,
                 new HttpEntity<>(listing), Listing.class);
         Listing changedListing = assertOK(exchangeId);
-        assertEquals(3000, changedListing.getPrice());
-        assertEquals("brown", changedListing.getColor());
+        assertEquals(listing.getPrice(), changedListing.getPrice());
+        assertEquals(listing.getColor(), changedListing.getColor());
+        template.exchange("/listings/" + id, HttpMethod.DELETE, new HttpEntity<>(listing), Listing.class);
     }
 
     @Test
-    void postListingTest() {
-        Listing listing = Listing.builder()
-                .price(3000)
-                .bodyType("sedan")
-                .brand("audi")
-                .build();
-        listing.setPrice(3000);
+    void postAndDeleteListingTest() throws Exception {
+        // post
+        Listing listing = this.getMockListing();
         ResponseEntity<Listing> exchange = template.exchange("/listings", HttpMethod.POST,
                 new HttpEntity<>(listing), Listing.class);
         Listing addedListing = assertOK(exchange);
-        assertEquals(3000, addedListing.getPrice());
-        assertEquals("sedan", addedListing.getBodyType());
-        assertEquals("audi", addedListing.getBrand());
-    }
+        assertEquals(listing.getPrice(), addedListing.getPrice());
+        assertEquals(listing.getBodyType(), addedListing.getBodyType());
+        assertEquals(listing.getBrand(), addedListing.getBrand());
+        assertEquals(listing.getModel(), addedListing.getModel());
+        assertEquals(listing.getEnginePower(), addedListing.getEnginePower());
 
-    @Test
-    void deleteListingTest() {
-        ResponseEntity<List<Listing>> exchange = template.exchange("/listings", HttpMethod.GET, null,
-                LIST_OF_LISTINGS);
-        List<Listing> listings = exchange.getBody();
-        Listing listing = listings.get(listings.size() - 2);
-        String id = listing.getId();
-        ResponseEntity<Listing> exchangeListing = template.exchange("/listings/" + id, HttpMethod.DELETE,
-                new HttpEntity<>(listing), Listing.class);
-        assertNull(exchangeListing.getBody());
+        // delete
+        String id = addedListing.getId();
+        template.exchange("/listings/" + id, HttpMethod.DELETE, new HttpEntity<>(listing), Listing.class);
+        mvc.perform(MockMvcRequestBuilders.get("/listings/" + id)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
     }
 
     @Test
@@ -107,31 +100,25 @@ class ListingControllerTest {
     @Test
     void testFilter() {
         // setup
-        String brand = "audi";
-        Listing listing = Listing.builder()
-                .price(3000)
-                .bodyType("sedan")
-                .brand(brand)
-                .build();
+        Listing listing = this.getMockListing();
         ResponseEntity<Listing> exchange = template.exchange("/listings", HttpMethod.POST,
                 new HttpEntity<>(listing), Listing.class);
-        String id = exchange.getBody().getId();
-
-        Listing listing2 = Listing.builder()
-                .price(6942)
-                .bodyType("sedan")
-                .brand(brand + "2")
-                .build();
+        Listing listingRecieved = assertOK(exchange);
+        String id = listingRecieved.getId();
+        Listing listing2 = this.getMockListing();
+        listing2.setPrice(6942);
+        listing2.setBrand("brand 2");
         exchange = template.exchange("/listings", HttpMethod.POST,
-                new HttpEntity<>(listing), Listing.class);
-        String id2 = exchange.getBody().getId();
+                new HttpEntity<>(listing2), Listing.class);
+        Listing listingReceived2 = assertOK(exchange);
+        String id2 = listingReceived2.getId();
 
         // tests
-        ResponseEntity<List<Listing>> filtered = template.exchange("/listings/filter/?brand=" + brand,
+        ResponseEntity<List<Listing>> filtered = template.exchange("/listings/filter/?brand=" + listing.getBrand(),
                 HttpMethod.GET, null, LIST_OF_LISTINGS);
         assertNotNull(filtered.getBody());
         for (Listing listing1 : filtered.getBody()) {
-            assertEquals(brand, listing1.getBrand());
+            assertEquals(listing.getBrand(), listing1.getBrand());
         }
 
 
@@ -176,6 +163,27 @@ class ListingControllerTest {
                 .andExpect(status().isNotFound());
     }
 
+    private Listing getMockListing() {
+        return Listing.builder()
+                .title("title")
+                .description("description")
+                .status("status")
+                .price(3000)
+                .location("location")
+                .bodyType("bodytype")
+                .brand("brand")
+                .model("model")
+                .color("color")
+                .gearboxType("gearbox")
+                .fuelType("fueltype")
+                .driveType("drivetype")
+                .enginePower(100)
+                .mileage(100)
+                .releaseYear(2000)
+                .engineSize("2.0")
+                .owner("ownerid")
+                .build();
+    }
 
     private <T> T assertOK(ResponseEntity<T> exchange) {
         assertNotNull(exchange.getBody());
