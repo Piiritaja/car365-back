@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class Vineyard {
 
@@ -44,22 +45,22 @@ public class Vineyard {
 
     @GetMapping("")
     public List<Wine> getByRegion(@RequestParam(required = false) String region) {
-        return List.of();
+        return wines.stream().filter(wine -> wine.getRegion().equals(region)).collect(Collectors.toList());
     }
 
     @GetMapping("")
-    public List<Wine> getByYear(@RequestParam(required = false) String year) {
-        return List.of();
+    public List<Wine> getByYear(@RequestParam(required = false) int year) {
+        return wines.stream().filter(wine -> wine.getYear() == year).collect(Collectors.toList());
     }
 
     @GetMapping("")
     public List<Wine> getByName(@RequestParam(required = false) String name) {
-        return List.of();
+        return wines.stream().filter(wine -> wine.getName().equals(name)).collect(Collectors.toList());
     }
 
     @GetMapping("")
     public List<Wine> getByGrape(@RequestParam(required = false) String grape) {
-        return List.of();
+        return wines.stream().filter(wine -> wine.getGrape().equals(grape)).collect(Collectors.toList());
     }
 
     @GetMapping("{id}")
