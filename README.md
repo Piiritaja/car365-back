@@ -1,6 +1,6 @@
 # Team 19 ALSoft
 
-- Project idea and description are located in the [front-end wiki](https://gitlab.cs.ttu.ee/sesuur/car365-frontend/-/wikis/home)
+- Project idea and description are located in the wiki.
 
 ## Setup
 - Setup guide in [Wiki](https://kausta.pages.taltech.ee/car-365-wiki/setup.html)
