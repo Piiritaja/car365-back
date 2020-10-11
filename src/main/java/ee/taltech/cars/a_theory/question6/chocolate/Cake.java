@@ -1,4 +1,4 @@
-package a_theory.question6.chocolate;
+package ee.taltech.cars.a_theory.question6.chocolate;
 
 import lombok.Getter;
 import lombok.Setter;

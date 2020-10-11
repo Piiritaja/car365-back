@@ -1,4 +1,4 @@
-package a_theory.question6.chocolate;
+package ee.taltech.cars.a_theory.question6.chocolate;
 
 import org.springframework.web.bind.annotation.*;
 
@@ -41,7 +41,10 @@ public class Chocolate {
     //todo here are some examples of empty methods
 
     @GetMapping
-    public List<Cake> getAllCakes() {
+    public List<Cake> getAllCakes(@RequestParam(required = false) String ingredient,
+                                  @RequestParam(required = false) String topping,
+                                  @RequestParam(required = false) String size,
+                                  @RequestParam(required = false) String sweetness) {
         return List.of();
     }
 
@@ -50,25 +53,6 @@ public class Chocolate {
         return cakes.stream().filter(cake -> cake.getId().equals(id)).findAny();
     }
 
-    @GetMapping("")
-    public List<Cake> getByIngredient(@RequestParam(required = false) String ingredient) {
-        return List.of();
-    }
-
-    @GetMapping("")
-    public List<Cake> getByTopping(@RequestParam(required = false) String topping) {
-        return List.of();
-    }
-
-    @GetMapping("")
-    public List<Cake> getBySize(@RequestParam(required = false) String size) {
-        return List.of();
-    }
-
-    @GetMapping("")
-    public List<Cake> getBySweetness(@RequestParam(required = false) String sweetness) {
-        return List.of();
-    }
 
     @PostMapping
     public void addCake(Cake cake) {

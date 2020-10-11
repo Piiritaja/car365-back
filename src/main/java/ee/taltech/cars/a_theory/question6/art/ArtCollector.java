@@ -1,4 +1,4 @@
-package a_theory.question6.art;
+package ee.taltech.cars.a_theory.question6.art;
 
 import org.springframework.web.bind.annotation.*;
 

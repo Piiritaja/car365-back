@@ -1,4 +1,4 @@
-package a_theory.question3;
+package ee.taltech.cars.a_theory.question3;
 
 public class Abstraction {
 
