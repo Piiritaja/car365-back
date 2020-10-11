@@ -185,9 +185,10 @@ class ListingControllerTest {
 
     @Test
     void latestListingsTest() {
-        Listing listing = getMockListing();
-        template.exchange("/listings", HttpMethod.POST,
+        Listing listing = this.getMockListing();
+        ResponseEntity<Listing> postedListing = template.exchange("/listings", HttpMethod.POST,
                 new HttpEntity<>(listing), Listing.class);
+        Listing receivedListing = assertOK(postedListing);
         ResponseEntity<List<Listing>> exchange = template.exchange("/listings/count?count=3", HttpMethod.GET,
                 null, LIST_OF_LISTINGS);
         List<Listing> listings = assertOK(exchange);
@@ -196,7 +197,7 @@ class ListingControllerTest {
             models.add(latestListing.getModel());
         }
         assertTrue(models.contains("model"));
-        template.exchange("/listings/" + listing.getId(), HttpMethod.DELETE,
+        template.exchange("/listings/" + receivedListing.getId(), HttpMethod.DELETE,
                 new HttpEntity<>(listing), Listing.class);
     }
 

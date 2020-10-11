@@ -1,6 +1,12 @@
 # Team 19 ALSoft
 
-- Project idea and description are located in the [front-end wiki](https://gitlab.cs.ttu.ee/sesuur/car365-frontend/-/wikis/home)
+- Project idea and description are located in the wiki.
+
+## Setup
+- Setup guide in [Wiki](https://kausta.pages.taltech.ee/car-365-wiki/setup.html)
+
+## Business issues
+- [Business issues](https://gitlab.cs.ttu.ee/sesuur/car365-frontend/-/issues?scope=all&utf8=%E2%9C%93&state=all&label_name[]=Business)
 
 ## Members:
 - Sedrik Suurmets
@@ -11,7 +17,7 @@
 ## Frontend
 - [Project front-end repository](https://gitlab.cs.ttu.ee/sesuur/car365-frontend)
 
-## wiki
+## Wiki
 https://kausta.pages.taltech.ee/car-365-wiki/index.html
 
 wiki repository: https://gitlab.cs.ttu.ee/kausta/car-365-wiki

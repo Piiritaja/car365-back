@@ -1,6 +1,11 @@
 package ee.taltech.cars.a_theory.question6.vineyard;
 
+import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class Vineyard {
 
@@ -31,16 +36,51 @@ public class Vineyard {
     // Uncle Maxime
 
 
-    //todo here are some examples of empty methods
-    List<Wine> emptyMethodReturnList(){
+    List<Wine> wines = new ArrayList<>();
+
+    @GetMapping("")
+    public List<Wine> getAll() {
         return List.of();
     }
 
-    Wine emptyMethodReturn1(){
-        return new Wine();
+    @GetMapping("")
+    public List<Wine> getByRegion(@RequestParam(required = false) String region) {
+        return wines.stream().filter(wine -> wine.getRegion().equals(region)).collect(Collectors.toList());
     }
 
-    void emptyMethodVoid(){
+    @GetMapping("")
+    public List<Wine> getByYear(@RequestParam(required = false) int year) {
+        return wines.stream().filter(wine -> wine.getYear() == year).collect(Collectors.toList());
+    }
 
+    @GetMapping("")
+    public List<Wine> getByName(@RequestParam(required = false) String name) {
+        return wines.stream().filter(wine -> wine.getName().equals(name)).collect(Collectors.toList());
+    }
+
+    @GetMapping("")
+    public List<Wine> getByGrape(@RequestParam(required = false) String grape) {
+        return wines.stream().filter(wine -> wine.getGrape().equals(grape)).collect(Collectors.toList());
+    }
+
+    @GetMapping("{id}")
+    public Optional<Wine> getGrapeById(@PathVariable Long id) {
+        return wines.stream().filter(wine -> wine.getId().equals(id)).findAny();
+    }
+
+    public Optional<Wine> getWineById(Long id) {
+        return wines.stream().filter(wine1 -> wine1.getId().equals(id)).findAny();
+    }
+
+    @PutMapping("{id}")
+    public void updateWine(@RequestBody Wine wine, @PathVariable Long id) {
+        Optional<Wine> wineOptional = getWineById(id);
+        wineOptional.ifPresent(wine1 -> wines.set(wines.indexOf(wine1), wine));
+    }
+
+    // they can click on a wine and see a detailed view with the best description
+    @PutMapping("{id}")
+    public void updateWineRegion(@RequestParam String region, @PathVariable Long id) {
+        getWineById(id).ifPresent(wine -> wine.setRegion(region));
     }
 }

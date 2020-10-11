@@ -1,7 +1,13 @@
 package ee.taltech.cars.a_theory.question6.chocolate;
 
-import java.util.List;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+@RestController
+@RequestMapping("cakes")
 public class Chocolate {
 
     //todo for question 6 there are 4 assignments in total
@@ -30,17 +36,53 @@ public class Chocolate {
     // I take existing Sachertorte and I make it better and next week I make it better and next week...
     // Can you do this? I need this system tomorrow!
 
+    List<Cake> cakes = new ArrayList<>();
 
     //todo here are some examples of empty methods
-    List<Cake> emptyMethodReturnList(){
+
+    @GetMapping
+    public List<Cake> getAllCakes() {
         return List.of();
     }
 
-    Cake emptyMethodReturn1(){
-        return new Cake();
+    @GetMapping("{id}")
+    public Optional<Cake> getCakeById(@PathVariable Long id) {
+        return cakes.stream().filter(cake -> cake.getId().equals(id)).findAny();
     }
 
-    void emptyMethodVoid(){
+    @GetMapping("")
+    public List<Cake> getByIngredient(@RequestParam(required = false) String ingredient) {
+        return List.of();
+    }
 
+    @GetMapping("")
+    public List<Cake> getByTopping(@RequestParam(required = false) String topping) {
+        return List.of();
+    }
+
+    @GetMapping("")
+    public List<Cake> getBySize(@RequestParam(required = false) String size) {
+        return List.of();
+    }
+
+    @GetMapping("")
+    public List<Cake> getBySweetness(@RequestParam(required = false) String sweetness) {
+        return List.of();
+    }
+
+    @PostMapping
+    public void addCake(Cake cake) {
+        if (hasSizeAndSweetness(cake)) {
+            cakes.add(cake);
+        }
+    }
+
+    @PutMapping("{id}")
+    public void updateCakeById(@RequestBody Cake cake, @PathVariable Long id) {
+        getCakeById(id).ifPresent(c -> cakes.set(cakes.indexOf(c), cake));
+    }
+
+    public boolean hasSizeAndSweetness(Cake cake) {
+        return cake.getSize() != null && cake.getSweetness() != null;
     }
 }

@@ -58,8 +58,8 @@ public class ArtCollector {
     }
 
     @GetMapping("{painting}")
-    public Painting getPaintingDetails(@PathVariable Painting painting) {
+    public Map<String, String> getPaintingDetails(@PathVariable Painting painting) {
         // return service.getPaintingDetails(painting);
-        return painting;
+        return Map.of();
     }
 }
