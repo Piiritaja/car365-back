@@ -1,4 +1,4 @@
-package a_theory.question6.sheep;
+package ee.taltech.cars.a_theory.question6.sheep;
 
 import java.util.List;
 
