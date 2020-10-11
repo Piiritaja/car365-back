@@ -1,12 +1,19 @@
 package ee.taltech.cars.a_theory.question6.vineyard;
 
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
+@RestController
+@RequestMapping("vineyard")
 public class Vineyard {
 
     //todo for question 6 there are 4 assignments in total
@@ -38,29 +45,13 @@ public class Vineyard {
 
     List<Wine> wines = new ArrayList<>();
 
-    @GetMapping("")
-    public List<Wine> getAll() {
+    @GetMapping
+    public List<Wine> getAll(@RequestParam(required = false) String region,
+                             @RequestParam(required = false) int year,
+                             @RequestParam(required = false) String name,
+                             @RequestParam(required = false) String grape
+                             ) {
         return List.of();
-    }
-
-    @GetMapping("")
-    public List<Wine> getByRegion(@RequestParam(required = false) String region) {
-        return wines.stream().filter(wine -> wine.getRegion().equals(region)).collect(Collectors.toList());
-    }
-
-    @GetMapping("")
-    public List<Wine> getByYear(@RequestParam(required = false) int year) {
-        return wines.stream().filter(wine -> wine.getYear() == year).collect(Collectors.toList());
-    }
-
-    @GetMapping("")
-    public List<Wine> getByName(@RequestParam(required = false) String name) {
-        return wines.stream().filter(wine -> wine.getName().equals(name)).collect(Collectors.toList());
-    }
-
-    @GetMapping("")
-    public List<Wine> getByGrape(@RequestParam(required = false) String grape) {
-        return wines.stream().filter(wine -> wine.getGrape().equals(grape)).collect(Collectors.toList());
     }
 
     @GetMapping("{id}")
@@ -73,14 +64,9 @@ public class Vineyard {
     }
 
     @PutMapping("{id}")
-    public void updateWine(@RequestBody Wine wine, @PathVariable Long id) {
+    public void updateWine(@RequestBody Wine wine, @PathVariable Long id,
+                           @RequestParam(required = false) String region) {
         Optional<Wine> wineOptional = getWineById(id);
         wineOptional.ifPresent(wine1 -> wines.set(wines.indexOf(wine1), wine));
-    }
-
-    // they can click on a wine and see a detailed view with the best description
-    @PutMapping("{id}")
-    public void updateWineRegion(@RequestParam String region, @PathVariable Long id) {
-        getWineById(id).ifPresent(wine -> wine.setRegion(region));
     }
 }
