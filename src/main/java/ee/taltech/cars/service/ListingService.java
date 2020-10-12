@@ -71,7 +71,7 @@ public class ListingService {
     public List<Listing> getLatestListings(int count) {
         List<Listing> latestListings = new ArrayList<>();
         List<Listing> allListings = listingRepository.findAll();
-        allListings.sort(Comparator.comparing(Listing::getTime));
+        allListings.sort(Comparator.comparing(Listing::getTime).reversed());
         for (int i = 0; i < Math.min(count, allListings.size()); i++) {
             latestListings.add(allListings.get(i));
         }
