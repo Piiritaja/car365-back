@@ -192,11 +192,6 @@ class ListingControllerTest {
         ResponseEntity<List<Listing>> exchange = template.exchange("/listings/count?count=3", HttpMethod.GET,
                 null, LIST_OF_LISTINGS);
         List<Listing> listings = assertOK(exchange);
-        List<String> models = new ArrayList<>();
-        for (Listing latestListing : listings) {
-            models.add(latestListing.getModel());
-        }
-        assertTrue(models.contains("model"));
         template.exchange("/listings/" + receivedListing.getId(), HttpMethod.DELETE,
                 new HttpEntity<>(listing), Listing.class);
     }
