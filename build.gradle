@@ -1,8 +1,16 @@
+buildscript {
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath 'com.github.mowedgrass:jasypt-gradle-boot-plugin:0.1.33'
+	}
+}
 plugins {
 	id 'application'
 	id 'org.springframework.boot' version '2.3.4.RELEASE'
 	id 'io.spring.dependency-management' version '1.0.10.RELEASE'
-	id 'java'
+	id 'java-library'
 }
 
 group = 'ee.taltech.cars'
@@ -39,16 +47,17 @@ dependencies {
 	testCompileOnly 'org.projectlombok:lombok:1.18.12'
 	testAnnotationProcessor 'org.projectlombok:lombok:1.18.12'
 
-	compile 'io.springfox:springfox-boot-starter:3.0.0'
-	compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '3.0.0'
+	implementation   'io.springfox:springfox-boot-starter:3.0.0'
+	implementation   group: 'io.springfox', name: 'springfox-swagger-ui', version: '3.0.0'
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}
 	implementation('org.springframework.boot:spring-boot-starter-data-jpa')
 	implementation('org.springframework.boot:spring-boot-starter-web')
 	implementation('org.postgresql:postgresql')
-	compile 'org.json:json:20171018'
+	implementation   'org.json:json:20171018'
 }
+
 
 test {
 	useJUnitPlatform()
