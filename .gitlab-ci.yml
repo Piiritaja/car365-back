@@ -13,13 +13,9 @@ java:
 
 image: docker:latest
 
-services:
-  - docker:dind
-  
-variables:
-  DOCKER_HOST: tcp://localhost:2375
-
 build:
+  services:
+   - docker:18.09-dind
   stage: build
   script:
     - docker build -t test .
