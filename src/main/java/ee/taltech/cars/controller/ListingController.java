@@ -92,7 +92,7 @@ public class ListingController {
     })
     @GetMapping("count")
     public List<Listing> getNumberOfLatestListings(@ApiParam(value = "Number of listings to retrieve")
-                                                       @RequestParam(defaultValue = "10") int count) {
+                                                   @RequestParam(defaultValue = "10") int count) {
         return listingService.getLatestListings(count);
     }
 
