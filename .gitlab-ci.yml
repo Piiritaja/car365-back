@@ -11,12 +11,12 @@ java:
   only: 
     - merge_requests
 
-docker:
+image: docker:latest
+
+services:
+  - docker:dind
+
+build:
   stage: build
-  image: docker:latest
-  services:
-    - docker:dind
-  build:
-    stage: build
-    script:
-      - docker build -t test .
+  script:
+    - docker build -t test .
