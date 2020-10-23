@@ -13,6 +13,10 @@ java:
 
 image: docker:latest
 
+variables:
+  DOCKER_HOST: tcp://40.69.207.203:8093
+
+
 build:
   services:
    - docker:18.09-dind
