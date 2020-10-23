@@ -13,8 +13,8 @@ java:
 
 image: docker:latest
 
-#variables:
-#  DOCKER_HOST: tcp://localhost:8093
+variables:
+  DOCKER_HOST: tcp://localhost:8093
 
 
 build:
