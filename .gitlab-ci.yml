@@ -11,15 +11,11 @@ java:
   only: 
     - merge_requests
 
-image: docker:latest
-
-variables:
-  DOCKER_HOST: tcp://localhost:2378
-
+image: docker:19.03.12
 
 build:
-  services:
-   - docker:18.09-dind
   stage: build
+  services:
+   - docker:19.03.12-dind
   script:
     - docker build -t test .
