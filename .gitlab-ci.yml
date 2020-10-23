@@ -2,6 +2,7 @@ image: gradle:6.3.0-jre14
 
 stages:
   - test
+  - build
 
 java:
   stage: test
@@ -9,3 +10,13 @@ java:
     - gradle test
   only: 
     - merge_requests
+
+docker:
+  stage: build
+  image: docker:latest
+  services:
+    - docker:dind
+  build:
+    stage: build
+    script:
+      - docker build -t test .
