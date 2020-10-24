@@ -10,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
@@ -20,6 +21,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+@ActiveProfiles("test")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
 class OwnerControllerTest {
@@ -37,6 +39,7 @@ class OwnerControllerTest {
         ResponseEntity<List<Owner>> exchange = template.exchange("/user", HttpMethod.GET,
                 null, LIST_OF_OWNERS);
         List<Owner> owners = assertOK(exchange);
+        System.out.println(owners);
         assertFalse(owners.isEmpty());
     }
 
