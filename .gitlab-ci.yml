@@ -14,8 +14,6 @@ test:
 build car365:
   image: docker:19.03.12
   stage: build
-  services:
-    - docker:19.03.12-dind
   script:
     - docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
     - docker build -t $DOCKER_IMAGE .
