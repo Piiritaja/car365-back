@@ -8,8 +8,6 @@ test:
   stage: test
   script:
     - gradle test
-  only:
-    - main
 
 build car365:
   image: docker:19.03.12
