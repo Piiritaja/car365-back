@@ -14,7 +14,7 @@ public class ArtCollector {
     //todo for question 6 there are 4 assignments in total
     // Each person has to do only 1. So 2 person team has to do 2 different ones, 3 person - 3, 4 person - 4.
     // Make sure to commit under your user otherwise points won't count.
-    // I didn't number these so you can pick your favorite
+    // I didn't number these so  you can pick your favorite
 
     //todo create a working api for an art collector
     // It compiles and runs. You need to use proper annotations, methods, etc, however to ease the process you can use empty methods (examples below).
