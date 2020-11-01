@@ -16,6 +16,7 @@ public class ArtCollector {
     // Make sure to commit under your user otherwise points won't count.
     // I didn't number these so you can pick your favorite
 
+
     //todo create a working api for an art collector
     // It compiles and runs. You need to use proper annotations, methods, etc, however to ease the process you can use empty methods (examples below).
     // Follow the story to have only the necessary methods in it
