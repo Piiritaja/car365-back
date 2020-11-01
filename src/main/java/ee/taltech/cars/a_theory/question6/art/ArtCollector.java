@@ -50,10 +50,10 @@ public class ArtCollector {
         return allPaintings.stream().filter(painting -> painting.getId().equals(id)).findAny();
     }
 
-    @GetMapping("page")
-    public List<Painting> getCatalog(@RequestParam(defaultValue = "50") int countPerPage,
-                                  @RequestParam(defaultValue = "1") int pageCount) {
-        // return service.getPage(count, pages);
+    @GetMapping("page/{pageNr}")
+    public List<Painting> getCatalog(@PathVariable int pageNr,
+                                     @RequestParam(defaultValue = "50") int countPerPage) {
+        // return service.getPage(pageNr, countPerPage);
         return List.of();
     }
 
