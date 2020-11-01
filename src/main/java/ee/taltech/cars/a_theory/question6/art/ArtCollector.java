@@ -2,8 +2,10 @@ package ee.taltech.cars.a_theory.question6.art;
 
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("paintings")
@@ -12,7 +14,7 @@ public class ArtCollector {
     //todo for question 6 there are 4 assignments in total
     // Each person has to do only 1. So 2 person team has to do 2 different ones, 3 person - 3, 4 person - 4.
     // Make sure to commit under your user otherwise points won't count.
-    // I didn't number these so you can pick your favorite
+    // I didn't number these so  you can pick your favorite
 
     //todo create a working api for an art collector
     // It compiles and runs. You need to use proper annotations, methods, etc, however to ease the process you can use empty methods (examples below).
@@ -34,33 +36,30 @@ public class ArtCollector {
     // I keep all my paintings, never throw anything away. Just buy bigger house.
     // How much do you want for this system?
 
+    List<Painting> allPaintings = new ArrayList<>();
 
     @GetMapping
     public List<Painting> getAll() {
-        return List.of();
+        return allPaintings;
     }
 
-    @GetMapping("page")
-    public List<Painting> getPage(@RequestParam(defaultValue = "50") int countInPage) {
-        // return service.getPage(count);
-        return List.of();
+    @GetMapping("{id}")
+    public Optional<Painting> getById(@PathVariable Long id) {
+        // return service.findById(id);
+        return allPaintings.stream().filter(painting -> painting.getId().equals(id)).findAny();
     }
 
-    @GetMapping("catalog")
-    public List<List<Painting>> getCatalog(@RequestParam(defaultValue = "50") int countInPage) {
-        // return service.getCatalog(count);
-        return List.of(List.of());
+    @GetMapping("page/{pageNr}")
+    public List<Painting> getCatalog(@PathVariable int pageNr,
+                                     @RequestParam(defaultValue = "50") int countPerPage) {
+        // return service.getPage(pageNr, countPerPage);
+        return List.of();
     }
 
     @PostMapping
     public Painting postNewPainting(Painting painting) {
         // return service.postNewPainting(painting)
+        allPaintings.add(painting);
         return painting;
-    }
-
-    @GetMapping("{painting}")
-    public Map<String, String> getPaintingDetails(@PathVariable Painting painting) {
-        // return service.getPaintingDetails(painting);
-        return Map.of();
     }
 }
