@@ -4,7 +4,6 @@ import ee.taltech.cars.models.Listing;
 import net.minidev.json.JSONObject;
 import net.minidev.json.parser.JSONParser;
 import net.minidev.json.parser.ParseException;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -17,7 +16,6 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -181,13 +179,12 @@ class ListingControllerTest {
         String result = assertOK(exchangeParams);
         JSONParser parser = new JSONParser(JSONParser.MODE_JSON_SIMPLE);
         JSONObject obj = (JSONObject) parser.parse(result);
-        List<UUID> models = (List<UUID>) obj.get("model");
+        List<String> models = (List<String>) obj.get("model");
         assertTrue(models.contains("model"));
         template.exchange("/listings/" + listing.getId(), HttpMethod.DELETE,
                 new HttpEntity<>(listing), Listing.class);
     }
 
-    @Disabled
     @Test
     void latestListingsTest() {
         Listing listing = this.getMockListing();

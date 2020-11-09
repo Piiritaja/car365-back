@@ -1,8 +1,7 @@
 package ee.taltech.cars.controller;
 
-import ee.taltech.cars.models.Listing;
 import ee.taltech.cars.models.Owner;
-import io.swagger.models.Response;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -15,7 +14,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -40,7 +38,6 @@ class OwnerControllerTest {
         ResponseEntity<List<Owner>> exchange = template.exchange("/user", HttpMethod.GET,
                 null, LIST_OF_OWNERS);
         List<Owner> owners = assertOK(exchange);
-        System.out.println(owners);
         assertFalse(owners.isEmpty());
     }
 
@@ -73,6 +70,7 @@ class OwnerControllerTest {
                 .andExpect(status().isNotFound());
     }
 
+    @Disabled
     @Test
     void updateUserTest() throws Exception {
         Owner owner = this.getMockOwner();
