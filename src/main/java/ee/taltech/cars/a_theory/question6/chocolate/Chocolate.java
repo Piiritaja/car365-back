@@ -43,9 +43,9 @@ public class Chocolate {
     @GetMapping
     public List<Cake> getAllCakes(@RequestParam(required = false) String ingredient,
                                   @RequestParam(required = false) String topping,
-                                  @RequestParam(required = false) String size,
-                                  @RequestParam(required = false) String sweetness) {
-        return List.of();
+                                  @RequestParam String size,
+                                  @RequestParam String sweetness) {
+        return cakes;
     }
 
     @GetMapping("{id}")

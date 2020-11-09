@@ -43,11 +43,6 @@ public class SheepFarm {
 
     List<Sheep> allSheep = new ArrayList<>();
 
-    @GetMapping
-    public List<Sheep> getAllSheep() {
-        return allSheep;
-    }
-
     @GetMapping("{id}")
     public Optional<Sheep> getSheepById(@PathVariable Long id) {
         return allSheep.stream().filter(sheep -> sheep.getId().equals(id)).findAny();
