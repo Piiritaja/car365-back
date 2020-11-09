@@ -27,7 +27,7 @@ public class Listing {
     @ApiModelProperty(value="Status of the listing")
     private String status;
     @ApiModelProperty(value="User who posted the listing")
-    private String owner;
+    private UUID owner;
     @ApiModelProperty(value="Price of the car in listing")
     private int price;
     @ApiModelProperty(value="Location of the car in the listing")
