@@ -5,9 +5,8 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 
 import javax.persistence.*;
-import java.net.URL;
-import java.sql.Timestamp;
 import java.util.List;
+import java.util.UUID;
 
 @ApiModel(value = "Listing", description = "Model that describes the car listing")
 @Builder
@@ -17,10 +16,10 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Listing {
-    @Id
-    private final @Builder.Default
     @ApiModelProperty(value="Random ID given to listing")
-    String id = java.util.UUID.randomUUID().toString();
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private UUID id;
     @ApiModelProperty(value="Title of the listing")
     private String title;
     @ApiModelProperty(value="Written description of the listing")
