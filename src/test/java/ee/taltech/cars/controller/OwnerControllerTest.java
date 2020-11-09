@@ -17,6 +17,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -50,7 +51,7 @@ class OwnerControllerTest {
         List<Owner> owners = exchange.getBody();
         Owner owner = owners.get(0);
         String name = owner.getFirstName();
-        String id = owner.getId();
+        UUID id = owner.getId();
         ResponseEntity<Owner> exchangeOwner = template.exchange("/user/" + id, HttpMethod.GET,
                 null, Owner.class);
         Owner resp = assertOK(exchangeOwner);
@@ -78,7 +79,7 @@ class OwnerControllerTest {
         ResponseEntity<Owner> exchange = template.exchange("/user", HttpMethod.POST, new HttpEntity<>(owner),
                 Owner.class);
         Owner posted = assertOK(exchange);
-        String id = posted.getId();
+        UUID id = posted.getId();
         owner.setFirstName("mrchangedName");
         owner.setLastName("mrChangedLastName");
         ResponseEntity<Owner> exchangeOwner = template.exchange("/user/" + id, HttpMethod.PUT,

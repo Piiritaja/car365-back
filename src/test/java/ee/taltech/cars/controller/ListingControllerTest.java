@@ -19,6 +19,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -52,8 +53,8 @@ class ListingControllerTest {
     void getByIdTest() {
         ResponseEntity<List<Listing>> exchange = template.exchange("/listings", HttpMethod.GET,
                 null, LIST_OF_LISTINGS);
-        String id = exchange.getBody().get(0).getId();
-        String owner = exchange.getBody().get(0).getOwner();
+        UUID id = exchange.getBody().get(0).getId();
+        UUID owner = exchange.getBody().get(0).getOwner();
         ResponseEntity<Listing> exchangeId = template.exchange("/listings/" + id, HttpMethod.GET, null, Listing.class);
         Listing listing = assertOK(exchangeId);
         assertEquals(owner, listing.getOwner());
@@ -64,7 +65,7 @@ class ListingControllerTest {
         Listing listing = this.getMockListing();
         ResponseEntity<Listing> exchange = template.exchange("/listings", HttpMethod.POST,
                 new HttpEntity<>(listing), Listing.class);
-        String id = exchange.getBody().getId();
+        UUID id = exchange.getBody().getId();
         listing.setPrice(99999319);
         listing.setColor("thisischangedcolor");
         ResponseEntity<Listing> exchangeId = template.exchange("/listings/" + id, HttpMethod.PUT,
@@ -89,7 +90,7 @@ class ListingControllerTest {
         assertEquals(listing.getEnginePower(), addedListing.getEnginePower());
 
         // delete
-        String id = addedListing.getId();
+        UUID id = addedListing.getId();
         template.exchange("/listings/" + id, HttpMethod.DELETE, new HttpEntity<>(listing), Listing.class);
         mvc.perform(MockMvcRequestBuilders.get("/listings/" + id)
                 .accept(MediaType.APPLICATION_JSON))
@@ -111,14 +112,14 @@ class ListingControllerTest {
         ResponseEntity<Listing> exchange = template.exchange("/listings", HttpMethod.POST,
                 new HttpEntity<>(listing), Listing.class);
         Listing listingRecieved = assertOK(exchange);
-        String id = listingRecieved.getId();
+        UUID id = listingRecieved.getId();
         Listing listing2 = this.getMockListing();
         listing2.setPrice(6942);
         listing2.setBrand("brand 2");
         exchange = template.exchange("/listings", HttpMethod.POST,
                 new HttpEntity<>(listing2), Listing.class);
         Listing listingReceived2 = assertOK(exchange);
-        String id2 = listingReceived2.getId();
+        UUID id2 = listingReceived2.getId();
 
         // tests
         ResponseEntity<List<Listing>> filtered = template.exchange("/listings/filter/?brand=" + listing.getBrand(),
@@ -180,7 +181,7 @@ class ListingControllerTest {
         String result = assertOK(exchangeParams);
         JSONParser parser = new JSONParser(JSONParser.MODE_JSON_SIMPLE);
         JSONObject obj = (JSONObject) parser.parse(result);
-        List<String> models = (List<String>) obj.get("model");
+        List<UUID> models = (List<UUID>) obj.get("model");
         assertTrue(models.contains("model"));
         template.exchange("/listings/" + listing.getId(), HttpMethod.DELETE,
                 new HttpEntity<>(listing), Listing.class);
@@ -218,7 +219,7 @@ class ListingControllerTest {
                 .mileage(100)
                 .releaseYear(2000)
                 .engineSize("2.0")
-                .owner("ownerid")
+                .owner(UUID.randomUUID())
                 .build();
     }
 
