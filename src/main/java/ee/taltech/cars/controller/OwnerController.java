@@ -1,6 +1,5 @@
 package ee.taltech.cars.controller;
 
-import ee.taltech.cars.models.Listing;
 import ee.taltech.cars.models.Owner;
 import ee.taltech.cars.service.OwnerService;
 import io.swagger.annotations.*;
@@ -8,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @Api(value = "User Controller")
 @RequestMapping("user")
@@ -37,7 +37,7 @@ public class OwnerController {
             @ApiResponse(code =  404, message = "Did not find user with given ID")
     })
     @GetMapping("{id}")
-    public Owner getUser(@ApiParam(value = "ID of the user to retrieve", required = true) @PathVariable String id) {
+    public Owner getUser(@ApiParam(value = "ID of the user to retrieve", required = true) @PathVariable UUID id) {
         return ownerService.findById(id);
     }
 
@@ -61,7 +61,7 @@ public class OwnerController {
     })
     @PutMapping("{id}")
     public Owner updateUser(@ApiParam(value = "User to be saved") @RequestBody Owner owner,
-                            @ApiParam(value = "ID to which the new user is assigned") @PathVariable String id) {
+                            @ApiParam(value = "ID to which the new user is assigned") @PathVariable UUID id) {
         return ownerService.update(owner, id);
     }
 
@@ -72,7 +72,7 @@ public class OwnerController {
             @ApiResponse(code =  404, message = "Did not find user with given ID")
     })
     @DeleteMapping("{id}")
-    public void deleteUser(@ApiParam(value = "ID of the user to delete") @PathVariable String id) {
+    public void deleteUser(@ApiParam(value = "ID of the user to delete") @PathVariable UUID id) {
         ownerService.delete(id);
     }
 
