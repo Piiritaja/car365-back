@@ -6,6 +6,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.UUID;
 
 @ApiModel(value = "Owner", description = "Model that describes the user (owner)")
 @Builder
@@ -16,9 +17,9 @@ import java.util.List;
 @AllArgsConstructor
 public class Owner {
     @Id
-    private final @Builder.Default
     @ApiModelProperty(value="ID of the user (owner)")
-    String id = java.util.UUID.randomUUID().toString();
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private UUID id;
     @ApiModelProperty(value="First name of the owner")
     private String firstName;
     @ApiModelProperty(value="Last name of owner")
