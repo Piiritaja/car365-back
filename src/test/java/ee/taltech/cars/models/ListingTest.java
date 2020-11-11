@@ -28,12 +28,6 @@ class ListingTest {
                 .title(TITLE)
                 .build();
     }
-
-    @Test
-    void getId() {
-        IdPatternTest.getId(listing.getId());
-    }
-
     @Test
     void getTitle() {
         assertEquals(TITLE, listing.getTitle());

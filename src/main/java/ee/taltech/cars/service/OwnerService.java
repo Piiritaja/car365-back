@@ -26,8 +26,8 @@ public class OwnerService {
     }
 
     public Owner save(Owner owner) {
-        if (owner.getFirstName().equals("") || owner.getFirstName() == null ||
-                owner.getLastName().equals("") || owner.getLastName() == null) {
+        if (owner.getFirstName() == null || owner.getFirstName().equals("") ||
+                owner.getLastName() == null || owner.getLastName().equals("")) {
             throw new InvalidUserException();
         }
         return userRepository.save(owner);
@@ -36,8 +36,8 @@ public class OwnerService {
 
     public Owner update(Owner owner, UUID id) {
         if (owner.getId() == null || owner.getId() != id ||
-                owner.getFirstName().equals("") || owner.getFirstName() == null ||
-                owner.getLastName().equals("") || owner.getLastName() == null) {
+                owner.getFirstName() == null || owner.getFirstName().equals("") ||
+                owner.getLastName() == null || owner.getLastName().equals("")) {
             throw new InvalidUserException();
         }
         Owner ownerDb = findById(id);

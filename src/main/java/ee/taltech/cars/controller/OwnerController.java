@@ -1,6 +1,5 @@
 package ee.taltech.cars.controller;
 
-import ee.taltech.cars.models.Listing;
 import ee.taltech.cars.models.Owner;
 import ee.taltech.cars.service.OwnerService;
 import io.swagger.annotations.*;

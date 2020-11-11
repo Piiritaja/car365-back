@@ -16,8 +16,8 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Owner {
-    @Id
     @ApiModelProperty(value="ID of the user (owner)")
+    @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
     @ApiModelProperty(value="First name of the owner")
