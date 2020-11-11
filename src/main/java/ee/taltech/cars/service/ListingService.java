@@ -4,7 +4,6 @@ import ee.taltech.cars.dto.ParamsDto;
 import ee.taltech.cars.exception.ListingNotFoundException;
 import ee.taltech.cars.models.Listing;
 import ee.taltech.cars.repository.ListingRepository;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
