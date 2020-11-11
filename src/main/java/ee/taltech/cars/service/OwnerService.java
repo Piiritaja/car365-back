@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class OwnerService {
@@ -19,24 +20,24 @@ public class OwnerService {
         return userRepository.findAll();
     }
 
-    public Owner findById(String id) {
+    public Owner findById(UUID id) {
         return userRepository.findById(id)
                 .orElseThrow(UserNotFoundException::new);
     }
 
     public Owner save(Owner owner) {
-        if (owner.getFirstName().equals("") || owner.getFirstName() == null ||
-                owner.getLastName().equals("") || owner.getLastName() == null) {
+        if (owner.getFirstName() == null || owner.getFirstName().equals("") ||
+                owner.getLastName() == null || owner.getLastName().equals("")) {
             throw new InvalidUserException();
         }
         return userRepository.save(owner);
 
     }
 
-    public Owner update(Owner owner, String id) {
-        if (owner.getId() == null || owner.getId().isEmpty() ||
-                owner.getFirstName().equals("") || owner.getFirstName() == null ||
-                owner.getLastName().equals("") || owner.getLastName() == null) {
+    public Owner update(Owner owner, UUID id) {
+        if (owner.getId() == null || owner.getId() != id ||
+                owner.getFirstName() == null || owner.getFirstName().equals("") ||
+                owner.getLastName() == null || owner.getLastName().equals("")) {
             throw new InvalidUserException();
         }
         Owner ownerDb = findById(id);
@@ -49,7 +50,7 @@ public class OwnerService {
         return userRepository.save(ownerDb);
     }
 
-    public void delete(String id) {
+    public void delete(UUID id) {
         userRepository.delete(findById(id));
     }
 

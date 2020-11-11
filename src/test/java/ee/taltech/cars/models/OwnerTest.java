@@ -33,11 +33,6 @@ class OwnerTest {
     }
 
     @Test
-    void getId() {
-        IdPatternTest.getId(singleCarOwner.getId());
-    }
-
-    @Test
     void equals() {
         Listing new_car = getTestCar();
         Listing test_car = getTestCar();
