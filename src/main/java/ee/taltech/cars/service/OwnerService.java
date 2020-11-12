@@ -35,8 +35,7 @@ public class OwnerService {
     }
 
     public Owner update(Owner owner, UUID id) {
-        if (owner.getId() == null || owner.getId() != id ||
-                owner.getFirstName() == null || owner.getFirstName().equals("") ||
+        if (owner.getFirstName() == null || owner.getFirstName().equals("") ||
                 owner.getLastName() == null || owner.getLastName().equals("")) {
             throw new InvalidUserException();
         }
@@ -45,6 +44,8 @@ public class OwnerService {
                 .id(ownerDb.getId())
                 .firstName(owner.getFirstName())
                 .lastName(owner.getLastName())
+                .email(owner.getEmail())
+                .phone(owner.getPhone())
                 .listings(owner.getListings())
                 .build();
         return userRepository.save(ownerDb);

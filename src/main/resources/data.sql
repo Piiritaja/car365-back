@@ -1,4 +1,4 @@
-INSERT INTO owner (id, first_name, last_name) VALUES (random_uuid(), 'toomas', 'lastname');
+INSERT INTO owner (id, first_name, last_name, email, phone) VALUES (random_uuid(), 'toomas', 'lastname', 'email@email1.com', '55667788');
 
 INSERT INTO listing (id, body_type, brand, color, description, drive_type, engine_power, engine_size, fuel_type,
                      gearbox_type, location, mileage, model, owner, price, release_year, status, time, title)
