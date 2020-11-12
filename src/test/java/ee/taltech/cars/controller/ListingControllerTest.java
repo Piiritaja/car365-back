@@ -1,5 +1,6 @@
 package ee.taltech.cars.controller;
 
+import ee.taltech.cars.dto.ParamsDto;
 import ee.taltech.cars.models.Listing;
 import net.minidev.json.JSONObject;
 import net.minidev.json.parser.JSONParser;
@@ -174,13 +175,11 @@ class ListingControllerTest {
         Listing listing = getMockListing();
         template.exchange("/listings", HttpMethod.POST,
                 new HttpEntity<>(listing), Listing.class);
-        ResponseEntity<String> exchangeParams = template.exchange("/listings/params", HttpMethod.GET,
-                null, String.class);
-        String result = assertOK(exchangeParams);
-        JSONParser parser = new JSONParser(JSONParser.MODE_JSON_SIMPLE);
-        JSONObject obj = (JSONObject) parser.parse(result);
-        List<String> models = (List<String>) obj.get("model");
-        assertTrue(models.contains("model"));
+        ResponseEntity<ParamsDto> exchangeParams = template.exchange("/listings/params", HttpMethod.GET,
+                null, ParamsDto.class);
+        ParamsDto result = assertOK(exchangeParams);
+        List<String> models = result.getModel();
+        assertTrue(models.contains("Model"));
         template.exchange("/listings/" + listing.getId(), HttpMethod.DELETE,
                 new HttpEntity<>(listing), Listing.class);
     }
