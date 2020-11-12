@@ -70,9 +70,8 @@ class OwnerControllerTest {
                 .andExpect(status().isNotFound());
     }
 
-    @Disabled
     @Test
-    void updateUserTest() throws Exception {
+    void updateUserTest() {
         Owner owner = this.getMockOwner();
         ResponseEntity<Owner> exchange = template.exchange("/user", HttpMethod.POST, new HttpEntity<>(owner),
                 Owner.class);
@@ -85,16 +84,14 @@ class OwnerControllerTest {
         Owner updatedOwner = assertOK(exchangeOwner);
         assertEquals(owner.getFirstName(), updatedOwner.getFirstName());
         assertEquals(owner.getLastName(), updatedOwner.getLastName());
-        template.exchange("/user/" + updatedOwner.getId(), HttpMethod.DELETE, new HttpEntity<>(owner), Owner.class);
-        mvc.perform(MockMvcRequestBuilders.get("/user/" + updatedOwner.getId())
-                .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isNotFound());
     }
 
     private Owner getMockOwner() {
         return Owner.builder()
                 .firstName("toomas")
                 .lastName("tartust")
+                .email("thisemail@gmail.com")
+                .phone("5678420")
                 .listings(new ArrayList<>())
                 .build();
     }

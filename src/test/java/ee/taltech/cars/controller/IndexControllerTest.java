@@ -24,32 +24,4 @@ class IndexControllerTest {
         assertEquals(HttpStatus.OK, exchange.getStatusCode());
         assertEquals("Landing page.\n", exchange.getBody());
     }
-
-    @Test
-    void signUpPageTest() {
-        ResponseEntity<String> exchange = template.exchange("/sign_up", HttpMethod.GET, null, String.class);
-        assertEquals(HttpStatus.OK, exchange.getStatusCode());
-        assertEquals("Sign up page", exchange.getBody());
-    }
-
-    @Test
-    void LogInPageTest() {
-        ResponseEntity<String> exchange = template.exchange("/log_in", HttpMethod.GET, null, String.class);
-        assertEquals(HttpStatus.OK, exchange.getStatusCode());
-        assertEquals("Login page", exchange.getBody());
-    }
-
-    @Test
-    void ContactPageTest() {
-        ResponseEntity<String> exchange = template.exchange("/contact", HttpMethod.GET, null, String.class);
-        assertEquals(HttpStatus.OK, exchange.getStatusCode());
-        assertEquals("Contact page", exchange.getBody());
-    }
-
-    @Test
-    void carPageTest() {
-        ResponseEntity<String> exchange = template.exchange("/car", HttpMethod.GET, null, String.class);
-        assertEquals(HttpStatus.OK, exchange.getStatusCode());
-        assertEquals("Cars page", exchange.getBody());
-    }
 }

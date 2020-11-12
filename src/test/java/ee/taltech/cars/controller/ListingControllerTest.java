@@ -71,7 +71,6 @@ class ListingControllerTest {
         Listing changedListing = assertOK(exchangeId);
         assertEquals(listing.getPrice(), changedListing.getPrice());
         assertEquals(listing.getColor(), changedListing.getColor());
-        template.exchange("/listings/" + id, HttpMethod.DELETE, new HttpEntity<>(listing), Listing.class);
     }
 
     @Test
