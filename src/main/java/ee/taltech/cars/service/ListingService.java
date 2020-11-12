@@ -99,4 +99,3 @@ public class ListingService {
                 .collect(Collectors.toList());
     }
 }
-
