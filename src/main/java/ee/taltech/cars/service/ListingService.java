@@ -1,11 +1,12 @@
 package ee.taltech.cars.service;
 
+import ee.taltech.cars.dto.ParamsDto;
 import ee.taltech.cars.exception.ListingNotFoundException;
 import ee.taltech.cars.models.Listing;
 import ee.taltech.cars.repository.ListingRepository;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -67,20 +68,28 @@ public class ListingService {
         return latestListings;
     }
 
-    public JSONObject getParameterValues() {
-        JSONObject obj = new JSONObject();
+    public ParamsDto getParameterValues() {
+        ParamsDto dto = new ParamsDto();
         List<Listing> listings = listingRepository.findAll();
         for (Listing listing : listings) {
-            obj.accumulate("bodyType", listing.getBodyType());
-            obj.accumulate("model", listing.getModel());
-            obj.accumulate("brand", listing.getBrand());
-            obj.accumulate("fuel", listing.getFuelType());
-            obj.accumulate("gearBoxType", listing.getGearboxType());
-            obj.accumulate("driveType", listing.getDriveType());
-            obj.accumulate("color", listing.getColor());
-            obj.accumulate("location", listing.getLocation());
+            dto.addBodyType(StringUtils.capitalize(listing.getBodyType()));
+            dto.addBrand(StringUtils.capitalize(listing.getBrand()));
+            dto.addModel(StringUtils.capitalize(listing.getModel()));
+            dto.addColor(StringUtils.capitalize(listing.getColor()));
+            dto.addDriveType(StringUtils.capitalize(listing.getDriveType()));
+            dto.addFuel(StringUtils.capitalize(listing.getFuelType()));
+            dto.assLocation(StringUtils.capitalize(listing.getLocation()));
+            dto.addGearBoxType(StringUtils.capitalize(listing.getGearboxType()));
         }
-        return obj;
+        Collections.sort(dto.getBodyType());
+        Collections.sort(dto.getBrand());
+        Collections.sort(dto.getModel());
+        Collections.sort(dto.getColor());
+        Collections.sort(dto.getDriveType());
+        Collections.sort(dto.getFuel());
+        Collections.sort(dto.getGearBoxType());
+        Collections.sort(dto.getLocation());
+        return dto;
     }
 
     public List<String> getBrands() {
@@ -90,4 +99,3 @@ public class ListingService {
                 .collect(Collectors.toList());
     }
 }
-

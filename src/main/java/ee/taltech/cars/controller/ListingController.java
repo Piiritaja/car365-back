@@ -1,5 +1,6 @@
 package ee.taltech.cars.controller;
 
+import ee.taltech.cars.dto.ParamsDto;
 import ee.taltech.cars.models.Listing;
 import ee.taltech.cars.service.FilterService;
 import ee.taltech.cars.service.ListingService;
@@ -133,7 +134,7 @@ public class ListingController {
             @ApiResponse(code = 200, message = "Received all parameters from database"),
     })
     @GetMapping("/params")
-    public String getParams() {
-        return listingService.getParameterValues().toString();
+    public ParamsDto getParams() {
+        return listingService.getParameterValues();
     }
 }
