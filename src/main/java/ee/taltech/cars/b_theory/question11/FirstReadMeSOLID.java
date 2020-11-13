@@ -9,7 +9,7 @@ public class FirstReadMeSOLID {
     // I would like you to tell me what solid is and then explain in detail each part of the principle.
     // What is solid?
     // S (Nr1isS.java) stands for Single-responsibility and is done by Oleg Pahhomov as an example
-    // O (Nr2isO.java) stands for Open/closed
+    // O (Nr2isO.java) stands for Open/closed and is done by Sedrik Suurmets.
     // L (Nr3isL.java) stands for Liskov Substitution
     // I (Nr4isI.java) stands for Interface Segregation
     // D (Nr5isD.java) stands for Dependency Inversion
