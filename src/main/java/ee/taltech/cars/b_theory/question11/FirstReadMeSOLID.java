@@ -1,4 +1,4 @@
-package b_theory.question11;
+package ee.taltech.cars.b_theory.question11;
 
 public class FirstReadMeSOLID {
 
@@ -9,8 +9,8 @@ public class FirstReadMeSOLID {
     // I would like you to tell me what solid is and then explain in detail each part of the principle.
     // What is solid?
     // S (Nr1isS.java) stands for Single-responsibility and is done by Oleg Pahhomov as an example
-    // O (Nr2isO.java)
-    // L (Nr3isL.java)
-    // I (Nr4isI.java)
-    // D (Nr5isD.java)
+    // O (Nr2isO.java) stands for Open/closed
+    // L (Nr3isL.java) stands for Liskov Substitution
+    // I (Nr4isI.java) stands for Interface Segregation
+    // D (Nr5isD.java) stands for Dependency Inversion
 }
