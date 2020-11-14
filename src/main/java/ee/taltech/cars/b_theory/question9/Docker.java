@@ -38,8 +38,8 @@ public class Docker {
 
     //todo G
     // Name and explain why are companies slow in moving existing systems to docker architecture (do not explain why docker is bad)
-    // 1 It is a long process. Big and heavy systems have been configured and tweaked over the years and to switch to Docker
+    // 1 It is a long process. Big and heavy systems have been configured and tweaked over the years and to switch to Docker architecture
     // simply requires a lot of time which companies would rather spend on something else.
-    // 2 Maintaining. Docker containers are isolated and a big application is split up to run on many different containers. It can
+    // 2 Maintaining. In Docker architecture containers are isolated and a big application is split up to run on many different containers. It can
     // be difficult for companies to monitor what, when and where something happens.
 }
