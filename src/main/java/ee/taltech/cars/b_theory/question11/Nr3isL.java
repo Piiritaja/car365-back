@@ -11,7 +11,6 @@ public class Nr3isL {
     // replaceable with objects of its subclasses without breaking the application.
     // That requires the objects of subclasses to behave in the same way as the objects of superclass.
     //todo B Give an example. Write actual or pseudo code.
-
 }
 //todo Let's say we have a class Vehicle, that has name and engine.
 @Getter
