@@ -8,7 +8,7 @@ public class CI {
 
     //todo B
     // What makes integration continuous?
-    // Answer:
+    // Answer: It is done in small parts - small changes are regularly integrated
 
     //todo C
     // In the class we had 3 stages in our CI/CD process, tick [x] which ones stand for continuous integration
