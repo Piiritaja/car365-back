@@ -27,8 +27,9 @@ public class Docker {
 
     //todo E
     // Name and explain docker container drawback over virtual machine setup (java jar as system process and installed nginx)
-    // 1 Container uses the kernel of th host OS and has operating system dependencies.
+    // 1 Container uses the kernel of the host OS and has operating system dependencies.
     // Therefore, containers can differ from the underlying OS by dependency, but not by type.
+    // The hosts kernel limits the use of other operating systems.
 
     //todo F
     // Name and describe tools for docker architecture
