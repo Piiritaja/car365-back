@@ -1,4 +1,4 @@
-package b_theory.question11;
+package ee.taltech.cars.b_theory.question11;
 
 public class Nr3isL {
 

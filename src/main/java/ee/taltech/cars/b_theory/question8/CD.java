@@ -1,4 +1,4 @@
-package b_theory.question8;
+package ee.taltech.cars.b_theory.question8;
 
 public class CD {
 
