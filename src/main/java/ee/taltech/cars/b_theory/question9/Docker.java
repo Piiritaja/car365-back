@@ -33,8 +33,8 @@ public class Docker {
 
     //todo F
     // Name and describe tools for docker architecture
-    // 1
-    // 2
+    // 1 Docker compose. It's a tool for defining and running multi-container Docker applications.
+    // 2 Rancher. It's a container management platform built for organizations that deploy containers in production.
 
     //todo G
     // Name and explain why are companies slow in moving existing systems to docker architecture (do not explain why docker is bad)
