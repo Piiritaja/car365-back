@@ -2,11 +2,13 @@ package ee.taltech.cars.models;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@ActiveProfiles("test")
 class OwnerTest {
     private Owner singleCarOwner;
     private Owner multipleCarsOwner;
@@ -28,11 +30,6 @@ class OwnerTest {
 
     Listing getTestCar() {
         return Listing.builder().model("Ferrari").releaseYear(2020).build();
-    }
-
-    @Test
-    void getId() {
-        IdPatternTest.getId(singleCarOwner.getId());
     }
 
     @Test

@@ -2,8 +2,8 @@ package ee.taltech.cars.a_theory.question6.art;
 
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("paintings")
@@ -34,33 +34,30 @@ public class ArtCollector {
     // I keep all my paintings, never throw anything away. Just buy bigger house.
     // How much do you want for this system?
 
+    List<Painting> allPaintings = new ArrayList<>();
 
     @GetMapping
     public List<Painting> getAll() {
-        return List.of();
+        return allPaintings;
     }
 
-    @GetMapping("page")
-    public List<Painting> getPage(@RequestParam(defaultValue = "50") int countInPage) {
-        // return service.getPage(count);
-        return List.of();
+    @GetMapping("{id}")
+    public Painting getById(@PathVariable Long id) {
+        // return service.findById(id);
+        return new Painting();
     }
 
-    @GetMapping("catalog")
-    public List<List<Painting>> getCatalog(@RequestParam(defaultValue = "50") int countInPage) {
-        // return service.getCatalog(count);
-        return List.of(List.of());
+    @GetMapping("page/{pageNr}")
+    public List<Painting> getCatalog(@PathVariable int pageNr,
+                                     @RequestParam(defaultValue = "50") int countPerPage) {
+        // return service.getPage(pageNr, countPerPage);
+        return List.of();
     }
 
     @PostMapping
     public Painting postNewPainting(Painting painting) {
         // return service.postNewPainting(painting)
+        allPaintings.add(painting);
         return painting;
-    }
-
-    @GetMapping("{painting}")
-    public Map<String, String> getPaintingDetails(@PathVariable Painting painting) {
-        // return service.getPaintingDetails(painting);
-        return Map.of();
     }
 }

@@ -1,8 +1,7 @@
 package ee.taltech.cars.controller;
 
-import ee.taltech.cars.models.Listing;
 import ee.taltech.cars.models.Owner;
-import io.swagger.models.Response;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -10,16 +9,18 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+@ActiveProfiles("test")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
 class OwnerControllerTest {
@@ -47,7 +48,7 @@ class OwnerControllerTest {
         List<Owner> owners = exchange.getBody();
         Owner owner = owners.get(0);
         String name = owner.getFirstName();
-        String id = owner.getId();
+        UUID id = owner.getId();
         ResponseEntity<Owner> exchangeOwner = template.exchange("/user/" + id, HttpMethod.GET,
                 null, Owner.class);
         Owner resp = assertOK(exchangeOwner);
@@ -70,12 +71,12 @@ class OwnerControllerTest {
     }
 
     @Test
-    void updateUserTest() throws Exception {
+    void updateUserTest() {
         Owner owner = this.getMockOwner();
         ResponseEntity<Owner> exchange = template.exchange("/user", HttpMethod.POST, new HttpEntity<>(owner),
                 Owner.class);
         Owner posted = assertOK(exchange);
-        String id = posted.getId();
+        UUID id = posted.getId();
         owner.setFirstName("mrchangedName");
         owner.setLastName("mrChangedLastName");
         ResponseEntity<Owner> exchangeOwner = template.exchange("/user/" + id, HttpMethod.PUT,
@@ -83,16 +84,14 @@ class OwnerControllerTest {
         Owner updatedOwner = assertOK(exchangeOwner);
         assertEquals(owner.getFirstName(), updatedOwner.getFirstName());
         assertEquals(owner.getLastName(), updatedOwner.getLastName());
-        template.exchange("/user/" + updatedOwner.getId(), HttpMethod.DELETE, new HttpEntity<>(owner), Owner.class);
-        mvc.perform(MockMvcRequestBuilders.get("/user/" + updatedOwner.getId())
-                .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isNotFound());
     }
 
     private Owner getMockOwner() {
         return Owner.builder()
                 .firstName("toomas")
                 .lastName("tartust")
+                .email("thisemail@gmail.com")
+                .phone("5678420")
                 .listings(new ArrayList<>())
                 .build();
     }

@@ -7,9 +7,11 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.ActiveProfiles;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@ActiveProfiles("test")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class IndexControllerTest {
 
@@ -21,33 +23,5 @@ class IndexControllerTest {
         ResponseEntity<String> exchange = template.exchange("/", HttpMethod.GET, null, String.class);
         assertEquals(HttpStatus.OK, exchange.getStatusCode());
         assertEquals("Landing page.\n", exchange.getBody());
-    }
-
-    @Test
-    void signUpPageTest() {
-        ResponseEntity<String> exchange = template.exchange("/sign_up", HttpMethod.GET, null, String.class);
-        assertEquals(HttpStatus.OK, exchange.getStatusCode());
-        assertEquals("Sign up page", exchange.getBody());
-    }
-
-    @Test
-    void LogInPageTest() {
-        ResponseEntity<String> exchange = template.exchange("/log_in", HttpMethod.GET, null, String.class);
-        assertEquals(HttpStatus.OK, exchange.getStatusCode());
-        assertEquals("Login page", exchange.getBody());
-    }
-
-    @Test
-    void ContactPageTest() {
-        ResponseEntity<String> exchange = template.exchange("/contact", HttpMethod.GET, null, String.class);
-        assertEquals(HttpStatus.OK, exchange.getStatusCode());
-        assertEquals("Contact page", exchange.getBody());
-    }
-
-    @Test
-    void carPageTest() {
-        ResponseEntity<String> exchange = template.exchange("/car", HttpMethod.GET, null, String.class);
-        assertEquals(HttpStatus.OK, exchange.getStatusCode());
-        assertEquals("Cars page", exchange.getBody());
     }
 }

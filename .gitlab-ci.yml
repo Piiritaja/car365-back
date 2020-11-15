@@ -1,11 +1,36 @@
-image: gradle:6.3.0-jre14
-
 stages:
   - test
+  - build
+  - deploy
 
-java:
+test:
+  image: gradle:6.7.0-jdk11
   stage: test
   script:
     - gradle test
-  only: 
-    - merge_requests
+
+build car365:
+  image: docker:19.03.12
+  stage: build
+  script:
+    - docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+    - docker build -t $DOCKER_IMAGE .
+    - docker tag $DOCKER_IMAGE $DOCKER_USER/$DOCKER_IMAGE
+    - docker push $DOCKER_USER/$DOCKER_IMAGE
+  only:
+    - main
+    - develop
+deploy:
+  image: docker:19.03.12
+  stage: deploy
+  script:
+    - docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+    - docker pull $DOCKER_USER/$DOCKER_IMAGE
+    - docker stop $DOCKER_IMAGE
+    - docker container rm $DOCKER_IMAGE
+    - docker run -d -p 8080:8080 --name $DOCKER_IMAGE $DOCKER_USER/$DOCKER_IMAGE
+  only:
+    - main
+    - develop
+
+  

@@ -2,9 +2,11 @@ package ee.taltech.cars.models;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.test.context.ActiveProfiles;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@ActiveProfiles("test")
 class ListingTest {
     private Listing listing;
     private Owner owner;
@@ -26,12 +28,6 @@ class ListingTest {
                 .title(TITLE)
                 .build();
     }
-
-    @Test
-    void getId() {
-        IdPatternTest.getId(listing.getId());
-    }
-
     @Test
     void getTitle() {
         assertEquals(TITLE, listing.getTitle());

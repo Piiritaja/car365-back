@@ -1,5 +1,6 @@
 package ee.taltech.cars.controller;
 
+import ee.taltech.cars.dto.ParamsDto;
 import ee.taltech.cars.models.Listing;
 import ee.taltech.cars.service.FilterService;
 import ee.taltech.cars.service.ListingService;
@@ -8,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.UUID;
 
 @Api(value = "Listing Controller")
 @RestController
@@ -42,7 +43,7 @@ public class ListingController {
             @ApiResponse(code = 404, message = "Listing not found by given ID")
     })
     @GetMapping("{id}")
-    public Listing getById(@ApiParam(value = "ID of the listing to retrieve from database") @PathVariable String id) {
+    public Listing getById(@ApiParam(value = "ID of the listing to retrieve from database") @PathVariable UUID id) {
         return listingService.findById(id);
     }
 
@@ -56,7 +57,7 @@ public class ListingController {
     })
     @PutMapping("{id}")
     public Listing putById(@ApiParam(value = "Listing with new parameters") @RequestBody Listing listing,
-                           @ApiParam(value = "ID to update") @PathVariable String id) {
+                           @ApiParam(value = "ID to update") @PathVariable UUID id) {
         return listingService.update(listing, id);
     }
 
@@ -79,7 +80,7 @@ public class ListingController {
             @ApiResponse(code = 404, message = "Listing not found by given ID")
     })
     @DeleteMapping("{id}")
-    public void deleteListing(@ApiParam(value = "ID of the listing to delete") @PathVariable String id) {
+    public void deleteListing(@ApiParam(value = "ID of the listing to delete") @PathVariable UUID id) {
         listingService.delete(id);
     }
 
@@ -92,7 +93,7 @@ public class ListingController {
     })
     @GetMapping("count")
     public List<Listing> getNumberOfLatestListings(@ApiParam(value = "Number of listings to retrieve")
-                                                       @RequestParam(defaultValue = "10") int count) {
+                                                   @RequestParam(defaultValue = "10") int count) {
         return listingService.getLatestListings(count);
     }
 
@@ -133,7 +134,7 @@ public class ListingController {
             @ApiResponse(code = 200, message = "Received all parameters from database"),
     })
     @GetMapping("/params")
-    public String getParams() {
-        return listingService.getParameterValues().toString();
+    public ParamsDto getParams() {
+        return listingService.getParameterValues();
     }
 }
