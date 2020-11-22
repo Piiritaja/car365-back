@@ -13,7 +13,7 @@ import java.util.UUID;
 
 @Api(value = "Listing Controller")
 @RestController
-@RequestMapping("listings")
+@RequestMapping({"listings", "listings2"})
 public class ListingController {
 
     @Autowired
