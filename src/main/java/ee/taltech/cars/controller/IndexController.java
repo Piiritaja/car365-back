@@ -15,4 +15,14 @@ public class IndexController {
     public String getIndex() {
         return "Landing page.\n";
     }
+
+    @GetMapping("users")
+    public String user(){
+        return "User url";
+    }
+
+    @GetMapping("admin")
+    public String admin(){
+        return "Admin url";
+    }
 }
