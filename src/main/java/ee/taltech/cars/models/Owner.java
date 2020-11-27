@@ -1,5 +1,6 @@
 package ee.taltech.cars.models;
 
+import ee.taltech.cars.security.DbRole;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
@@ -26,12 +27,16 @@ public class Owner {
     private String lastName;
     @ApiModelProperty(value="Email address of owner")
     private String email;
+    @ApiModelProperty(value = "Password of user")
+    private String password;
     @ApiModelProperty(value="Phone number of owner")
     private String phone;
     @ApiModelProperty(value="Listings that the user has posted")
     @Singular
     @OneToMany
     private List<Listing> listings;
-
+    @Enumerated(EnumType.STRING)
+   @ApiModelProperty(value = "User role")
+    private DbRole role;
 
 }
