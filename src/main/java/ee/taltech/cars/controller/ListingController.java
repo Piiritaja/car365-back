@@ -47,6 +47,7 @@ public class ListingController {
         return listingService.findById(id);
     }
 
+    @Secured({Roles.USER, Roles.PREMIUM, Roles.ADMIN})
     @ApiOperation(value = "Update listing",
             notes = "Takes the listing and id and updates the listing that corresponds" +
                     " to the id to match the listing that is given as a parameter")
@@ -61,6 +62,7 @@ public class ListingController {
         return listingService.update(listing, id);
     }
 
+    @Secured({Roles.ADMIN, Roles.PREMIUM, Roles.USER})
     @ApiOperation(value = "Save new listing to database",
             notes = "Takes the listing and saves it to the database",
             response = Listing.class)

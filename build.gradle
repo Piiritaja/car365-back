@@ -29,18 +29,16 @@ sourceSets {
         resources {
             srcDir("src/main/resources")
         }
-        test {
-            java {
-                srcDir("src/test")
-            }
-            resources {
-                srcDir("src/test/resources")
-            }
+    }
+    test {
+        java {
+            srcDir("src/test")
+        }
+        resources {
+            srcDir("src/test/resources")
         }
     }
-
 }
-
 
 mainClassName = 'ee.taltech.cars.CarsApplication'
 
@@ -58,8 +56,12 @@ dependencies {
     runtime("com.h2database:h2:1.3.176")
     implementation('org.springframework.boot:spring-boot-starter-data-jpa')
     implementation('org.springframework.boot:spring-boot-starter-web')
+    implementation 'org.springframework.security:spring-security-test'
+    implementation('org.springframework.boot:spring-boot-starter-security')
     implementation('org.postgresql:postgresql')
     implementation 'org.json:json:20171018'
+
+    compile 'io.jsonwebtoken:jjwt:0.9.1'
 }
 
 
