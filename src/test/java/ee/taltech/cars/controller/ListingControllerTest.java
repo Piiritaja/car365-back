@@ -82,7 +82,7 @@ class ListingControllerTest {
         assertEquals(listing.getPrice(), changedListing.getPrice());
         assertEquals(listing.getColor(), changedListing.getColor());
     }
-
+    /*
     @Disabled
     @Test
     void postAndDeleteListingTest() throws Exception {
@@ -107,6 +107,8 @@ class ListingControllerTest {
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
     }
+
+     */
 
     @Test
     void queryBrandsTest() {
