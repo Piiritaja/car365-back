@@ -39,7 +39,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter { //WebSecurity
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .csrf().disable() //cross site request forgery, it's a must if we use cookies
+                .csrf().disable()
                 .headers().httpStrictTransportSecurity().disable()
                 .and()
                 .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
@@ -56,7 +56,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter { //WebSecurity
                 .anyRequest().fullyAuthenticated()
                 .and()
                 .formLogin()
-        ; //if this is not disabled your https frontend must have https (not http) on backend;
+        ;
     }
 
     /**
