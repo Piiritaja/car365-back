@@ -2,6 +2,7 @@ package ee.taltech.cars.controller;
 
 import ee.taltech.cars.dto.LoginOwnerDto;
 import ee.taltech.cars.dto.LoginOwnerResponse;
+import ee.taltech.cars.dto.OwnerDto;
 import ee.taltech.cars.dto.RegisterOwnerDto;
 import ee.taltech.cars.models.Owner;
 import ee.taltech.cars.security.Roles;
@@ -33,8 +34,8 @@ public class OwnerController {
             @ApiResponse(code = 200, message = "Users received"),
     })
     @GetMapping
-    public List<Owner> getUsers() {
-        return ownerService.findAll();
+    public List<OwnerDto> getUsers() {
+        return ownerService.findAllDto();
     }
 
     @ApiOperation(value = "Get user by ID",
@@ -44,7 +45,7 @@ public class OwnerController {
             @ApiResponse(code =  404, message = "Did not find user with given ID")
     })
     @GetMapping("{id}")
-    public Owner getUser(@ApiParam(value = "ID of the user to retrieve", required = false) @PathVariable UUID id) {
+    public OwnerDto getUser(@ApiParam(value = "ID of the user to retrieve", required = false) @PathVariable UUID id) {
         return ownerService.findById(id);
     }
 

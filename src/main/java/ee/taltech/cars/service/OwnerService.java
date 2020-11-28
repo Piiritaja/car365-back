@@ -2,6 +2,7 @@ package ee.taltech.cars.service;
 
 import ee.taltech.cars.dto.LoginOwnerDto;
 import ee.taltech.cars.dto.LoginOwnerResponse;
+import ee.taltech.cars.dto.OwnerDto;
 import ee.taltech.cars.dto.RegisterOwnerDto;
 import ee.taltech.cars.exception.InvalidUserException;
 import ee.taltech.cars.exception.LoginException;
@@ -11,6 +12,7 @@ import ee.taltech.cars.repository.OwnerRepository;
 import ee.taltech.cars.security.DbRole;
 import ee.taltech.cars.security.JwtTokenProvider;
 import ee.taltech.cars.security.MyUser;
+import ee.taltech.cars.security.UserSessionHolder;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -22,6 +24,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import static org.apache.logging.log4j.util.Strings.isBlank;
 
@@ -35,13 +38,37 @@ public class OwnerService {
     private final AuthenticationManager authenticationManager;
     private final JwtTokenProvider jwtTokenProvider;
 
+    public List<OwnerDto> findAllDto() {
+        return userRepository.findAll()
+                .stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
+    }
     public List<Owner> findAll() {
-        return userRepository.findAll();
+        return userRepository.findAll()
+                ;
     }
 
-    public Owner findById(UUID id) {
+    public Owner findFullById(UUID id) {
         return userRepository.findById(id)
                 .orElseThrow(UserNotFoundException::new);
+    }
+
+    public OwnerDto findById(UUID id) {
+        return userRepository.findById(id)
+                .map(this::convertToDto)
+                .orElseThrow(UserNotFoundException::new);
+    }
+
+    private OwnerDto convertToDto(Owner owner) {
+        return OwnerDto.builder()
+                .id(owner.getId())
+                .firstName(owner.getFirstName())
+                .lastName(owner.getLastName())
+                .email(owner.getEmail())
+                .phone(owner.getPhone())
+                .listings(owner.getListings())
+                .build();
     }
 
     public Owner save(Owner owner) {
@@ -73,7 +100,7 @@ public class OwnerService {
                 owner.getLastName() == null || owner.getLastName().equals("")) {
             throw new InvalidUserException();
         }
-        Owner ownerDb = findById(id);
+        Owner ownerDb = findFullById(id);
         ownerDb = Owner.builder()
                 .id(ownerDb.getId())
                 .firstName(owner.getFirstName())
@@ -86,7 +113,7 @@ public class OwnerService {
     }
 
     public void delete(UUID id) {
-        userRepository.delete(findById(id));
+        userRepository.delete(findFullById(id));
     }
 
     public LoginOwnerResponse login(LoginOwnerDto loginDto) {
@@ -99,6 +126,7 @@ public class OwnerService {
         Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDto.getEmail(), loginDto.getPassword()));
         MyUser myUser = (MyUser) authenticate.getPrincipal();
         String token = jwtTokenProvider.generateToken(myUser);
+        UserSessionHolder.getLoggedInUser();
         return LoginOwnerResponse.builder()
                 .id(myUser.getId())
                 .email(myUser.getUsername())

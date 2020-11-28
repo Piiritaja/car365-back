@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 import java.util.function.Function;
 
 /**
@@ -29,16 +30,16 @@ public class JwtTokenProvider {
         return getClaimFromToken(token, Claims::getExpiration);
     }
 
-    public String generateToken(UserDetails userDetails) {
-        return doGenerateToken(new HashMap<>(), userDetails.getUsername());
+    public String generateToken(MyUser userDetails) {
+        return doGenerateToken(new HashMap<>(), userDetails.getUsername(), userDetails.getId());
     }
 
     public boolean validateToken(String token, UserDetails userDetails) {
         return getUsernameFromToken(token).equals(userDetails.getUsername()) && !isTokenExpired(token);
     }
 
-    public String createTokenForTests(String username) {
-        return doGenerateToken(new HashMap<>(), username);
+    public String createTokenForTests(String username, UUID id) {
+        return doGenerateToken(new HashMap<>(), username, id);
     }
 
     private <T> T getClaimFromToken(String token, Function<Claims, T> claimsResolver) {
@@ -54,9 +55,11 @@ public class JwtTokenProvider {
         return getExpirationDateFromToken(token).before(new Date());
     }
 
-    private String doGenerateToken(Map<String, Object> claims, String subject) {
+    private String doGenerateToken(Map<String, Object> claims, String subject, UUID id) {
+        String idStr = id.toString();
         long currentTimeMs = System.currentTimeMillis();
         return Jwts.builder().setClaims(claims).setSubject(subject)
+                .setId(idStr)
                 .setIssuedAt(new Date(currentTimeMs))
                 .setExpiration(new Date(currentTimeMs + jwtConfig.getDurationMillis()))
                 .signWith(SignatureAlgorithm.HS512, jwtConfig.getSecret())
