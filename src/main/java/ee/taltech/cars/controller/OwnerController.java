@@ -49,7 +49,7 @@ public class OwnerController {
         return ownerService.findById(id);
     }
 
-    @Secured({Roles.PREMIUM, Roles.USER, Roles.ADMIN})
+    @Secured(Roles.ADMIN)
     @ApiOperation(value = "Save new user",
             notes = "Saves new user (owner) to database")
     @ApiResponses(value = {

@@ -28,7 +28,7 @@ public class ListingService {
     }
 
     public Listing save(Listing listing) {
-        if (UserSessionHolder.validateAccessByID(findById(listing.getId()).getOwner())) {
+        if (UserSessionHolder.validateAccessByID(listing.getOwner())) {
             return listingRepository.save(listing);
         } else throw new AccessForbiddenException();
     }
