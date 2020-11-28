@@ -2,10 +2,13 @@ package ee.taltech.cars.controller;
 
 import ee.taltech.cars.dto.ParamsDto;
 import ee.taltech.cars.models.Listing;
+//import ee.taltech.cars.security.Roles;
+import ee.taltech.cars.security.Roles;
 import ee.taltech.cars.service.FilterService;
 import ee.taltech.cars.service.ListingService;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -47,6 +50,7 @@ public class ListingController {
         return listingService.findById(id);
     }
 
+    @Secured({Roles.USER, Roles.PREMIUM, Roles.ADMIN})
     @ApiOperation(value = "Update listing",
             notes = "Takes the listing and id and updates the listing that corresponds" +
                     " to the id to match the listing that is given as a parameter")
@@ -61,6 +65,7 @@ public class ListingController {
         return listingService.update(listing, id);
     }
 
+    @Secured({Roles.ADMIN, Roles.PREMIUM, Roles.USER})
     @ApiOperation(value = "Save new listing to database",
             notes = "Takes the listing and saves it to the database",
             response = Listing.class)
@@ -72,6 +77,7 @@ public class ListingController {
         return listingService.save(listing);
     }
 
+    @Secured({Roles.USER, Roles.PREMIUM, Roles.ADMIN})
     @ApiOperation(value = "Delete listing by ID",
             notes = "Deletes the listing with given ID from database")
     @ApiResponses(value = {

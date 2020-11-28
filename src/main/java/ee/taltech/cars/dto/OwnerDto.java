@@ -1,5 +1,6 @@
-package ee.taltech.cars.models;
+package ee.taltech.cars.dto;
 
+import ee.taltech.cars.models.Listing;
 import ee.taltech.cars.security.DbRole;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -16,7 +17,7 @@ import java.util.UUID;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-public class Owner {
+public class OwnerDto {
     @ApiModelProperty(value="ID of the user (owner)")
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -28,15 +29,10 @@ public class Owner {
     @ApiModelProperty(value="Email address of owner")
     private String email;
     @ApiModelProperty(value = "Password of user")
-    private String password;
-    @ApiModelProperty(value="Phone number of owner")
     private String phone;
     @ApiModelProperty(value="Listings that the user has posted")
     @Singular
     @OneToMany
     private List<Listing> listings;
-    @Enumerated(EnumType.STRING)
-   @ApiModelProperty(value = "User role")
-    private DbRole role;
 
 }
