@@ -26,6 +26,10 @@ public class JwtTokenProvider {
         return getClaimFromToken(token, Claims::getSubject);
     }
 
+    public String getIdFromToken(String token) {
+        return getClaimFromToken(token, Claims::getId);
+    }
+
     public Date getExpirationDateFromToken(String token) {
         return getClaimFromToken(token, Claims::getExpiration);
     }
@@ -34,8 +38,10 @@ public class JwtTokenProvider {
         return doGenerateToken(new HashMap<>(), userDetails.getUsername(), userDetails.getId());
     }
 
-    public boolean validateToken(String token, UserDetails userDetails) {
-        return getUsernameFromToken(token).equals(userDetails.getUsername()) && !isTokenExpired(token);
+    public boolean validateToken(String token, MyUser userDetails) {
+        return getUsernameFromToken(token).equals(userDetails.getUsername())
+                && getIdFromToken(token).equals(userDetails.getId().toString())
+                && !isTokenExpired(token);
     }
 
     public String createTokenForTests(String username, UUID id) {

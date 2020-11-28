@@ -4,15 +4,13 @@ import ee.taltech.cars.dto.LoginOwnerDto;
 import ee.taltech.cars.dto.LoginOwnerResponse;
 import ee.taltech.cars.dto.OwnerDto;
 import ee.taltech.cars.dto.RegisterOwnerDto;
+import ee.taltech.cars.exception.AccessForbiddenException;
 import ee.taltech.cars.exception.InvalidUserException;
 import ee.taltech.cars.exception.LoginException;
 import ee.taltech.cars.exception.UserNotFoundException;
 import ee.taltech.cars.models.Owner;
 import ee.taltech.cars.repository.OwnerRepository;
-import ee.taltech.cars.security.DbRole;
-import ee.taltech.cars.security.JwtTokenProvider;
-import ee.taltech.cars.security.MyUser;
-import ee.taltech.cars.security.UserSessionHolder;
+import ee.taltech.cars.security.*;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -44,14 +42,18 @@ public class OwnerService {
                 .map(this::convertToDto)
                 .collect(Collectors.toList());
     }
+
     public List<Owner> findAll() {
-        return userRepository.findAll()
-                ;
+        return userRepository.findAll();
     }
 
     public Owner findFullById(UUID id) {
-        return userRepository.findById(id)
-                .orElseThrow(UserNotFoundException::new);
+        if (UserSessionHolder.validateAccessByID(id)) {
+            return userRepository.findById(id)
+                    .orElseThrow(UserNotFoundException::new);
+        } else {
+            throw new AccessForbiddenException();
+        }
     }
 
     public OwnerDto findById(UUID id) {
@@ -95,25 +97,32 @@ public class OwnerService {
         return userRepository.save(owner1);
     }
 
-    public Owner update(Owner owner, UUID id) {
+    public Owner update(OwnerDto owner, UUID id) {
         if (owner.getFirstName() == null || owner.getFirstName().equals("") ||
                 owner.getLastName() == null || owner.getLastName().equals("")) {
             throw new InvalidUserException();
         }
-        Owner ownerDb = findFullById(id);
-        ownerDb = Owner.builder()
-                .id(ownerDb.getId())
-                .firstName(owner.getFirstName())
-                .lastName(owner.getLastName())
-                .email(owner.getEmail())
-                .phone(owner.getPhone())
-                .listings(owner.getListings())
-                .build();
-        return userRepository.save(ownerDb);
+        if (UserSessionHolder.validateAccessByID(id)) {
+            Owner ownerDb = findFullById(id);
+            ownerDb = Owner.builder()
+                    .id(ownerDb.getId())
+                    .firstName(owner.getFirstName())
+                    .lastName(owner.getLastName())
+                    .email(owner.getEmail())
+                    .phone(owner.getPhone())
+                    .listings(owner.getListings())
+                    .password(ownerDb.getPassword())
+                    .role(ownerDb.getRole())
+                    .build();
+            return userRepository.save(ownerDb);
+        } else
+            throw new AccessForbiddenException();
     }
 
     public void delete(UUID id) {
-        userRepository.delete(findFullById(id));
+        if (UserSessionHolder.validateAccessByID(id)) {
+            userRepository.delete(findFullById(id));
+        }
     }
 
     public LoginOwnerResponse login(LoginOwnerDto loginDto) {

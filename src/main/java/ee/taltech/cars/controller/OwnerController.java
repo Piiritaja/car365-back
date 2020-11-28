@@ -70,10 +70,11 @@ public class OwnerController {
             @ApiResponse(code = 404, message = "ID not found in database")
     })
     @PutMapping("{id}")
-    public Owner updateUser(@ApiParam(value = "User to be saved") @RequestBody Owner owner,
+    public Owner updateUser(@ApiParam(value = "User to be saved") @RequestBody OwnerDto owner,
                             @ApiParam(value = "ID to which the new user is assigned") @PathVariable UUID id) {
         return ownerService.update(owner, id);
     }
+
 
     @Secured(Roles.ADMIN)
     @ApiOperation(value = "Delete user by ID",

@@ -1,9 +1,11 @@
 package ee.taltech.cars.service;
 
 import ee.taltech.cars.dto.ParamsDto;
+import ee.taltech.cars.exception.AccessForbiddenException;
 import ee.taltech.cars.exception.ListingNotFoundException;
 import ee.taltech.cars.models.Listing;
 import ee.taltech.cars.repository.ListingRepository;
+import ee.taltech.cars.security.UserSessionHolder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -26,36 +28,42 @@ public class ListingService {
     }
 
     public Listing save(Listing listing) {
-        return listingRepository.save(listing);
+        if (UserSessionHolder.validateAccessByID(findById(listing.getId()).getOwner())) {
+            return listingRepository.save(listing);
+        } else throw new AccessForbiddenException();
     }
 
     public void delete(UUID id) {
-        listingRepository.delete(findById(id));
+        if (UserSessionHolder.validateAccessByID(findById(id).getOwner())) {
+            listingRepository.delete(findById(id));
+        }
     }
 
     public Listing update(Listing listing, UUID id) {
-        Listing dbListing = findById(id);
-        dbListing = new Listing(dbListing.getId(),
-                listing.getTitle(),
-                listing.getDescription(),
-                listing.getStatus(),
-                listing.getOwner(),
-                listing.getPrice(),
-                listing.getLocation(),
-                listing.getBodyType(),
-                listing.getBrand(),
-                listing.getModel(),
-                listing.getColor(),
-                listing.getGearboxType(),
-                listing.getFuelType(),
-                listing.getDriveType(),
-                listing.getEnginePower(),
-                listing.getMileage(),
-                listing.getReleaseYear(),
-                listing.getEngineSize(),
-                listing.getTime(),
-                listing.getImages());
-        return listingRepository.save(dbListing);
+        if (UserSessionHolder.validateAccessByID(findById(id).getOwner())) {
+            Listing dbListing = findById(id);
+            dbListing = new Listing(dbListing.getId(),
+                    listing.getTitle(),
+                    listing.getDescription(),
+                    listing.getStatus(),
+                    listing.getOwner(),
+                    listing.getPrice(),
+                    listing.getLocation(),
+                    listing.getBodyType(),
+                    listing.getBrand(),
+                    listing.getModel(),
+                    listing.getColor(),
+                    listing.getGearboxType(),
+                    listing.getFuelType(),
+                    listing.getDriveType(),
+                    listing.getEnginePower(),
+                    listing.getMileage(),
+                    listing.getReleaseYear(),
+                    listing.getEngineSize(),
+                    listing.getTime(),
+                    listing.getImages());
+            return listingRepository.save(dbListing);
+        } return null;
     }
 
     public List<Listing> getLatestListings(int count) {

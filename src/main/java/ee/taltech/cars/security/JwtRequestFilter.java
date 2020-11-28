@@ -45,7 +45,11 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             return;
         }
         if (SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails userDetails = myUserDetailsService.loadUserByUsername(username);
+            MyUser userDetails = myUserDetailsService.loadUserByUsername(username);
+            System.out.println(userDetails.getId());
+            System.out.println(userDetails.getDbRole());
+            System.out.println(userDetails.getFirstName());
+
             if (jwtTokenProvider.validateToken(jwtToken, userDetails)) {
                 UsernamePasswordAuthenticationToken authToken =
                         new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
@@ -69,7 +73,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         return null;
     }
 
-    private String getToken(HttpServletRequest request) {
+    public String getToken(HttpServletRequest request) {
         final String requestTokenHeader = request.getHeader(AUTHORIZATION);
         if (requestTokenHeader == null || !requestTokenHeader.startsWith(BEARER_)) {
             return null;

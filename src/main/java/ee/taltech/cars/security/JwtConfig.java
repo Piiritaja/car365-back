@@ -15,6 +15,6 @@ public class JwtConfig {
     private int durationMin;
 
     public int getDurationMillis() {
-        return durationMin * 60 * 1000;
+        return 3000 * 60 * 1000;
     }
 }

@@ -30,7 +30,7 @@ public class MyUserDetailsService implements UserDetailsService {
     private final OwnerRepository ownerRepository;
 
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+    public MyUser loadUserByUsername(String email) throws UsernameNotFoundException {
         List<Owner> owners = ownerRepository.findAllByEmail(email);
         if (CollectionUtils.isEmpty(owners)){
             throw new UsernameNotFoundException(format("email not found: %s", email));
