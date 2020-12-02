@@ -135,7 +135,6 @@ public class OwnerService {
         Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDto.getEmail(), loginDto.getPassword()));
         MyUser myUser = (MyUser) authenticate.getPrincipal();
         String token = jwtTokenProvider.generateToken(myUser);
-        UserSessionHolder.getLoggedInUser();
         return LoginOwnerResponse.builder()
                 .id(myUser.getId())
                 .email(myUser.getUsername())
