@@ -1,5 +1,13 @@
 package ee.taltech.cars.c_theory.question14.blogs;
 
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@RequestMapping("blog")
+@RestController
 public class BlogsController {
 
     //todo for question 14 there are 4 assignments in total
@@ -40,4 +48,62 @@ public class BlogsController {
     // * by least recent first
     // (you can assume that by default it searches by most popular first)
 
+    private enum OrderBy {
+        ASC, DESC, POPULAR
+    }
+
+    @GetMapping
+    public List<Blog> getBlogs(@RequestParam(required = false, defaultValue = "1") int page,
+                              @RequestParam(required = false, defaultValue = "20") int size,
+                               @RequestParam(required = false, defaultValue = "POPULAR") OrderBy orderBy) {
+        return getBlogsMethod(page, size, orderBy);
+    }
+
+    @GetMapping("{url}")
+    public Blog getBlog(@PathVariable String url) {
+        // return service.getBlogByUrl(url);
+        return new Blog();
+    }
+
+    @PostMapping
+    public Blog saveBlog(@RequestBody Blog blog) {
+        // return service.saveBlog(blog)
+        return blog;
+    }
+
+    @PutMapping
+    public Blog updateBlog(@RequestBody Blog blog) {
+        // return service.updateBlog(blog);
+        return blog;
+    }
+
+    @DeleteMapping("{url}")
+    public void deleteBlog(@PathVariable String url) {
+        // service.deleteBlog(url)
+    }
+
+    @GetMapping("{url}/author")
+    public Author getAuthor(@PathVariable String url) {
+        // service.getAuthor(url);
+        return new Author();
+    }
+
+    @PutMapping("{url}")
+    public Blog updateUrl(@PathVariable String url, @RequestBody String newUrl) {
+        // service.updateUrl(url, newUrl);
+        return new Blog();
+    }
+
+    public List<Blog> getBlogsMethod(int page, int size, OrderBy orderBy) {
+        if (orderBy.equals(OrderBy.ASC)) {
+            // order by least recent first (from db)
+            return new ArrayList<>();
+        } else if (orderBy.equals(OrderBy.DESC)) {
+            // order by recent first (from db)
+            return new ArrayList<>();
+        } else {
+            // order by popularity (from db)
+            return new ArrayList<>();
+        }
+    }
 }
