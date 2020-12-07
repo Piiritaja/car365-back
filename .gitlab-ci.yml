@@ -56,7 +56,7 @@ deploy_dev car365-back:
     - dev
   script:
     - docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
-      - docker pull $DOCKER_USER/car365-back_dev
-      - docker stop car_back_dev
-      - docker container rm car_back_dev
-      - docker run -d -p 8080:8080 --name car_back_dev $DOCKER_USER/car365-back_dev
+    - docker pull $DOCKER_USER/car365-back_dev
+    - docker stop car_back_dev
+    - docker container rm car_back_dev
+    - docker run -d -p 8080:8080 --name car_back_dev $DOCKER_USER/car365-back_dev
