@@ -1,7 +1,9 @@
 stages:
   - test
-  - build
-  - deploy
+  - build_prod
+  - deploy_prod
+  - build_dev
+  - deploy_dev
 
 test:
   image: gradle:6.7.0-jdk11
@@ -9,9 +11,11 @@ test:
   script:
     - gradle test
 
-build car365:
+build_prod car365-back:
   image: docker:19.03.12
-  stage: build
+  stage: build_prod
+  tags:
+    - prod
   script:
     - docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
     - docker build -t $DOCKER_IMAGE .
@@ -19,10 +23,12 @@ build car365:
     - docker push $DOCKER_USER/$DOCKER_IMAGE
   only:
     - main
-    - develop
-deploy:
+
+deploy_prod car365-back:
   image: docker:19.03.12
-  stage: deploy
+  stage: deploy_prod
+  tags:
+    - prod
   script:
     - docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
     - docker pull $DOCKER_USER/$DOCKER_IMAGE
@@ -31,4 +37,30 @@ deploy:
     - docker run -d -p 8080:8080 --name $DOCKER_IMAGE $DOCKER_USER/$DOCKER_IMAGE
   only:
     - main
-  
+
+build_dev car365-back:
+  image: docker:19.03.12
+  stage: build_dev
+  tags:
+    - dev
+  script:
+    - docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+    - docker build -t $DOCKER_IMAGE .
+    - docker tag $DOCKER_IMAGE $DOCKER_USER/car365-back_dev
+    - docker push $DOCKER_USER/car365-back_dev
+  only:
+    - develop
+
+deploy_dev car365-back:
+  image: docker:19.03.12
+  stage: deploy_dev
+  tags:
+    - dev
+  script:
+    - docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+    - docker pull $DOCKER_USER/car365-back_dev
+    - docker stop car_back_dev
+    - docker container rm car_back_dev
+    - docker run -d -p 8080:8080 --name car_back_dev $DOCKER_USER/car365-back_dev
+  only:
+    - develop
