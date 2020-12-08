@@ -50,6 +50,19 @@ public class ListingController {
         return listingService.findById(id);
     }
 
+    @ApiOperation(value = "Gets list of listings by Owner's ID",
+            notes = "Returns the list of listings by Owner's ID",
+            response = List.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Listing received"),
+            @ApiResponse(code = 400, message = "Invalid ID given"),
+            @ApiResponse(code = 404, message = "Owner not found by given ID")
+    })
+    @GetMapping("/owner/{id}")
+    public List<Listing> getByOwner(@ApiParam(value = "ID of the owner to retrieve from database") @PathVariable UUID id) {
+        return listingService.findByOwner(id);
+    }
+
     @Secured({Roles.USER, Roles.PREMIUM, Roles.ADMIN})
     @ApiOperation(value = "Update listing",
             notes = "Takes the listing and id and updates the listing that corresponds" +

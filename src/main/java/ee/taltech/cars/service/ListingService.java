@@ -27,6 +27,10 @@ public class ListingService {
         return listingRepository.findById(id).orElseThrow(ListingNotFoundException::new);
     }
 
+    public List<Listing> findByOwner(UUID id) {
+        return listingRepository.findByOwner(id);
+    }
+
     public Listing save(Listing listing) {
         if (UserSessionHolder.validateAccessByID(listing.getOwner())) {
             return listingRepository.save(listing);
