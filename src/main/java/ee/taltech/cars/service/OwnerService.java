@@ -31,7 +31,7 @@ import static org.apache.logging.log4j.util.Strings.isBlank;
 public class OwnerService {
 
     @Autowired
-    private OwnerRepository userRepository;
+    private final OwnerRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
     private final JwtTokenProvider jwtTokenProvider;
@@ -69,7 +69,7 @@ public class OwnerService {
                 .lastName(owner.getLastName())
                 .email(owner.getEmail())
                 .phone(owner.getPhone())
-                .listings(owner.getListings())
+                .bookmarks(owner.getBookmarks())
                 .build();
     }
 
@@ -110,7 +110,7 @@ public class OwnerService {
                     .lastName(owner.getLastName())
                     .email(owner.getEmail())
                     .phone(owner.getPhone())
-                    .listings(owner.getListings())
+                    .bookmarks(owner.getBookmarks())
                     .password(ownerDb.getPassword())
                     .role(ownerDb.getRole())
                     .build();

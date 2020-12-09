@@ -2,8 +2,8 @@ package ee.taltech.cars.controller;
 
 import ee.taltech.cars.dto.ParamsDto;
 import ee.taltech.cars.models.Listing;
-//import ee.taltech.cars.security.Roles;
 import ee.taltech.cars.security.Roles;
+import ee.taltech.cars.service.BookmarkService;
 import ee.taltech.cars.service.FilterService;
 import ee.taltech.cars.service.ListingService;
 import io.swagger.annotations.*;
@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -24,6 +25,9 @@ public class ListingController {
 
     @Autowired
     private FilterService filterService;
+
+    @Autowired
+    private BookmarkService bookmarkService;
 
     @ApiOperation(value = "Gets all listings",
             notes = "Returns all listings that are found in database",
@@ -50,17 +54,22 @@ public class ListingController {
         return listingService.findById(id);
     }
 
+    @Secured({Roles.USER, Roles.PREMIUM, Roles.ADMIN})
     @ApiOperation(value = "Gets list of listings by Owner's ID",
             notes = "Returns the list of listings by Owner's ID",
             response = List.class)
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Listing received"),
-            @ApiResponse(code = 400, message = "Invalid ID given"),
+            @ApiResponse(code = 200, message = "Listings received"),
             @ApiResponse(code = 404, message = "Owner not found by given ID")
     })
-    @GetMapping("/owner/{id}")
-    public List<Listing> getByOwner(@ApiParam(value = "ID of the owner to retrieve from database") @PathVariable UUID id) {
-        return listingService.findByOwner(id);
+    @GetMapping("/owner/{userId}")
+    public List<Listing> getByUser(@ApiParam(value = "ID of the owner") @PathVariable UUID userId,
+                                   @RequestParam(defaultValue = "false", required = false) boolean favorites) {
+        if (favorites) {
+            return (bookmarkService.getUser(userId).isEmpty())
+                    ? new ArrayList<>() : bookmarkService.getUser(userId).get().getBookmarks();
+        }
+        return listingService.findByOwner(userId);
     }
 
     @Secured({Roles.USER, Roles.PREMIUM, Roles.ADMIN})

@@ -1,7 +1,6 @@
 package ee.taltech.cars.dto;
 
 import ee.taltech.cars.models.Listing;
-import ee.taltech.cars.security.DbRole;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
@@ -33,6 +32,5 @@ public class OwnerDto {
     @ApiModelProperty(value="Listings that the user has posted")
     @Singular
     @OneToMany
-    private List<Listing> listings;
-
+    private List<Listing> bookmarks;
 }
