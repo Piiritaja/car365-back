@@ -1,5 +1,12 @@
 package ee.taltech.cars.c_theory.question14.chairs;
 
+
+import org.springframework.web.bind.annotation.*;
+import java.util.ArrayList;
+import java.util.List;
+
+@RequestMapping("chair")
+@RestController
 public class ChairsController {
 
     //todo for question 14 there are 4 assignments in total
@@ -41,4 +48,63 @@ public class ChairsController {
     // * by highest priced first
     // (you can assume that by default it searches most popular first)
 
+    @GetMapping
+    public List<Chair> getChairs(@RequestParam(required = false) String chairType,
+                                 @RequestParam(required = false) boolean inStock,
+                                 @RequestParam(required = false, defaultValue = "MOST_POPULAR") Order order) {
+        return getSortedChairs(order);
+    }
+
+    @GetMapping("{id}")
+    public Chair getChairById(@PathVariable String id) {
+        return new Chair();
+    }
+
+    @PostMapping
+    public Chair postChair(@RequestBody Chair chair) {
+        return new Chair();
+    }
+
+    @PutMapping("{id}")
+    public Chair updateChairById(@RequestBody Chair chair,
+                         @PathVariable String id) {
+        // service.updateChair(id, chair)
+        return chair;
+    }
+
+    @DeleteMapping("{id}")
+    public void deleteChair(@PathVariable String id) {
+        // service.deleteChair(id);
+    }
+
+    @GetMapping("{id}/designer")
+    public Designer getDesigner(@PathVariable String id) {
+        // service.getDesigner(id);
+        return new Designer();
+    }
+
+    @PutMapping("{id}")
+    public Chair updateChairName(@PathVariable String id, @RequestBody String newName) {
+        // service.updateChairName(id, newName);
+        return new Chair();
+    }
+
+    public List<Chair> getSortedChairs(Order order) {
+        if (order.equals(Order.MOST_POPULAR)) {
+            // sort by most popular first
+            return new ArrayList<>();
+        } else if (order.equals(Order.CHEAPER_FIRST)) {
+            // sort cheaper chairs first
+            return new ArrayList<>();
+        } else {
+            // sort more expensive first
+            return new ArrayList<>();
+        }
+    }
+
+    private enum Order {
+        MOST_POPULAR,
+        CHEAPER_FIRST,
+        EXPENSIVE_FIRST
+    }
 }
