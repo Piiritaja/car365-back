@@ -50,6 +50,7 @@ public class ListingService {
                     listing.getTitle(),
                     listing.getDescription(),
                     listing.getStatus(),
+                    listing.isPremium(),
                     listing.getOwner(),
                     listing.getPrice(),
                     listing.getLocation(),
