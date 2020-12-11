@@ -10,6 +10,7 @@ import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.UUID;
@@ -142,5 +143,15 @@ public class ListingController {
     @GetMapping("/params")
     public ParamsDto getParams() {
         return listingService.getParameterValues();
+    }
+
+    @ApiOperation(value = "Post listing image to server",
+            notes = "Images are uploaded to the server under path /home/car365/storage")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Image uploaded successfully"),
+    })
+    @PostMapping("image")
+    public void postListingImage(@RequestParam("file") MultipartFile file) {
+        listingService.postListingImage(file);
     }
 }
