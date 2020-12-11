@@ -32,8 +32,7 @@ public class Owner {
     @ApiModelProperty(value="Phone number of owner")
     private String phone;
     @ApiModelProperty(value="Listings that the user has bookmarked")
-    @Singular
-    @OneToMany
+    @ManyToMany
     private List<Listing> bookmarks;
     @Enumerated(EnumType.STRING)
     @ApiModelProperty(value = "User role")

@@ -6,6 +6,8 @@ import ee.taltech.cars.dto.OwnerDto;
 import ee.taltech.cars.dto.RegisterOwnerDto;
 import ee.taltech.cars.models.Owner;
 import ee.taltech.cars.security.Roles;
+import ee.taltech.cars.service.BookmarkService;
+import ee.taltech.cars.service.ListingService;
 import ee.taltech.cars.service.OwnerService;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +27,12 @@ public class OwnerController {
 
     @Autowired
     private OwnerService ownerService;
+
+    @Autowired
+    private BookmarkService bookmarkService;
+
+    @Autowired
+    private ListingService listingService;
 
     @ApiOperation(value = "Get all users",
             notes = "Returns all users (owners) that are found in database",
@@ -71,7 +79,11 @@ public class OwnerController {
     })
     @PutMapping("{id}")
     public Owner updateUser(@ApiParam(value = "User to be saved") @RequestBody OwnerDto owner,
-                            @ApiParam(value = "ID to which the new user is assigned") @PathVariable UUID id) {
+                            @ApiParam(value = "ID to which the new user is assigned") @PathVariable UUID id,
+                            @RequestParam(required = false) UUID bookmark) {
+        if (bookmark != null) {
+            bookmarkService.bookmarkListing(owner, listingService.findById(bookmark));
+        }
         return ownerService.update(owner, id);
     }
 
