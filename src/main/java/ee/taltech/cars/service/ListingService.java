@@ -6,10 +6,15 @@ import ee.taltech.cars.exception.ListingNotFoundException;
 import ee.taltech.cars.models.Listing;
 import ee.taltech.cars.repository.ListingRepository;
 import ee.taltech.cars.security.UserSessionHolder;
+import org.apache.tomcat.util.http.fileupload.impl.FileUploadIOException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -63,7 +68,8 @@ public class ListingService {
                     listing.getTime(),
                     listing.getImages());
             return listingRepository.save(dbListing);
-        } return null;
+        }
+        return null;
     }
 
     public List<Listing> getLatestListings(int count) {
@@ -105,5 +111,20 @@ public class ListingService {
                 .stream()
                 .map(Listing::getBrand)
                 .collect(Collectors.toList());
+    }
+
+    public void postListingImage(MultipartFile file) {
+        final String uploadPath = "/home/car365/storage";
+        File convertedFile = new File(uploadPath + "/" + file.getOriginalFilename());
+        try {
+            convertedFile.createNewFile();
+            FileOutputStream fout = new FileOutputStream(convertedFile);
+            fout.write(file.getBytes());
+            fout.close();
+        } catch (IOException ignore) {
+            System.out.println("Cannot upload file");
+            return;
+        }
+        System.out.println("File upload successful");
     }
 }
