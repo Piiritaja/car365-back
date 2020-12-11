@@ -19,10 +19,6 @@ public class UserSessionHolder {
                 getLoggedInUser().getId().equals(id)) {
             return true;
         }
-        System.out.println("id isadmin compare id");
-        System.out.println(getLoggedInUser().getId());
-        System.out.println(getLoggedInUser().getDbRole().isAdmin());
-        System.out.println(id);
         throw new AccessForbiddenException();
     }
 }

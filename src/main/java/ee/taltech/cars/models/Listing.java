@@ -26,6 +26,8 @@ public class Listing {
     private String description;
     @ApiModelProperty(value="Status of the listing")
     private String status;
+    @ApiModelProperty(value="Boolean of listing being premium")
+    private boolean premium;
     @ApiModelProperty(value="User who posted the listing")
     private UUID owner;
     @ApiModelProperty(value="Price of the car in listing")

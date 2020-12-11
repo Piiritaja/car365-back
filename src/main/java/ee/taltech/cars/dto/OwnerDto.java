@@ -22,6 +22,8 @@ public class OwnerDto {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
+    @ApiModelProperty(value="Role of the owner")
+    private DbRole role;
     @ApiModelProperty(value="First name of the owner")
     private String firstName;
     @ApiModelProperty(value="Last name of owner")
@@ -33,6 +35,5 @@ public class OwnerDto {
     @ApiModelProperty(value="Listings that the user has posted")
     @Singular
     @OneToMany
-    private List<Listing> listings;
-
+    private List<Listing> bookmarks;
 }
