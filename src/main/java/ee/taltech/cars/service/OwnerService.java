@@ -65,6 +65,7 @@ public class OwnerService {
     private OwnerDto convertToDto(Owner owner) {
         return OwnerDto.builder()
                 .id(owner.getId())
+                .role(owner.getRole())
                 .firstName(owner.getFirstName())
                 .lastName(owner.getLastName())
                 .email(owner.getEmail())
@@ -112,7 +113,7 @@ public class OwnerService {
                     .phone(owner.getPhone())
                     .bookmarks(owner.getBookmarks())
                     .password(ownerDb.getPassword())
-                    .role(ownerDb.getRole())
+                    .role(owner.getRole())
                     .build();
             return userRepository.save(ownerDb);
         } else

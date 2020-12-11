@@ -1,6 +1,7 @@
 package ee.taltech.cars.dto;
 
 import ee.taltech.cars.models.Listing;
+import ee.taltech.cars.security.DbRole;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
@@ -21,6 +22,8 @@ public class OwnerDto {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
+    @ApiModelProperty(value="Role of the owner")
+    private DbRole role;
     @ApiModelProperty(value="First name of the owner")
     private String firstName;
     @ApiModelProperty(value="Last name of owner")
