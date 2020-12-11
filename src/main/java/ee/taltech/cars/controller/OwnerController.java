@@ -79,12 +79,24 @@ public class OwnerController {
     })
     @PutMapping("{id}")
     public Owner updateUser(@ApiParam(value = "User to be saved") @RequestBody OwnerDto owner,
-                            @ApiParam(value = "ID to which the new user is assigned") @PathVariable UUID id,
-                            @RequestParam(required = false) UUID bookmark) {
-        if (bookmark != null) {
-            bookmarkService.bookmarkListing(owner, listingService.findById(bookmark));
-        }
+                            @ApiParam(value = "ID to which the new user is assigned") @PathVariable UUID id) {
         return ownerService.update(owner, id);
+    }
+
+    @Secured({Roles.PREMIUM, Roles.ADMIN})
+    @ApiOperation(
+            value = "Bookmark/unbookmark listing",
+            notes = "Requires JWT token, pathvariable requires listing ID that is going to be bookmarked"
+    )
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successfully bookmarked/unbookmarked"),
+            @ApiResponse(code =  400, message = "User is invalid"),
+            @ApiResponse(code = 403, message = "Access not allowed to this method"),
+            @ApiResponse(code = 404, message = "ID not found in database")
+    })
+    @PutMapping("bookmark/{listingId}")
+    public Owner bookmarkListing(@PathVariable UUID listingId) {
+        return bookmarkService.bookmarkListing(listingId);
     }
 
 
