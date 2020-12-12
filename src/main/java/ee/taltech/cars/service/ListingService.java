@@ -137,11 +137,10 @@ public class ListingService {
 
     public File postListingImage(MultipartFile file, UUID id) throws IOException {
         if (UserSessionHolder.validateAccessByID(findById(id).getOwner())) {
-            final String uploadPath = "storage/";
+            final String uploadPath = "/storage/";
             file.getOriginalFilename();
             File convertedFile = new File(uploadPath + file.getOriginalFilename());
             if (Arrays.asList("png", "jpeg", "jpg").contains(convertedFile.getName().split("\\.")[1])) {
-
                 FileOutputStream fout = new FileOutputStream(convertedFile);
                 fout.write(file.getBytes());
                 fout.close();

@@ -191,7 +191,7 @@ public class ListingController {
 
     @RequestMapping(value = "{id}/image", method = RequestMethod.GET, produces = MediaType.IMAGE_PNG_VALUE)
     public ResponseEntity<byte[]> getImage(@PathVariable UUID id) throws IOException {
-        PathResource imgFile = new PathResource("storage/" + id + ".png");
+        PathResource imgFile = new PathResource("/storage/" + id + ".png");
         byte[] bytes = StreamUtils.copyToByteArray(imgFile.getInputStream());
         return ResponseEntity
                 .ok()
