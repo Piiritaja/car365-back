@@ -34,7 +34,7 @@ deploy_prod car365-back:
     - docker pull $DOCKER_USER/$DOCKER_IMAGE
     - docker stop $DOCKER_IMAGE
     - docker container rm $DOCKER_IMAGE
-    - docker run -d -p 8080:8080 --name $DOCKER_IMAGE -v /home/car365/storage $DOCKER_USER/$DOCKER_IMAGE
+    - docker run -d -p 8080:8080 --name $DOCKER_IMAGE -v /home/car365/storage:/storage $DOCKER_USER/$DOCKER_IMAGE
   only:
     - main
 
@@ -61,6 +61,6 @@ deploy_dev car365-back:
     - docker pull $DOCKER_USER/car365-back_dev
     - docker stop car_back_dev
     - docker container rm car_back_dev
-    - docker run -d -p 8080:8080 --name car_back_dev -v /home/car365/storage $DOCKER_USER/car365-back_dev
+    - docker run -d -p 8080:8080 --name car_back_dev -v /home/car365/storage:/storage $DOCKER_USER/car365-back_dev
   only:
     - develop
