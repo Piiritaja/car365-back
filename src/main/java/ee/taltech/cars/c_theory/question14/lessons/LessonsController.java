@@ -1,7 +1,5 @@
 package ee.taltech.cars.c_theory.question14.lessons;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,7 +15,6 @@ import java.util.List;
 @RequestMapping("lesson")
 @RestController
 public class LessonsController {
-    @Service
     interface LessonService {
         enum Order {
             MOST_VISITORS, LEAST_VISITORS, LECTURER
@@ -77,7 +74,6 @@ public class LessonsController {
     // * by least visitors first
     // (you can assume that by default it searches by predefined lecturer's order)
 
-    @Autowired
     LessonService lessonService;
 
     @GetMapping
