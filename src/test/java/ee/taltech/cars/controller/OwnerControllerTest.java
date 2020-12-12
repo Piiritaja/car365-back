@@ -107,7 +107,7 @@ class OwnerControllerTest {
                 .email("thisemail@gmail.com")
                 .password("password")
                 .phone("5678420")
-                .listings(new ArrayList<>())
+                .bookmarks(new ArrayList<>())
                 .build();
     }
 
