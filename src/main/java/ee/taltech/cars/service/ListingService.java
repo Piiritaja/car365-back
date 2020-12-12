@@ -9,7 +9,15 @@ import ee.taltech.cars.security.UserSessionHolder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -68,7 +76,8 @@ public class ListingService {
                     listing.getTime(),
                     listing.getImages());
             return listingRepository.save(dbListing);
-        } return null;
+        }
+        return null;
     }
 
     public List<Listing> getLatestListings(int count) {
@@ -110,5 +119,41 @@ public class ListingService {
                 .stream()
                 .map(Listing::getBrand)
                 .collect(Collectors.toList());
+    }
+
+    public void addImage(UUID id, String path) {
+        if (UserSessionHolder.validateAccessByID(findById(id).getOwner())) {
+            Listing dbListing = findById(id);
+            dbListing.addImage(path);
+            listingRepository.save(dbListing);
+        } else throw new AccessForbiddenException();
+    }
+
+    private File convertToPng(File inputFile, File outputFile) throws IOException {
+        BufferedImage bufferedImage = ImageIO.read(inputFile);
+        ImageIO.write(bufferedImage, "png", outputFile);
+        return outputFile;
+    }
+
+    public File postListingImage(MultipartFile file, UUID id) throws IOException {
+        if (UserSessionHolder.validateAccessByID(findById(id).getOwner())) {
+            final String uploadPath = "storage/";
+            file.getOriginalFilename();
+            File convertedFile = new File(uploadPath + file.getOriginalFilename());
+            if (Arrays.asList("png", "jpeg", "jpg").contains(convertedFile.getName().split("\\.")[1])) {
+
+                FileOutputStream fout = new FileOutputStream(convertedFile);
+                fout.write(file.getBytes());
+                fout.close();
+                if (!convertedFile.getName().split("\\.")[1].equals("png")) {
+                    convertToPng(convertedFile, new File(uploadPath + id + ".png"));
+                    convertedFile.delete();
+                }
+                System.out.println("Successfully created a file");
+                return convertedFile;
+            }
+            System.out.println("Wrong file extension");
+            return null;
+        } else throw new AccessForbiddenException();
     }
 }
