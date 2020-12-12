@@ -214,8 +214,6 @@ class ListingControllerTest {
 
     private <T> T assertOK(ResponseEntity<T> exchange) {
         assertNotNull(exchange.getBody());
-        System.out.println(exchange.getBody());
-        System.out.println(exchange.getStatusCode());
         assertEquals(HttpStatus.OK, exchange.getStatusCode());
         return exchange.getBody();
     }

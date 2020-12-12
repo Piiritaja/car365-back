@@ -148,10 +148,8 @@ public class ListingService {
                     convertToPng(convertedFile, new File(uploadPath + id + ".png"));
                     convertedFile.delete();
                 }
-                System.out.println("Successfully created a file");
                 return convertedFile;
             }
-            System.out.println("Wrong file extension");
             return null;
         } else throw new AccessForbiddenException();
     }

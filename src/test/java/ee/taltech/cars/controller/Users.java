@@ -29,7 +29,6 @@ public class Users {
     public static HttpHeaders getCustomUserHeaders(String email, UUID id) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        System.out.println(id);
         headers.set("Authorization", "Bearer " + jwtTokenProvider.createTokenForTests(email, id));
         return headers;
     }

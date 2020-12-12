@@ -106,7 +106,6 @@ public class ListingController {
     })
     @PostMapping
     public Listing postListing(@ApiParam(value = "Listing to save") @RequestBody Listing listing) {
-        System.out.println("JAAA");
         return listingService.save(listing);
     }
 
