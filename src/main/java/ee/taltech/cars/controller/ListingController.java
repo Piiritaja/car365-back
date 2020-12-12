@@ -14,6 +14,8 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -98,12 +100,8 @@ public class ListingController {
             @ApiResponse(code = 200, message = "Listing successfully saved to database")
     })
     @PostMapping
-    public Listing postListing(@ApiParam(value = "Listing to save") @RequestBody ListingData listingData) {
+    public Listing postListing(@ApiParam(value = "Listing to save") @RequestBody Listing listing) {
         System.out.println("JAAA");
-        Listing listing = listingData.getListingItem();
-        System.out.println(listingData.getListingItem());
-        System.out.println(listingData.getFile());
-        MultipartFile file = listingData.getFile();
         return listingService.save(listing);
     }
 
@@ -179,9 +177,9 @@ public class ListingController {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Image uploaded successfully"),
     })
-    @PostMapping("image")
-    public void postListingImage(@RequestParam("file") MultipartFile file) {
-        System.out.println("MIKS mitte?");
-        listingService.postListingImage(file);
+    @PostMapping("{id}/image")
+    public File postListingImage(@RequestParam("file") MultipartFile file, @PathVariable UUID id) throws IOException {
+        System.out.println("Ongi kohal");
+        return listingService.postListingImage(file, id);
     }
 }

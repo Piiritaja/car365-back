@@ -6,7 +6,6 @@ import ee.taltech.cars.exception.ListingNotFoundException;
 import ee.taltech.cars.models.Listing;
 import ee.taltech.cars.repository.ListingRepository;
 import ee.taltech.cars.security.UserSessionHolder;
-import org.apache.tomcat.util.http.fileupload.impl.FileUploadIOException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -15,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -118,19 +118,20 @@ public class ListingService {
                 .collect(Collectors.toList());
     }
 
-    public void postListingImage(MultipartFile file) {
-        System.out.println("JAA");
-        final String uploadPath = "/home/car365/storage";
-        File convertedFile = new File(file.getOriginalFilename());
-        try {
-            convertedFile.createNewFile();
-            FileOutputStream fout = new FileOutputStream(convertedFile);
-            fout.write(file.getBytes());
-            fout.close();
-        } catch (IOException ignore) {
-            System.out.println("Cannot upload file");
-            return;
-        }
-        System.out.println("File upload successful");
+    public File postListingImage(MultipartFile file, UUID id) throws IOException {
+        if (UserSessionHolder.validateAccessByID(findById(id).getOwner())) {
+            final String uploadPath = "/home/car365/storage";
+            file.getOriginalFilename();
+            File convertedFile = new File(file.getOriginalFilename());
+            if (Arrays.asList("png", "jpeg", "jpg").contains(convertedFile.getName().split("\\.")[1])) {
+                FileOutputStream fout = new FileOutputStream(convertedFile);
+                fout.write(file.getBytes());
+                fout.close();
+                System.out.println("Successfully created a file");
+                return convertedFile;
+            }
+            System.out.println("Wrong file extension");
+            return null;
+        } else throw new AccessForbiddenException();
     }
 }
