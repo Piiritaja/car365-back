@@ -1,5 +1,7 @@
 package ee.taltech.cars.controller;
 
+import ee.taltech.cars.dto.LoginOwnerDto;
+import ee.taltech.cars.dto.LoginOwnerResponse;
 import ee.taltech.cars.dto.RegisterOwnerDto;
 import ee.taltech.cars.models.Owner;
 import ee.taltech.cars.security.JwtTokenProvider;
@@ -13,14 +15,12 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ActiveProfiles("test")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -34,7 +34,8 @@ class OwnerControllerTest {
     public UUID userId = UUID.fromString("e11b7248-7fda-4534-b291-c7ceabcb510d");
 
 
-    public static final ParameterizedTypeReference<List<Owner>> LIST_OF_OWNERS = new ParameterizedTypeReference<>() {};
+    public static final ParameterizedTypeReference<List<Owner>> LIST_OF_OWNERS = new ParameterizedTypeReference<>() {
+    };
 
     @Autowired
     private TestRestTemplate template;
@@ -64,40 +65,17 @@ class OwnerControllerTest {
         assertEquals(name, resp.getFirstName());
     }
 
-    @Disabled
     @Test
-    void saveAndDeleteUserTest() throws Exception {
+    void registerLoginTest() throws Exception {
         RegisterOwnerDto owner = this.getMockRegister();
-        ResponseEntity<Owner> exchange = template.exchange("/user/register", HttpMethod.POST, new HttpEntity<>(owner),
-                Owner.class);
-        Owner savedOwner = assertOK(exchange);
-        assertEquals(owner.getFirstName(), savedOwner.getFirstName());
-        assertEquals(owner.getLastName(), savedOwner.getLastName());
+        ResponseEntity<String> register = template.exchange("/user/register", HttpMethod.POST,
+                new HttpEntity<>(owner), String.class);
+        assertEquals(HttpStatus.CREATED, register.getStatusCode());
 
-        template.exchange("/user/" + savedOwner.getId(), HttpMethod.DELETE, new HttpEntity<>(owner), Owner.class);
-        mvc.perform(MockMvcRequestBuilders.get("/user/" + savedOwner.getId())
-                .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isNotFound());
-    }
-
-    @Disabled
-    @Test
-    void updateUserTest() {
-        Owner owner = this.getMockOwner();
-        owner.setId(userId);
-        owner.setEmail(userEmail);
-        HttpHeaders headers = getUserHeaders();
-        ResponseEntity<Owner> exchange = template.exchange("/user", HttpMethod.POST, new HttpEntity<>(owner, headers),
-                Owner.class);
-        Owner posted = assertOK(exchange);
-        UUID id = posted.getId();
-        owner.setFirstName("mrchangedName");
-        owner.setLastName("mrChangedLastName");
-        ResponseEntity<Owner> exchangeOwner = template.exchange("/user/" + id, HttpMethod.PUT,
-                new HttpEntity<>(owner), Owner.class);
-        Owner updatedOwner = assertOK(exchangeOwner);
-        assertEquals(owner.getFirstName(), updatedOwner.getFirstName());
-        assertEquals(owner.getLastName(), updatedOwner.getLastName());
+        LoginOwnerDto loginDetails = LoginOwnerDto.builder().email(owner.getEmail()).password(owner.getPassword()).build();
+        ResponseEntity<LoginOwnerResponse> login = template.exchange("/user/login", HttpMethod.POST,
+                new HttpEntity<>(loginDetails), LoginOwnerResponse.class);
+        LoginOwnerResponse user = assertOK(login);
     }
 
     private Owner getMockOwner() {
