@@ -1,9 +1,19 @@
 package ee.taltech.cars.controller;
 
+import ee.taltech.cars.dto.LoginOwnerDto;
+import ee.taltech.cars.dto.LoginOwnerResponse;
+import ee.taltech.cars.dto.OwnerDto;
+import ee.taltech.cars.dto.RegisterOwnerDto;
 import ee.taltech.cars.models.Owner;
+import ee.taltech.cars.security.Roles;
+import ee.taltech.cars.service.BookmarkService;
+import ee.taltech.cars.service.ListingService;
 import ee.taltech.cars.service.OwnerService;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,6 +28,12 @@ public class OwnerController {
     @Autowired
     private OwnerService ownerService;
 
+    @Autowired
+    private BookmarkService bookmarkService;
+
+    @Autowired
+    private ListingService listingService;
+
     @ApiOperation(value = "Get all users",
             notes = "Returns all users (owners) that are found in database",
             response = Owner.class,
@@ -26,8 +42,8 @@ public class OwnerController {
             @ApiResponse(code = 200, message = "Users received"),
     })
     @GetMapping
-    public List<Owner> getUsers() {
-        return ownerService.findAll();
+    public List<OwnerDto> getUsers() {
+        return ownerService.findAllDto();
     }
 
     @ApiOperation(value = "Get user by ID",
@@ -37,10 +53,11 @@ public class OwnerController {
             @ApiResponse(code =  404, message = "Did not find user with given ID")
     })
     @GetMapping("{id}")
-    public Owner getUser(@ApiParam(value = "ID of the user to retrieve", required = true) @PathVariable UUID id) {
+    public OwnerDto getUser(@ApiParam(value = "ID of the user to retrieve", required = false) @PathVariable UUID id) {
         return ownerService.findById(id);
     }
 
+    @Secured(Roles.ADMIN)
     @ApiOperation(value = "Save new user",
             notes = "Saves new user (owner) to database")
     @ApiResponses(value = {
@@ -52,6 +69,7 @@ public class OwnerController {
         return ownerService.save(owner);
     }
 
+    @Secured({Roles.PREMIUM, Roles.USER, Roles.ADMIN})
     @ApiOperation(value = "Update user by ID",
             notes = "Saves given user (owner) to the given ID")
     @ApiResponses(value = {
@@ -60,11 +78,29 @@ public class OwnerController {
             @ApiResponse(code = 404, message = "ID not found in database")
     })
     @PutMapping("{id}")
-    public Owner updateUser(@ApiParam(value = "User to be saved") @RequestBody Owner owner,
+    public Owner updateUser(@ApiParam(value = "User to be saved") @RequestBody OwnerDto owner,
                             @ApiParam(value = "ID to which the new user is assigned") @PathVariable UUID id) {
         return ownerService.update(owner, id);
     }
 
+    @Secured({Roles.PREMIUM, Roles.ADMIN})
+    @ApiOperation(
+            value = "Bookmark/unbookmark listing",
+            notes = "Requires JWT token, pathvariable requires listing ID that is going to be bookmarked"
+    )
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successfully bookmarked/unbookmarked"),
+            @ApiResponse(code =  400, message = "User is invalid"),
+            @ApiResponse(code = 403, message = "Access not allowed to this method"),
+            @ApiResponse(code = 404, message = "ID not found in database")
+    })
+    @PutMapping("bookmark/{listingId}")
+    public Owner bookmarkListing(@PathVariable UUID listingId) {
+        return bookmarkService.bookmarkListing(listingId);
+    }
+
+
+    @Secured(Roles.ADMIN)
     @ApiOperation(value = "Delete user by ID",
             notes = "Deletes user (owner) by given ID")
     @ApiResponses(value = {
@@ -75,5 +111,17 @@ public class OwnerController {
     public void deleteUser(@ApiParam(value = "ID of the user to delete") @PathVariable UUID id) {
         ownerService.delete(id);
     }
+
+    @PostMapping("register")
+    public ResponseEntity<Void> register(@RequestBody RegisterOwnerDto registerDto){
+        ownerService.save(registerDto);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+    @PostMapping("login")
+    public LoginOwnerResponse login(@RequestBody LoginOwnerDto loginDto){
+        return ownerService.login(loginDto);
+    }
+
 
 }

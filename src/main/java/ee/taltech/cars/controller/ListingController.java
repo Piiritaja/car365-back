@@ -2,12 +2,26 @@ package ee.taltech.cars.controller;
 
 import ee.taltech.cars.dto.ParamsDto;
 import ee.taltech.cars.models.Listing;
+//import ee.taltech.cars.security.Roles;
+import ee.taltech.cars.models.ListingData;
+import ee.taltech.cars.security.Roles;
+import ee.taltech.cars.service.BookmarkService;
 import ee.taltech.cars.service.FilterService;
 import ee.taltech.cars.service.ListingService;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.PathResource;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.util.StreamUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -21,6 +35,9 @@ public class ListingController {
 
     @Autowired
     private FilterService filterService;
+
+    @Autowired
+    private BookmarkService bookmarkService;
 
     @ApiOperation(value = "Gets all listings",
             notes = "Returns all listings that are found in database",
@@ -47,6 +64,25 @@ public class ListingController {
         return listingService.findById(id);
     }
 
+    @Secured({Roles.USER, Roles.PREMIUM, Roles.ADMIN})
+    @ApiOperation(value = "Gets list of listings by Owner's ID",
+            notes = "Returns the list of listings by Owner's ID",
+            response = List.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Listings received"),
+            @ApiResponse(code = 404, message = "Owner not found by given ID")
+    })
+    @GetMapping("/owner/{userId}")
+    public List<Listing> getByUser(@ApiParam(value = "ID of the owner") @PathVariable UUID userId,
+                                   @RequestParam(defaultValue = "false", required = false) boolean favorites) {
+        if (favorites) {
+            return (bookmarkService.getUser(userId).isEmpty())
+                    ? new ArrayList<>() : bookmarkService.getUser(userId).get().getBookmarks();
+        }
+        return listingService.findByOwner(userId);
+    }
+
+    @Secured({Roles.USER, Roles.PREMIUM, Roles.ADMIN})
     @ApiOperation(value = "Update listing",
             notes = "Takes the listing and id and updates the listing that corresponds" +
                     " to the id to match the listing that is given as a parameter")
@@ -61,6 +97,7 @@ public class ListingController {
         return listingService.update(listing, id);
     }
 
+    @Secured({Roles.ADMIN, Roles.PREMIUM, Roles.USER})
     @ApiOperation(value = "Save new listing to database",
             notes = "Takes the listing and saves it to the database",
             response = Listing.class)
@@ -72,6 +109,7 @@ public class ListingController {
         return listingService.save(listing);
     }
 
+    @Secured({Roles.USER, Roles.PREMIUM, Roles.ADMIN})
     @ApiOperation(value = "Delete listing by ID",
             notes = "Deletes the listing with given ID from database")
     @ApiResponses(value = {
@@ -136,5 +174,27 @@ public class ListingController {
     @GetMapping("/params")
     public ParamsDto getParams() {
         return listingService.getParameterValues();
+    }
+
+    @ApiOperation(value = "Post listing image to server",
+            notes = "Images are uploaded to the server under path /home/car365/storage")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Image uploaded successfully"),
+    })
+    @PostMapping("{id}/image")
+    public File postListingImage(@RequestParam("file") MultipartFile file, @PathVariable UUID id) throws IOException {
+        File reFile = listingService.postListingImage(file, id);
+        listingService.addImage(id, "api/listings/" + id + "/image");
+        return reFile;
+    }
+
+    @RequestMapping(value = "{id}/image", method = RequestMethod.GET, produces = MediaType.IMAGE_PNG_VALUE)
+    public ResponseEntity<byte[]> getImage(@PathVariable UUID id) throws IOException {
+        PathResource imgFile = new PathResource("/storage/" + id + ".png");
+        byte[] bytes = StreamUtils.copyToByteArray(imgFile.getInputStream());
+        return ResponseEntity
+                .ok()
+                .contentType(MediaType.IMAGE_PNG)
+                .body(bytes);
     }
 }
