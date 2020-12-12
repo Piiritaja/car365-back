@@ -10,7 +10,12 @@ import ee.taltech.cars.service.FilterService;
 import ee.taltech.cars.service.ListingService;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.PathResource;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.util.StreamUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -179,7 +184,18 @@ public class ListingController {
     })
     @PostMapping("{id}/image")
     public File postListingImage(@RequestParam("file") MultipartFile file, @PathVariable UUID id) throws IOException {
-        System.out.println("Ongi kohal");
-        return listingService.postListingImage(file, id);
+        File reFile = listingService.postListingImage(file, id);
+        listingService.addImage(id, "api/listings/" + id + "/image");
+        return reFile;
+    }
+
+    @RequestMapping(value = "{id}/image", method = RequestMethod.GET, produces = MediaType.IMAGE_PNG_VALUE)
+    public ResponseEntity<byte[]> getImage(@PathVariable UUID id) throws IOException {
+        PathResource imgFile = new PathResource("storage/" + id + ".png");
+        byte[] bytes = StreamUtils.copyToByteArray(imgFile.getInputStream());
+        return ResponseEntity
+                .ok()
+                .contentType(MediaType.IMAGE_PNG)
+                .body(bytes);
     }
 }

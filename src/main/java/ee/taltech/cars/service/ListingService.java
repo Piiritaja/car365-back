@@ -118,11 +118,19 @@ public class ListingService {
                 .collect(Collectors.toList());
     }
 
+    public void addImage(UUID id, String path) {
+        if (UserSessionHolder.validateAccessByID(findById(id).getOwner())) {
+            Listing dbListing = findById(id);
+            dbListing.addImage(path);
+            listingRepository.save(dbListing);
+        } else throw new AccessForbiddenException();
+    }
+
     public File postListingImage(MultipartFile file, UUID id) throws IOException {
         if (UserSessionHolder.validateAccessByID(findById(id).getOwner())) {
-            final String uploadPath = "/home/car365/storage";
+            final String uploadPath = "storage/";
             file.getOriginalFilename();
-            File convertedFile = new File(file.getOriginalFilename());
+            File convertedFile = new File(uploadPath + file.getOriginalFilename());
             if (Arrays.asList("png", "jpeg", "jpg").contains(convertedFile.getName().split("\\.")[1])) {
                 FileOutputStream fout = new FileOutputStream(convertedFile);
                 fout.write(file.getBytes());
