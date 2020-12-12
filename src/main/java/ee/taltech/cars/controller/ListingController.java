@@ -3,6 +3,7 @@ package ee.taltech.cars.controller;
 import ee.taltech.cars.dto.ParamsDto;
 import ee.taltech.cars.models.Listing;
 //import ee.taltech.cars.security.Roles;
+import ee.taltech.cars.models.ListingData;
 import ee.taltech.cars.security.Roles;
 import ee.taltech.cars.service.FilterService;
 import ee.taltech.cars.service.ListingService;
@@ -74,7 +75,12 @@ public class ListingController {
             @ApiResponse(code = 200, message = "Listing successfully saved to database")
     })
     @PostMapping
-    public Listing postListing(@ApiParam(value = "Listing to save") @RequestBody Listing listing) {
+    public Listing postListing(@ApiParam(value = "Listing to save") @RequestBody ListingData listingData) {
+        System.out.println("JAAA");
+        Listing listing = listingData.getListingItem();
+        System.out.println(listingData.getListingItem());
+        System.out.println(listingData.getFile());
+        MultipartFile file = listingData.getFile();
         return listingService.save(listing);
     }
 
@@ -152,6 +158,7 @@ public class ListingController {
     })
     @PostMapping("image")
     public void postListingImage(@RequestParam("file") MultipartFile file) {
+        System.out.println("MIKS mitte?");
         listingService.postListingImage(file);
     }
 }

@@ -33,9 +33,7 @@ public class ListingService {
     }
 
     public Listing save(Listing listing) {
-        if (UserSessionHolder.validateAccessByID(listing.getOwner())) {
             return listingRepository.save(listing);
-        } else throw new AccessForbiddenException();
     }
 
     public void delete(UUID id) {
@@ -114,8 +112,9 @@ public class ListingService {
     }
 
     public void postListingImage(MultipartFile file) {
+        System.out.println("JAA");
         final String uploadPath = "/home/car365/storage";
-        File convertedFile = new File(uploadPath + "/" + file.getOriginalFilename());
+        File convertedFile = new File(file.getOriginalFilename());
         try {
             convertedFile.createNewFile();
             FileOutputStream fout = new FileOutputStream(convertedFile);
