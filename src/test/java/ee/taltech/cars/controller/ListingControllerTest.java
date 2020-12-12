@@ -82,33 +82,6 @@ class ListingControllerTest {
         assertEquals(listing.getPrice(), changedListing.getPrice());
         assertEquals(listing.getColor(), changedListing.getColor());
     }
-    /*
-    @Disabled
-    @Test
-    void postAndDeleteListingTest() throws Exception {
-        // post
-
-        HttpHeaders headers = getUserHeaders();
-        Listing listing = this.getMockListing();
-        listing.setOwner(userId);
-        ResponseEntity<Listing> exchange = template.exchange("/listings", HttpMethod.POST,
-                new HttpEntity<>(listing, headers), Listing.class);
-        Listing addedListing = assertOK(exchange);
-        assertEquals(listing.getPrice(), addedListing.getPrice());
-        assertEquals(listing.getBodyType(), addedListing.getBodyType());
-        assertEquals(listing.getBrand(), addedListing.getBrand());
-        assertEquals(listing.getModel(), addedListing.getModel());
-        assertEquals(listing.getEnginePower(), addedListing.getEnginePower());
-
-        // delete
-        UUID id = addedListing.getId();
-        template.exchange("/listings/" + id, HttpMethod.DELETE, new HttpEntity<>(listing, headers), Listing.class);
-        mvc.perform(MockMvcRequestBuilders.get("/listings/" + id)
-                .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isNotFound());
-    }
-
-     */
 
     @Test
     void queryBrandsTest() {

@@ -31,12 +31,10 @@ public class Owner {
     private String password;
     @ApiModelProperty(value="Phone number of owner")
     private String phone;
-    @ApiModelProperty(value="Listings that the user has posted")
-    @Singular
-    @OneToMany
-    private List<Listing> listings;
+    @ApiModelProperty(value="Listings that the user has bookmarked")
+    @ManyToMany
+    private List<Listing> bookmarks;
     @Enumerated(EnumType.STRING)
-   @ApiModelProperty(value = "User role")
+    @ApiModelProperty(value = "User role")
     private DbRole role;
-
 }
