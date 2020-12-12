@@ -56,7 +56,7 @@ public class ChairsController {
     }
 
     @GetMapping("{id}")
-    public Chair getChairById(@PathVariable String id) {
+    public Chair getChair(@PathVariable String id) {
         return new Chair();
     }
 
@@ -66,7 +66,7 @@ public class ChairsController {
     }
 
     @PutMapping
-    public Chair updateChairById(@RequestBody Chair chair) {
+    public Chair updateChair(@RequestBody Chair chair) {
         // service.updateChair(id, chair)
         return chair;
     }
