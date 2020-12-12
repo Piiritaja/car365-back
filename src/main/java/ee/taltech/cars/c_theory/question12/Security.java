@@ -19,7 +19,7 @@ public class Security {
     //todo C
     // For web (HTTP backend) Spring Security is configured as a ... ? Explain it.
     // Think or read how Spring Security checks are injection into your application.
-    // Configured as (one word): filter??????????????
-    // Description:
+    // Configured as (one word): pre-filter
+    // Description: When the api is called it first goes through security configuration, which validates that the api/method can be accessed by the accessor.
 
 }
