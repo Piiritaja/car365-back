@@ -1,6 +1,42 @@
 package ee.taltech.cars.c_theory.question14.lessons;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+
+@RequestMapping("lesson")
+@RestController
 public class LessonsController {
+    @Service
+    interface LessonService {
+        enum Order {
+            MOST_VISITORS, LEAST_VISITORS, LECTURER
+        }
+
+        Lesson getLesson(String id);
+
+        Lesson saveLesson(Lesson lesson);
+
+        Lesson updateLesson(String id, Lesson lesson);
+
+        void deleteLesson(String id);
+
+        Lesson updateLessonName(String id, String name);
+
+        List<Students> getStudentsFromLesson(String id);
+
+        List<Lesson> getLessons(String courseId, int year, Order orderBy);
+    }
 
     //todo for question 14 there are 4 assignments in total
     // Each person has to do only 1. So 2 person team has to do 2 different ones, 3 person - 3, 4 person - 4.
@@ -41,4 +77,43 @@ public class LessonsController {
     // * by least visitors first
     // (you can assume that by default it searches by predefined lecturer's order)
 
+    @Autowired
+    LessonService lessonService;
+
+    @GetMapping
+    public List<Lesson> getLessons(@RequestParam(required = false) String courseId,
+                                   @RequestParam(required = false, defaultValue = "2020") int year,
+                                   @RequestParam(required = false, defaultValue = "LECTURER") LessonService.Order orderBy) {
+        return lessonService.getLessons(courseId, year, orderBy);
+    }
+
+    @GetMapping("{id}")
+    public Lesson getLessonById(@PathVariable String id) {
+        return lessonService.getLesson(id);
+    }
+
+    @PostMapping
+    public Lesson saveLesson(@RequestBody Lesson lesson) {
+        return lessonService.saveLesson(lesson);
+    }
+
+    @PutMapping("{id}")
+    public Lesson updateLesson(@PathVariable String id, @RequestBody Lesson lesson) {
+        return lessonService.updateLesson(id, lesson);
+    }
+
+    @DeleteMapping("{id}")
+    public void deleteLesson(@PathVariable String id) {
+        lessonService.deleteLesson(id);
+    }
+
+    @GetMapping("{id}/students")
+    public List<Students> getStudentsFromLesson(@PathVariable String id) {
+        return lessonService.getStudentsFromLesson(id);
+    }
+
+    @PutMapping("{id}/rename")
+    public Lesson updateLessonName(@PathVariable String id, @RequestParam String newName) {
+        return lessonService.updateLessonName(id, newName);
+    }
 }
